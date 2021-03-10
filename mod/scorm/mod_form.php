@@ -20,6 +20,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 require_once($CFG->dirroot.'/mod/scorm/locallib.php');
+require_once($CFG->dirroot.'/lib/accesslib.php');
 
 class mod_scorm_mod_form extends moodleform_mod {
 
@@ -48,9 +49,15 @@ class mod_scorm_mod_form extends moodleform_mod {
         // Summary.
         $this->standard_intro_elements();
 
+// Si tiene capacidad para crear cursos, se permite la gestión del paquete.
+$coursecontext = context_course::instance($COURSE->id);
+if(has_capability('moodle/course:create', $coursecontext)) {
+
         // Package.
         $mform->addElement('header', 'packagehdr', get_string('packagehdr', 'scorm'));
         $mform->setExpanded('packagehdr', true);
+
+}
 
         // Scorm types.
         $scormtypes = array(SCORM_TYPE_LOCAL => get_string('typelocal', 'scorm'));
@@ -88,6 +95,9 @@ class mod_scorm_mod_form extends moodleform_mod {
         $filemanageroptions['maxfiles'] = 1;
         $filemanageroptions['subdirs'] = 0;
 
+if(has_capability('moodle/course:create', $coursecontext)) {
+
+
         $mform->addElement('filemanager', 'packagefile', get_string('package', 'scorm'), null, $filemanageroptions);
         $mform->addHelpButton('packagefile', 'package', 'scorm');
         $mform->hideIf('packagefile', 'scormtype', 'noteq', SCORM_TYPE_LOCAL);
@@ -97,6 +107,8 @@ class mod_scorm_mod_form extends moodleform_mod {
         $mform->setType('updatefreq', PARAM_INT);
         $mform->setDefault('updatefreq', $cfgscorm->updatefreq);
         $mform->addHelpButton('updatefreq', 'updatefreq', 'scorm');
+
+}
 
         // Display Settings.
         $mform->addElement('header', 'displaysettings', get_string('appearance'));
@@ -306,10 +318,16 @@ class mod_scorm_mod_form extends moodleform_mod {
         $scorms = get_all_instances_in_course('scorm', $COURSE);
         $coursescorm = current($scorms);
 
+// Si tiene capacidad para crear cursos, se permite la gestión del paquete.
+$coursecontext = context_course::instance($COURSE->id);
+if(has_capability('moodle/course:create', $coursecontext)) {
+
         $draftitemid = file_get_submitted_draft_itemid('packagefile');
         file_prepare_draft_area($draftitemid, $this->context->id, 'mod_scorm', 'package', 0,
             array('subdirs' => 0, 'maxfiles' => 1));
         $defaultvalues['packagefile'] = $draftitemid;
+
+}
 
         if (($COURSE->format == 'singleactivity') && ((count($scorms) == 0) || ($defaultvalues['instance'] == $coursescorm->id))) {
             $defaultvalues['redirect'] = 'yes';

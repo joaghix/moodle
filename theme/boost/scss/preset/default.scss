@@ -11,7 +11,7 @@ $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black:    #000 !default;
 
-$blue:    #0f6fc5 !default;
+$blue:    #008fb4 !default; /* Color corporativo */
 $indigo:  #6610f2 !default;
 $purple:  #613d7c !default;
 $pink:    #e83e8c !default;
@@ -87,6 +87,17 @@ $theme-colors: map-merge((
     danger: $danger,
 ), $theme-colors);
 // stylelint-enable
+
+// Modificaciones de Formación
+$input-btn-focus-width:       1px !default;  // 1 pixel de foco.
+$input-btn-focus-box-shadow:  0 0 0 $input-btn-focus-width $input-btn-focus-color !default;
+$btn-box-shadow:              inset 0 1px 0 rgba($white, .15), 0 1px 1px rgba($blue, .075) !default;  // Cambio a azul.
+$btn-focus-width:             $input-btn-focus-width !default;
+$btn-focus-box-shadow:        $input-btn-focus-box-shadow !default;
+$input-box-shadow:            inset 0 1px 1px rgba($blue, .075) !default; // Cambio a azul.
+$input-focus-box-shadow:      $input-btn-focus-box-shadow !default;
+
+
 
 // Import FontAwesome.
 @import "fontawesome";
