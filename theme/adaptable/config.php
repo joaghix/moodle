@@ -40,6 +40,9 @@ global $PAGE;
 // The plugin internal name.
 $THEME->name = 'adaptable';
 
+// Print sheet.
+$THEME->sheets = array('print');
+
 // The frontpage regions.
 $frontlayoutregions = array('side-post',
         'middle',
@@ -137,6 +140,7 @@ $THEME->sheets = array(
         'user',
         'print',
         'categorycustom',
+        'browser',
         'custom'
 );
 
