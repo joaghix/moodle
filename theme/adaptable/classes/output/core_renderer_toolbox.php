@@ -2432,7 +2432,7 @@ EOT;
                 // Full / Short Course Name.
                 case 'fullname':
                 case 'shortname':
-                    $retval .= '<div id="sitetitle" class="pb-2 bd-highlight ' . $responsivecoursetitle . '">';
+                    $retval .= '<div id="sitetitle" class="pb-1 pt-1 bd-highlight ' . $responsivecoursetitle . '">';
                     if (!empty($categoryheadercustomtitle)) {
                         $retval .= '<h1>'. format_string($categoryheadercustomtitle) . '</h1>';
                     }
@@ -2449,14 +2449,14 @@ EOT;
         // If the course id is one or 'enableheading' was 'off' above then we display the site title.
         if (($COURSE->id == 1) || ($usedefault)) {
             if (!empty($categoryheadercustomtitle)) {
-                $retval .= '<div id="sitetitle" class="pb-2 bd-highlight ' . $responsivecoursetitle . '">';
+                $retval .= '<div id="sitetitle" class="pb-1 pt-1 bd-highlight ' . $responsivecoursetitle . '">';
                 $retval .= '<h1>'. format_string($categoryheadercustomtitle) . '</h1>';
                 $retval .= '</div>';
             } else {
                 switch ($this->page->theme->settings->sitetitle) {
                     case 'default':
                         $sitetitle = $SITE->fullname;
-                        $retval .= '<div id="sitetitle" class="pb-2 bd-highlight ' . $responsivecoursetitle . '"><h1>'
+                        $retval .= '<div id="sitetitle" class="pb-1 pt-1 bd-highlight ' . $responsivecoursetitle . '"><h1>'
                             . format_string($sitetitle) . '</h1></div>';
                         break;
 
@@ -2468,7 +2468,7 @@ EOT;
                             $header = format_string($header);
                             $this->page->set_heading($header);
 
-                            $retval .= '<div id="sitetitle" class="pb-2 bd-highlight ' . $responsivecoursetitle . '">'
+                            $retval .= '<div id="sitetitle" class="pb-1 pt-1 bd-highlight ' . $responsivecoursetitle . '">'
                                 . format_text($sitetitlehtml, FORMAT_HTML) . '</div>';
                         }
                 }
