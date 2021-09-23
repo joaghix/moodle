@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+
 /**
- * Settings for the benchmark report
+ * Completion Progress block version details
  *
- * @package    report_benchmark
- * @copyright  2016 onwards Mickaël Pannequin {@link mickael.pannequin@gmail.com}
+ * @package    block_completion_progress
+ * @copyright  2018 Michael de Raadt
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-$ADMIN->add('reports',
-        new admin_externalpage('reportbenchmark', get_string('benchmark', 'report_benchmark'),
-        $CFG->wwwroot.'/report/benchmark/index.php', 'moodle/site:config'));
-
-// No report settings Moodle 2.2.
-$settings = null;
+$plugin->version   = 2021070900;
+$plugin->requires  = 2019111800;
+$plugin->maturity  = MATURITY_STABLE;
+$plugin->release   = 'Version for Moodle 3.8 onwards';
+$plugin->component = 'block_completion_progress';

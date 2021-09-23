@@ -15,18 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Settings for the benchmark report
+ * Completion Progress block renderer.
  *
- * @package    report_benchmark
- * @copyright  2016 onwards Mickaël Pannequin {@link mickael.pannequin@gmail.com}
+ * @package    block_completion_progress
+ * @copyright  2020 Jonathon Fowler <fowlerj@usq.edu.au>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_completion_progress\output;
+
 defined('MOODLE_INTERNAL') || die;
 
-$ADMIN->add('reports',
-        new admin_externalpage('reportbenchmark', get_string('benchmark', 'report_benchmark'),
-        $CFG->wwwroot.'/report/benchmark/index.php', 'moodle/site:config'));
+use plugin_renderer_base;
+use html_writer;
 
-// No report settings Moodle 2.2.
-$settings = null;
+/**
+ * Completion Progress block renderer.
+ *
+ * @package    block_completion_progress
+ * @copyright  2020 Jonathon Fowler <fowlerj@usq.edu.au>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class renderer extends plugin_renderer_base {
+
+}

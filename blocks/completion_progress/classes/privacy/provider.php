@@ -15,18 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Settings for the benchmark report
+ * Privacy Subsystem implementation for block_completion_progress.
  *
- * @package    report_benchmark
- * @copyright  2016 onwards Mickaël Pannequin {@link mickael.pannequin@gmail.com}
+ * @package    block_completion_progress
+ * @copyright  2018 Michael de Raadt
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace block_completion_progress\privacy;
 
-$ADMIN->add('reports',
-        new admin_externalpage('reportbenchmark', get_string('benchmark', 'report_benchmark'),
-        $CFG->wwwroot.'/report/benchmark/index.php', 'moodle/site:config'));
+defined('MOODLE_INTERNAL') || die();
 
-// No report settings Moodle 2.2.
-$settings = null;
+/**
+ * Privacy Subsystem for block_completion_progress implementing null_provider.
+ *
+ * @copyright  2018 Michael de Raadt
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}

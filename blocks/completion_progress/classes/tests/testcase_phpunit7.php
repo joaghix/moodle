@@ -15,18 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Settings for the benchmark report
+ * Compatibility shim for older PHPunit versions.
  *
- * @package    report_benchmark
- * @copyright  2016 onwards Mickaël Pannequin {@link mickael.pannequin@gmail.com}
+ * @package    block_completion_progress
+ * @copyright  2020 Jonathon Fowler <fowlerj@usq.edu.au>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace block_completion_progress\tests;
 
-$ADMIN->add('reports',
-        new admin_externalpage('reportbenchmark', get_string('benchmark', 'report_benchmark'),
-        $CFG->wwwroot.'/report/benchmark/index.php', 'moodle/site:config'));
+defined('MOODLE_INTERNAL') || die();
 
-// No report settings Moodle 2.2.
-$settings = null;
+/**
+ * Compatibility shim for older PHPunit versions.
+ *
+ * @package    block_completion_progress
+ * @copyright  2020 Jonathon Fowler <fowlerj@usq.edu.au>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+abstract class testcase_phpunit7 extends \advanced_testcase {
+// @codingStandardsIgnoreStart
+    /**
+     * See PHPUnit\Framework\TestCase::setUp().
+     */
+    protected function setUp() {
+        $this->set_up();
+    }
+// @codingStandardsIgnoreEnd
+}
