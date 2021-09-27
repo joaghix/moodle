@@ -129,11 +129,9 @@ class block_messageteacher extends block_base {
 		$items = array();
 		foreach ($teachers as $teacher) {
 		    $urlparams = array (
-			'courseid' => $COURSE->id,
-			'referurl' => $this->page->url->out(),
-			'recipientid' => $teacher->id
+			'id' => $teacher->id
 		    );
-		    $url = new moodle_url('/blocks/messageteacher/message.php', $urlparams);
+		    $url = new moodle_url('/message/index.php', $urlparams);
 		    $picture = '';
 		    if (get_config('block_messageteacher', 'showuserpictures')) {
 			$picture = new user_picture($teacher);
@@ -142,7 +140,7 @@ class block_messageteacher extends block_base {
 			$picture = $OUTPUT->render($picture);
 		    }
 		    $name = html_writer::tag('span', fullname($teacher));
-		    $attrs = array('href' => $url, 'class' => 'messageteacher_link');
+		    $attrs = array('href' => $url); //, 'class' => 'messageteacher_link');
 		    $items[] = html_writer::tag('a', $picture.$name, $attrs);
 		}
 		$this->content->text = html_writer::alist($items);
