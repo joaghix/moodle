@@ -13,21 +13,29 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// phpcs:disable moodle.Files.RequireLogin.Missing
+// phpcs:disable moodle.PHP.ForbiddenFunctions.Found
 
 /**
- * Adds data generator support
+ * Login end point for Behat tests only.
  *
- * @package    core
+ * @package    core_auth
  * @category   test
- * @copyright  2012 Petr Skoda {@link http://skodak.org}
+ * @copyright  Andrew Lyons <andrew@nicols.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require(__DIR__.'/../../../config.php');
 
-// NOTE: MOODLE_INTERNAL is not verified here because we load this before setup.php!
+$behatrunning = defined('BEHAT_SITE_RUNNING') && BEHAT_SITE_RUNNING;
+if (!$behatrunning) {
+    redirect(new moodle_url('/login/logout.php'));
+}
 
-require_once(__DIR__.'/data_generator.php');
-require_once(__DIR__.'/component_generator_base.php');
-require_once(__DIR__.'/module_generator.php');
-require_once(__DIR__.'/block_generator.php');
-require_once(__DIR__.'/default_block_generator.php');
-require_once(__DIR__.'/repository_generator.php');
+require_logout();
+
+$login = optional_param('loginpage', 0, PARAM_BOOL);
+if ($login) {
+    redirect(get_login_url());
+} else {
+    redirect(new moodle_url('/'));
+}
