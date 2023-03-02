@@ -54,6 +54,10 @@ M.mod_scorm.init = function(Y, nav_display, navposition_left, navposition_top, h
     var scorm_bloody_labelclick = false;
     var scorm_nav_panel;
 
+    // MODIFICADO FORMACIÓN : Busca una funcion para parsear etiquetas multidioma
+    if (typeof(parseaMultidiomaTocTitle) !== 'undefined' && $.isFunction(parseaMultidiomaTocTitle))
+        toc_title = parseaMultidiomaTocTitle(toc_title, window.parent.$('html').attr('lang').replace('-','_'));
+
     Y.use('button', 'dd-plugin', 'panel', 'resize', 'gallery-sm-treeview', function(Y) {
 
         Y.TreeView.prototype.getNodeByAttribute = function(attribute, value) {
@@ -95,7 +99,11 @@ M.mod_scorm.init = function(Y, nav_display, navposition_left, navposition_top, h
                 if (labelNode) {
                     var title = labelNode.getAttribute('title');
                     var scoid = labelNode.getData('scoid');
-                    child.label = labelNode.get('outerHTML');
+                    // MODIFICADO FORMACIÓN : Busca una funcion para parsear etiquetas multidioma
+                    if (typeof(parseaMultidiomaItem) !== 'undefined' && $.isFunction(parseaMultidiomaItem))
+                        child.label = parseaMultidiomaItem(labelNode.get('outerHTML'), window.parent.$('html').attr('lang').replace('-','_'));
+                    else
+                        child.label = labelNode.get('outerHTML');
                     // Will be good to change to url instead of title.
                     if (title && title !== '#') {
                         child.title = title;
