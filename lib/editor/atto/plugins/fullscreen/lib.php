@@ -22,15 +22,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Initialise the js strings required for this module.
  */
 function atto_fullscreen_strings_for_js() {
     global $PAGE;
 
-    $PAGE->requires->strings_for_js(array('pluginname'), 'atto_fullscreen');
+    $PAGE->requires->strings_for_js(['pluginname'], 'atto_fullscreen');
 }
 
 /**
@@ -47,5 +45,5 @@ function atto_fullscreen_params_for_js($elementid, $options, $fpoptions) {
     }
     $enablebutton = !get_config('atto_fullscreen', 'requireedit') || has_capability('moodle/course:manageactivities', $context);
 
-    return array('enablebutton' => $enablebutton);
+    return ['enablebutton' => $enablebutton];
 }

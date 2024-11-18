@@ -97,17 +97,8 @@ class auth_plugin_userkey extends auth_plugin_base {
      * It redirects a user if required or return true.
      */
     public function loginpage_hook() {
-
-	global $SESSION;
-
         if ($this->should_login_redirect()) {
-
-            if (empty($SESSION->wantsurl)) {
-               $this->redirect($this->config->ssourl);
-            }
-            else {
-                $this->redirect($this->config->ssourl . urlencode("?wantsurl=" . $SESSION->wantsurl));
-            }
+            $this->redirect($this->config->ssourl);
         }
 
         return true;
@@ -116,12 +107,12 @@ class auth_plugin_userkey extends auth_plugin_base {
     /**
      * Redirects the user to provided URL.
      *
-     * @param $url URL to redirect to.
+     * @param string $url URL to redirect to.
      *
      * @throws \moodle_exception If gets running via CLI or AJAX call.
      */
     protected function redirect($url) {
-        if (CLI_SCRIPT or AJAX_SCRIPT) {
+        if (CLI_SCRIPT || AJAX_SCRIPT) {
             throw new moodle_exception('redirecterrordetected', 'auth_userkey', '', $url);
         }
 
@@ -142,8 +133,6 @@ class auth_plugin_userkey extends auth_plugin_base {
 
     /**
      * Logs a user in using userkey and redirects after.
-     *
-     * @TODO: refactor this method to make it easy to read.
      *
      * @throws \moodle_exception If something went wrong.
      */
@@ -166,7 +155,7 @@ class auth_plugin_userkey extends auth_plugin_base {
             if (isloggedin()) {
                 require_logout();
             }
-            print_error($exception->errorcode);
+            throw $exception;
         }
 
         if (isloggedin()) {
@@ -662,7 +651,7 @@ class auth_plugin_userkey extends auth_plugin_base {
             $this->redirect($redirect);
         } else {
             // If logged in with different auth type, then display an error.
-            print_error('incorrectlogout', 'auth_userkey', $CFG->wwwroot);
+            throw new moodle_exception('incorrectlogout', 'auth_userkey', $CFG->wwwroot);
         }
     }
 }

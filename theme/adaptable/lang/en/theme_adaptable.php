@@ -51,7 +51,7 @@ Gareth J Barnard (<a href="http://moodle.org/user/profile.php?id=442195" target=
 <li>Gareth J Barnard (<a href="http://moodle.org/user/profile.php?id=442195" target="_blank">moodle.org/user/profile.php?id=442195</a>).</li>
 <li>Stuart Lamour.</li>
 <li>Alistair Spark (University College London).</li>
-</ul><p>amongst many other developers, testers, translators and volunteers (please see the <a href="adaptable/README.md" target="_blank">README.md</a> file).</p>
+</ul><p>amongst many other developers, testers, translators and volunteers (please see the <a href="adaptable/Readme.md" target="_blank">Readme.md</a> file).</p>
 <br>
 <h3>Reporting bugs</h3>
 <p>You can report bugs and enhancements you wish to fund in our \'<a href="https://gitlab.com/jezhops/moodle-theme_adaptable/-/issues" target="_blank">repository</a>\'.</p>
@@ -344,7 +344,7 @@ $string['sidebaricon'] = 'Show / hide the sidebar';
 // Marketing Blocks & Info Box *************************************.
 $string['marketingsettings'] = 'Marketing blocks';
 $string['marketingsettingsheading'] = 'Customize the marketing blocks that appear on the front page. See the layout <a href="./../theme/adaptable/pix/layout.png" target="_blank"> here</a>';
-$string['marketingdesc'] = 'There are two full width info boxes with differing styles you can use.<br/>In addition to this there is a layout builder allowing you to decide how many blocks you need and define your own layout, please see the <a href="./../theme/adaptable/README.txt" target="_blank">README</a> file that comes with this theme.';
+$string['marketingdesc'] = 'There are two full width info boxes with differing styles you can use.<br>In addition to this there is a layout builder allowing you to decide how many blocks you need and define your own layout.<br>Please see the \'Readme\' section on the \'Information\' settings tab for additional information.';
 
 $string['marketingbuilderheading'] = 'Marketing block layout builder';
 $string['marketingbuilderdesc'] = 'Use the tool below to setup your marketing blocks. Once defined the block settings will appear further down the page.';
@@ -353,20 +353,20 @@ $string['marketlayoutrow'] = 'Marketing block row';
 $string['marketlayoutrowdesc'] = 'Add / set layout for marketing block row on front page';
 
 $string['market'] = 'Marketing block ';
-$string['marketdesc'] = 'Add html for marketing block (see the <a href="./../theme/adaptable/README.txt" target="_blank">README</a> file for additional info and hints).';
+$string['marketdesc'] = 'Add html for marketing block.  Please see the \'Readme\' section on the \'Information\' settings tab for additional information.';
 
 $string['layoutaddcontent'] = 'Happy with your layout?  Now add content to your blocks:';
 $string['layoutaddcontentdesc1'] = 'You have configured ';
-$string['layoutaddcontentdesc2'] = ' marketing blocks. If you are happy with this layout add content to the blocks below.<br/>If you are not happy use the layout builder above to make changes.';
+$string['layoutaddcontentdesc2'] = ' marketing blocks. If you are happy with this layout add content to the blocks below.<br>If you are not happy use the layout builder above to make changes.';
 
 $string['infobox'] = 'Frontpage info box';
-$string['infoboxdesc'] = 'Frontpage info block HTML (see the <a href="./../theme/adaptable/README.txt" target="_blank">README</a> file for additional info and hints).<br><br><strong>Note: </strong><i>This element is only used for compatibility with BCU and will be removed in coming versions.</i>';
+$string['infoboxdesc'] = 'Frontpage info block HTML.  Please see the \'Readme\' section on the \'Information\' settings tab for additional information.<br><strong>Note: </strong><i>This element is only used for compatibility with BCU and will be removed in coming versions.</i>';
 
 $string['infoboxfullscreen'] = 'Make infobox full screen';
 $string['infoboxfullscreendesc'] = 'Turning this option on will make the infobox full screen.';
 
 $string['infobox2'] = 'Frontpage secondary info box';
-$string['infobox2desc'] = 'Frontpage secondary info box (see the <a href="./../theme/adaptable/README.txt" target="_blank">README</a> file for additional info and hints).<br><br><strong>Note: </strong><i>This element is only used for compatibility with BCU and will be removed in coming versions.</i>';
+$string['infobox2desc'] = 'Frontpage secondary info box.  Please see the \'Readme\' section on the \'Information\' settings tab for additional information.<br><strong>Note: </strong><i>This element is only used for compatibility with BCU and will be removed in coming versions.</i>';
 
 $string['frontpagemarketenabled'] = 'Enable marketing blocks';
 $string['frontpagemarketenableddesc'] = 'Set the marketing blocks in the frontpage.';
@@ -473,11 +473,6 @@ $string['enablecalendardesc'] = 'Display a link to the users calendar.';
 $string['enableprivatefiles'] = 'Private files';
 $string['enableprivatefilesdesc'] = 'Display a link to the users private files.';
 
-$string['enablesearchbox'] = 'Enable search box';
-$string['enablesearchboxdesc'] = 'Display a search box in the header.';
-
-$string['searchcourses'] = 'Search courses';
-
 $string['enablepref'] = 'My preferences';
 $string['enableprefdesc'] = 'Display a link to the user preferences page.';
 
@@ -510,7 +505,6 @@ $string['sections'] = 'Sections';
 $string['enablecompetencieslink'] = 'Competencies link';
 $string['enablecompetencieslinkdesc'] = 'Display competencies link in the \'This course\' menu.  Note: \'core_competency|enabled\' needs to be ticked.';
 
-$string['search'] = 'Search';
 $string['togglenavigation'] = 'Toggle navigation';
 
 // Navbar styling *********************************************************.
@@ -624,7 +618,7 @@ $string['messagingbackgroundcolor'] = 'Messages main window background colour';
 $string['messagingbackgroundcolordesc'] = 'Set the background colour for the messages main chat window.';
 
 $string['headerbkcolor2'] = 'Lower header background colour';
-$string['headerbkcolor2desc'] = 'Set the lower header background colour. Note that this also sets the colour for the background in Header style 2.';
+$string['headerbkcolor2desc'] = 'Set the lower header background colour.  Note that this also sets the colour for the background in Header style 2.';
 
 $string['headertextcolor'] = 'Top Header blocks text and link colour';
 $string['headertextcolordesc'] = 'Set the top header blocks text and link colour.';
@@ -809,9 +803,6 @@ $string['coursesectionborderradius'] = 'Course section border radius';
 $string['coursesectionborderradiusdesc'] = 'Set the radius of course section borders (rounded corners).';
 
 // Course section activity styling.
-$string['coursesectionactivityuseadaptableicons'] = 'Use Adaptable icon set';
-$string['coursesectionactivityuseadaptableiconsdesc'] = 'Turn this on to use the Adaptable icons.  If turned off, please also ensure you remove the directories adaptable/pix_plugins and adaptable/pix_core/f to use default Moodle icons.';
-
 $string['coursesectionactivityiconsize'] = 'Course section activity icon size';
 $string['coursesectionactivityiconsizedesc'] = 'Set the icon size for activities / resources (e.g. a value of 16px will set it at 16px by 16px).';
 
@@ -871,6 +862,16 @@ $string['socialwallactionlinkcolordesc'] = 'The colour of action links in the \'
 $string['socialwallactionlinkhovercolor'] = 'Action link hover colour';
 $string['socialwallactionlinkhovercolordesc'] = 'The colour of action links when hovered in \'Social wall\'.';
 
+// One Topic Settings.
+$string['onetopicheading'] = 'One Topic';
+$string['onetopicdesc'] = 'Customise the appearance of the \'<a href="https://moodle.org/plugins/format_onetopic">One Topic Course Format</a>\' (if in use on your site).';
+
+$string['onetopicactivetabbackgroundcolor'] = 'Active tab background colour';
+$string['onetopicactivetabbackgroundcolordesc'] = 'The background colour of the active tab on a \'One Topic\' course.';
+
+$string['onetopicactivetabtextcolor'] = 'Active tab text colour';
+$string['onetopicactivetabtextcolordesc'] = 'The text colour of the active tab on a \'One Topic\' course.';
+
 // Blocks General **************************************************.
 $string['shownavigationblockoncoursepage'] = 'Show navigation block on course page';
 $string['shownavigationblockoncoursepagedesc'] = 'Set this to show the navigation block on the course page.';
@@ -883,17 +884,11 @@ $string['fontdesc'] = 'You can select the <a href="https://www.google.com/fonts"
 $string['fontname'] = 'Main font';
 $string['fontnamedesc'] = 'Select the default font, \'sans-serif\', or <a href="https://www.google.com/fonts" target="_blank">Google Fonts</a> used in the site.';
 
-$string['customfontname'] = 'Custom main font';
-$string['customfontnamedesc'] = 'Enter the name of the custom main font only if you selected \'Custom\' in the main font dropdown.';
-
 $string['fontsize'] = 'Main font size';
 $string['fontsizedesc'] = 'Select the default font size (in percentage) used in the whole site.';
 
 $string['fontheadername'] = 'Headers font';
 $string['fontheadernamedesc'] = 'Select the default font, \'sans-serif\', or <a href="https://www.google.com/fonts" target="_blank">Google Fonts</a> used in the text and blocks headers.';
-
-$string['customfontheadername'] = 'Custom header font';
-$string['customfontheadernamedesc'] = 'Enter the name of the custom header font only if you selected \'Custom\' in the header font dropdown.';
 
 $string['fontcolor'] = 'Main font colour';
 $string['fontcolordesc'] = 'Set the colour of the font in the theme, use html hex code.';
@@ -909,9 +904,6 @@ $string['fontheaderweightdesc'] = 'Headers font weight used in the site.  Select
 
 $string['fonttitlename'] = 'Site / Course title font';
 $string['fonttitlenamedesc'] = 'Select the default font, \'sans-serif\', or <a href="https://www.google.com/fonts" target="_blank">Google Fonts</a> used in title site and course titles.';
-
-$string['customfonttitlename'] = 'Custom Title font';
-$string['customfonttitlenamedesc'] = 'Enter the name of the custom title font only if you selected \'Custom\' in the title font dropdown.';
 
 $string['fonttitlecolor'] = 'Site / course title font colour';
 $string['fonttitlecolordesc'] = 'Set the colour of the site title and course title font in the theme, use html hex code.';
@@ -1060,24 +1052,27 @@ $string['headerstyleheading'] = 'Header style settings';
 $string['headerstyleheadingdesc'] = 'Adaptable supports two header styles, the original three row header and a newer simplified two row header.<br/>Be aware that if you switch to the newer two row header you will <strong>NOT</strong> be able to:<br /><ol><li>Show social icons in the header.</li><li>Display the site logo on mobile devices.</li></ol>';
 
 $string['headerstyle'] = 'Header style';
-$string['headerstyledesc'] = 'Choose the style of header.  Header 1 refers to the original 3 row Adaptable header.  Header 2 is a minimal 2 row header. Note that when using Header 2, for the setting "Use Search Box or Social Icons", this will always use a search box.';
-$string['headerstyle1'] = 'Header 1 (original 3 row header)';
-$string['headerstyle2'] = 'Header 2 (2 row header)';
+$string['headerstyledesc'] = 'Choose the style of header.  Header one refers to the original three row Adaptable header.  Header two is a minimal two row header with a search box.';
+$string['headerstyle1'] = 'Header one (original three row header)';
+$string['headerstyle2'] = 'Header two (two row header)';
 
-$string['header2searchbox'] = 'Header 2 search box expandable';
-$string['header2searchboxdesc'] = 'Disabled, static or expand and collapse functionality on the search box when using header 2.';
+$string['headersearchandsocial'] = 'Header search and social';
+$string['headersearchandsocialdesc'] = 'Set the position of the search box and social icons in the header for header style one.<br />
+You can set social icons under the <a href="./../admin/settings.php?section=themesettingadaptable#theme_adaptable_social">Header social</a> settings page</strong>.';
+$string['headersearchandsocialnone'] = 'None';
+$string['headersearchandsocialsearchmobilenav'] = 'Search in header and navbar for mobiles';
+$string['headersearchandsocialsearchheader'] = 'Search in header';
+$string['headersearchandsocialsocialheader'] = 'Social in header';
+$string['headersearchandsocialsearchnavbar'] = 'Search on navbar';
+$string['headersearchandsocialsearchnavbarsocialheader'] = 'Search on navbar, social in header';
+$string['coursesearch'] = 'Course search';
 
-$string['socialorsearch'] = 'Use Search Box or Social Icons';
-$string['socialorsearchdesc'] = 'You can set the theme to either display social icons or a search box in the header.<br />
-You can set social icons under the <a href="./../admin/settings.php?section=theme_adaptable_social">Header Social</a>settings page</strong>.';
+// M3.9- for search
+$string['togglesearch'] = 'Toggle search input';
 
-$string['socialorsearchnone'] = 'None';
 
-$string['socialorsearchsocial'] = 'Display social icons in header';
-$string['socialorsearchsearch'] = 'Display search box in header';
-
-$string['searchboxpadding'] = 'Search box padding';
-$string['searchboxpaddingdesc'] = 'Set padding above search box (if being used instead of social icons) <br />E.g. 5px 10px 5px 10px (top, right, bottom, left).<br> You can set social icons under the <a href="./../admin/settings.php?section=theme_adaptable_social">Header Social</a> settings page</strong>.';
+$string['searchboxpadding'] = 'Header search box padding';
+$string['searchboxpaddingdesc'] = 'Set padding for the search box when it is in the header (if being used instead of social icons) <br />E.g. 5px 10px 5px 10px (top, right, bottom, left).<br> You can set social icons under the <a href="./../admin/settings.php?section=theme_adaptable_social">Header Social</a> settings page</strong>.';
 
 $string['enablesavecanceloverlay'] = 'Enable save / cancel overlay on settings pages';
 $string['enablesavecanceloverlaydesc'] = 'Display a save / cancel button overlay at the top of a settings page to make it easier to save settings.';
@@ -1347,8 +1342,6 @@ $string['responsivepagefooterdesc'] = 'What sized screens would you like the foo
 $string['responsiveslider'] = 'Frontpage slider';
 $string['responsivesliderdesc'] = 'What sized screens would you like the Frontpage Slider to be displayed on?';
 
-$string['responsivesearchicon'] = 'Show search icon';
-$string['responsivesearchicondesc'] = 'Show search icon on small screen devices.';
 $string['responsivebreadcrumb'] = 'Beadcrumb navigation';
 $string['responsivebreadcrumbdesc'] = 'What sized screens would you like Breadcrumb Navigation to be displayed on?';
 
@@ -1650,16 +1643,16 @@ $string['jssection'] = 'Javascript section';
 $string['jssectiondesc'] = 'Add javascript code to the site.';
 
 $string['jssectionrestricted'] = 'Conditional javascript section';
-$string['jssectionrestricteddesc'] = 'Add javascript code to the site conditionally based on a custom profile field. This javascript will only appear if this condition is met.';
+$string['jssectionrestricteddesc'] = 'Add javascript code to the site conditionally based on a custom profile field.  This javascript will only appear if this condition is met.';
 
 $string['jssectionrestrictedprofilefield'] = 'Javascript section custom profile field';
 $string['jssectionrestrictedprofilefielddesc'] = 'Show the javascript above ONLY when user matches this custom profile field value, eg: faculty=fbl.';
 
 $string['jssectionrestricteddashboardonly'] = 'Include javascript only on dashboard page';
-$string['jssectionrestricteddashboardonlydesc'] = 'Show the javascript only on the dashboard page. Otherwise this displays sitewide.';
+$string['jssectionrestricteddashboardonlydesc'] = 'Show the javascript only on the dashboard page.  Otherwise this displays sitewide.';
 
 // Cache definitions.
-$string['cachedef_userdata'] = 'A session cache used to store user specific data.';
+// TODO.
 
 // Activity and section navigation *******************.
 $string['nextactivity'] = 'Next activity';
@@ -1675,6 +1668,10 @@ $string['jumpto'] = 'Jump to...';
 $string['hide'] = 'Hide';
 $string['show'] = 'Show';
 $string['versioninfo'] = 'Release {$a->release}, version {$a->version} on Moodle {$a->moodle}';
+$string['versionalpha'] = 'Alpha version - Almost certainly contains bugs.  This is a development version for developers \'only\'!  Don\'t even think of installing on a production server!';
+$string['versionbeta'] = 'Beta version - Likely to contain bugs.  Ready for testing by administrators on a test server only.';
+$string['versionrc'] = 'Release candidate version - May contain bugs.  Check completely on a test server before considering on a production server.';
+$string['versionstable'] = 'Stable version - Could contain bugs.  Check on a test server before installing on your production server.';
 
 // Grade editing *************************************.
 $string['turngradereditingoff'] = 'Turn grader editing off';

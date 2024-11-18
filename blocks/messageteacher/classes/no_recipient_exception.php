@@ -18,7 +18,7 @@
  * Exception class indicating an invalid recipient
  *
  * @package    block_messageteacher
- * @copyright  2018 The Open University
+ * @copyright  2018 Mark Johnson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,6 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Exception thrown when a recipient is invalid.
+ * @copyright  2018 Mark Johnson
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class no_recipient_exception  extends \moodle_exception {
 

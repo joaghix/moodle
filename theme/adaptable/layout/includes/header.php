@@ -216,8 +216,6 @@ echo $OUTPUT->standard_top_of_body_html();
     }
 
     $headercontext['headerbg'] = $headerbg;
-    $headercontext['nonavbar'] = (!empty($PAGE->layout_options['nonavbar']));
-    $headercontext['responsivesearchicon'] = (!empty($PAGE->theme->settings->responsivesearchicon)) ? ' d-xs-block d-sm-block d-md-none my-auto' : ' d-none';
     $headercontext['shownavbar'] = $shownavbar;
     if (!empty($PAGE->theme->settings->pageheaderlayout)) {
         $headercontext['pageheaderoriginal'] = ($PAGE->theme->settings->pageheaderlayout == 'original');
@@ -232,7 +230,6 @@ echo $OUTPUT->standard_top_of_body_html();
             'navigationmenu' => $OUTPUT->navigation_menu('main-navigation'),
             'navigationmenudrawer' => $OUTPUT->navigation_menu('main-navigation-drawer'),
             'output' => $OUTPUT,
-            'searchurl' => new moodle_url('/admin/search.php'),
             'toolsmenu' => ($PAGE->theme->settings->enabletoolsmenus)
         ];
 
@@ -305,36 +302,58 @@ echo $OUTPUT->standard_top_of_body_html();
             }
         }
     }
+    $headercontext['topmenus'] = $OUTPUT->get_top_menus(false);
 
     if ($adaptableheaderstyle == "style1") {
         $headercontext['menuslinkright'] = (!empty($PAGE->theme->settings->menuslinkright));
-        $headercontext['coursesearch'] = new moodle_url('/course/search.php');
         $headercontext['langmenu'] = (empty($PAGE->layout_options['langmenu']) || $PAGE->layout_options['langmenu']);
         $headercontext['responsiveheader'] = $PAGE->theme->settings->responsiveheader;
 
-        if (!$headercontext['nonavbar']) {
-            // Social icons.
-            if ($PAGE->theme->settings->socialorsearch == 'social') {
+        $headersearchandsocial = (!empty($PAGE->theme->settings->headersearchandsocial)) ? $PAGE->theme->settings->headersearchandsocial : 'none';
+
+        // Search box and social icons.
+        switch ($headersearchandsocial) {
+            case 'socialheader':
                 $headersocialcontext = [
                     'classes' => $PAGE->theme->settings->responsivesocial,
                     'pageheaderoriginal' => $headercontext['pageheaderoriginal'],
                     'output' => $OUTPUT
                 ];
-                $headercontext['socialorsearch'] = $OUTPUT->render_from_template('theme_adaptable/headersocial', $headersocialcontext);
-            }
-            // Search box.
-            if ((!$hidesitetitle) && ($PAGE->theme->settings->socialorsearch == 'search') ) {
+                $headercontext['searchandsocialheader'] = $OUTPUT->render_from_template('theme_adaptable/headersocial', $headersocialcontext);
+            break;
+            case 'searchmobilenav':
+                $headercontext['searchandsocialnavbar'] = $OUTPUT->search_box();
+                $headercontext['searchandsocialnavbarextra'] = ' d-md-block d-lg-none my-auto';
                 $headersearchcontext = [
                     'pagelayout' => ($headercontext['pageheaderoriginal']) ? 'pagelayoutoriginal' : 'pagelayoutalternative',
-                    'url' => new moodle_url('/course/search.php')
+                    'search' => $OUTPUT->search_box()
                 ];
-                $headercontext['socialorsearch'] = $OUTPUT->render_from_template('theme_adaptable/headersearch', $headersearchcontext);
-            }
+                $headercontext['searchandsocialheader'] = $OUTPUT->render_from_template('theme_adaptable/headersearch', $headersearchcontext);
+            break;
+            case 'searchheader':
+                $headersearchcontext = [
+                    'pagelayout' => ($headercontext['pageheaderoriginal']) ? 'pagelayoutoriginal' : 'pagelayoutalternative',
+                    'search' => $OUTPUT->search_box()
+                ];
+                $headercontext['searchandsocialheader'] = $OUTPUT->render_from_template('theme_adaptable/headersearch', $headersearchcontext);
+            break;
+            case 'searchnavbar':
+                $headercontext['searchandsocialnavbar'] = $OUTPUT->search_box();
+            break;
+            case 'searchnavbarsocialheader':
+                $headercontext['searchandsocialnavbar'] = $OUTPUT->search_box();
+                $headersocialcontext = [
+                    'classes' => $PAGE->theme->settings->responsivesocial,
+                    'pageheaderoriginal' => $headercontext['pageheaderoriginal'],
+                    'output' => $OUTPUT
+                ];
+                $headercontext['searchandsocialheader'] = $OUTPUT->render_from_template('theme_adaptable/headersocial', $headersocialcontext);
+            break;
         }
 
         echo $OUTPUT->render_from_template('theme_adaptable/headerstyleone', $headercontext);
     } else if ($adaptableheaderstyle == "style2") {
-        $headercontext['topmenus'] = $OUTPUT->get_top_menus(false);
+        $headercontext['navbarsearch'] = $OUTPUT->search_box();
         if (empty($PAGE->layout_options['langmenu']) || $PAGE->layout_options['langmenu']) {
             $headercontext['langmenu'] = '<div class="my-auto">'.$OUTPUT->lang_menu(false).'</div>';
         }

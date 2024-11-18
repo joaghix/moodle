@@ -22,8 +22,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
-
+/**
+ * Upgrade hook.
+ *
+ * @param string $oldversion Old version of the plugin.
+ * @return bool
+ */
 function xmldb_auth_userkey_upgrade($oldversion) {
     global $DB;
 

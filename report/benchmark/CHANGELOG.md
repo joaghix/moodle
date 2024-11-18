@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/) and follow principles of [keep a changelog](https://keepachangelog.com).
 
+## Version v1.5.1, 2023-01-28
+- Update new test to be more meaningful (see issue #37). Beware! New metrics aren't strictly comparable with older ones.
+- Remove older deprecated strings (#41).
+
+## Version v1.5.0, 2023-01-19
+- Bug with invalid tests fixed (#37). Beware! New metrics aren't strictly comparable with older ones.
+
+## Version v1.4.3, 2023-01-17
+- Benchmark plugin was tested successfully against Moodle versions up to 4.1.x.
+- Bug with URL string fixed (#32).
+
+## Version v1.4.2, 2022-08-09
+- Benchmark plugin was tested successfully against Moodle versions up to 4.0.x.
+
 ## Version v1.4.1, 2021-09-18
 - Benchmark plugin was tested successfully against Moodle versions up to 3.11.x.
 - A hard-coded URL was fixed in a string (#35).

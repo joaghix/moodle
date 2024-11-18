@@ -21,11 +21,15 @@
  * @copyright 2015-2019 Jeremy Hopkins (Coventry University)
  * @copyright 2015-2019 Fernando Acedo (3-bits.com)
  * @copyright 2017-2019 Manoj Solanki (Coventry University)
+ * @copyright 2019-onwards G J Barnard - {@link http://moodle.org/user/profile.php?id=442195}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
 
 defined('MOODLE_INTERNAL') || die;
+
+global $CFG;
+require_once($CFG->dirroot.'/theme/boost/lib.php');
 
 define('THEME_ADAPTABLE_DEFAULT_ALERTCOUNT', '1');
 define('THEME_ADAPTABLE_DEFAULT_ANALYTICSCOUNT', '1');
@@ -34,58 +38,90 @@ define('THEME_ADAPTABLE_DEFAULT_TOOLSMENUSCOUNT', '1');
 define('THEME_ADAPTABLE_DEFAULT_NEWSTICKERCOUNT', '1');
 define('THEME_ADAPTABLE_DEFAULT_SLIDERCOUNT', '3');
 
+/**
+ * Returns the main SCSS content.
+ *
+ * @param theme_config $theme The theme config object.
+ * @return string SCSS.
+ */
+function theme_adaptable_get_main_scss_content($theme) {
+    global $CFG;
 
+    static $boosttheme = null;
+    if (empty($boosttheme)) {
+        $boosttheme = theme_config::load('boost'); // Needs to be the Boost theme so that we get its settings.
+    }
+    $scss = theme_boost_get_main_scss_content($boosttheme);
+
+    $scss .= file_get_contents($CFG->dirroot.'/theme/adaptable/scss/main.scss');
+
+    $settingssheets = array(
+        'adaptable',
+        'blocks',
+        'button',
+        'course',
+        'extras',
+        'login',
+        'menu',
+        'responsive',
+        'search',
+        'tabs',
+        'print',
+        'categorycustom'
+    );
+
+    $settingsscss = '';
+    foreach ($settingssheets as $settingsheet) {
+        $settingsscss .= file_get_contents($CFG->dirroot.'/theme/adaptable/scss/settings/'.$settingsheet.'.scss');
+    }
+
+    $scss .= theme_adaptable_process_scss($settingsscss, $theme);
+
+    return $scss;
+}
 
 /**
- * Parses CSS before it is cached.
+ * Parses SCSS before it is parsed by the SCSS compiler.
  *
- * This function can make alterations and replace patterns within the CSS.
+ * This function can make alterations and replace patterns within the SCSS.
  *
- * @param string $css The CSS
+ * @param string $scss The SCSS.
  * @param theme_config $theme The theme config object.
- * @return string The parsed CSS The parsed CSS.
+ * @return string The parsed SCSS.
  */
-function theme_adaptable_process_css($css, $theme) {
+function theme_adaptable_process_scss($scss, $theme) {
 
     // Set category custom CSS.
-    $css = theme_adaptable_set_categorycustomcss($css, $theme->settings);
+    $scss = theme_adaptable_set_categorycustomcss($scss, $theme->settings);
 
     // Collapsed Topics colours.
     if (empty($theme->settings->collapsedtopicscoloursenabled)) {
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a:hover,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a:focus,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a:hover,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a:focus {'.PHP_EOL;
-        $css .= '    color: [[setting:sectionheadingcolor]];'.PHP_EOL;
-        $css .= '}'.PHP_EOL;;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a:hover,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a:focus,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a:hover,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a:focus {'.PHP_EOL;
+        $scss .= '    color: [[setting:sectionheadingcolor]];'.PHP_EOL;
+        $scss .= '}'.PHP_EOL;
 
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle:hover,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle:focus {'.PHP_EOL;
-        $css .= '    background-color: [[setting:coursesectionheaderbg]];'.PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle:hover,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle:focus {'.PHP_EOL;
+        $scss .= '    background-color: [[setting:coursesectionheaderbg]];'.PHP_EOL;
+        $scss .= '}'.PHP_EOL;
 
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span:hover,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span:focus,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden:hover,'.PHP_EOL;
-        $css .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden:focus {'.PHP_EOL;
-        $css .= '    color: inherit;'.PHP_EOL;
-        $css .= '}'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span:hover,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span:focus,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden:hover,'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden:focus {'.PHP_EOL;
+        $scss .= '    color: inherit;'.PHP_EOL;
+        $scss .= '}'.PHP_EOL;
     }
-
-    // Set custom CSS.
-    if (!empty($theme->settings->customcss)) {
-        $customcss = $theme->settings->customcss;
-    } else {
-        $customcss = null;
-    }
-    $css = theme_adaptable_set_customcss($css, $customcss);
 
     // Define the default settings for the theme in case they've not been set.
     $defaults = array(
@@ -102,10 +138,10 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:buttoncolorscnd]]' => '#51666C',
         '[[setting:buttontextcolorscnd]]' => '#ffffff',
         '[[setting:buttonhovercolorscnd]]' => '#009688',
-        '[[setting:buttoncolorcancel]]' => '#ef5350',
+        '[[setting:buttoncolorcancel]]' => '#c64543',
         '[[setting:buttontextcolorcancel]]' => '#ffffff',
         '[[setting:buttonhovercolorcancel]]' => '#e53935',
-        '[[setting:buttonlogincolor]]' => '#ef5350',
+        '[[setting:buttonlogincolor]]' => '#c64543',
         '[[setting:buttonloginhovercolor]]' => '#e53935',
         '[[setting:buttonlogintextcolor]]' => '#0084c2',
         '[[setting:buttonloginpadding]]' => '0',
@@ -156,14 +192,14 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:coursesectionbgcolor]]' => '#FFFFFF',
         '[[setting:coursesectionheaderbg]]' => '#FFFFFF',
         '[[setting:coursesectionheaderbordercolor]]' => '#F3F3F3',
-        '[[setting:coursesectionheaderborderstyle]]' => '',
-        '[[setting:coursesectionheaderborderwidth]]' => '',
-        '[[setting:coursesectionheaderborderradiustop]]' => '',
-        '[[setting:coursesectionheaderborderradiusbottom]]' => '',
+        '[[setting:coursesectionheaderborderstyle]]' => 'none',
+        '[[setting:coursesectionheaderborderwidth]]' => '0px',
+        '[[setting:coursesectionheaderborderradiustop]]' => '0px',
+        '[[setting:coursesectionheaderborderradiusbottom]]' => '0px',
         '[[setting:coursesectionborderstyle]]' => '1px',
-        '[[setting:coursesectionborderwidth]]' => '',
+        '[[setting:coursesectionborderwidth]]' => '1px',
         '[[setting:coursesectionbordercolor]]' => '#e8eaeb',
-        '[[setting:coursesectionborderradius]]' => '',
+        '[[setting:coursesectionborderradius]]' => '0px',
         '[[setting:coursesectionactivityiconsize]]' => '24px',
         '[[setting:coursesectionactivityheadingcolour]]' => '#0066cc',
         '[[setting:coursesectionactivityborderwidth]]' => '2px',
@@ -203,7 +239,6 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:editonbk]]' => '#4caf50',
         '[[setting:editoffbk]]' => '#f44336',
         '[[setting:edithorizontalpadding]]' => '4px',
-        '[[setting:edittopmargin]]' => '',
         '[[setting:editfont]]' => '#ffffff',
         '[[setting:sliderh3color]]' => '#ffffff',
         '[[setting:sliderh4color]]' => '#ffffff',
@@ -232,10 +267,7 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:fonttitlesize]]' => '48px',
         '[[setting:fonttitlecolor]]' => '#ffffff',
         '[[setting:fonttitlecolorcourse]]' => '#ffffff',
-        '[[setting:customfontname]]' => '',
-        '[[setting:customfontheadername]]' => '',
-        '[[setting:customfonttitlename]]' => '',
-        '[[setting:searchboxpadding]]' => '0 0 10px 0',
+        '[[setting:searchboxpadding]]' => '0 0 0 0',
         '[[setting:enablesavecanceloverlay]]' => true,
         '[[setting:pageheaderheight]]' => '72px',
         '[[setting:emoticonsize]]' => '16px',
@@ -247,7 +279,6 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:responsivelogo]]' => 'd-none d-lg-block',
         '[[setting:responsivecoursetitle]]' => 'd-none d-lg-block',
         '[[setting:responsivesectionnav]]' => '1',
-        '[[setting:responsivesearchicon]]' => true,
         '[[setting:responsiveticker]]' => 'd-none d-lg-block',
         '[[setting:responsivebreadcrumb]]' => 'd-none d-md-flex',
         '[[setting:responsiveslider]]' => 'd-none d-lg-block',
@@ -264,6 +295,8 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:socialwallbordercolor]]' => '#B9B9B9',
         '[[setting:socialwallactionlinkcolor]]' => '#51666C',
         '[[setting:socialwallactionlinkhovercolor]]' => '#009688',
+        '[[setting:onetopicactivetabbackgroundcolor]]' => '#d9edf7',
+        '[[setting:onetopicactivetabtextcolor]]' => '#000000',
         '[[setting:fontblockheaderweight]]' => '400',
         '[[setting:fontblockheadersize]]' => '22px',
         '[[setting:fontblockheadercolor]]' => '#3A454b',
@@ -280,7 +313,7 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:forumheaderbackgroundcolor]]' => '#ffffff',
         '[[setting:forumbodybackgroundcolor]]' => '#ffffff',
         '[[setting:introboxbackgroundcolor]]' => '#ffffff',
-        '[[setting:showyourprogress]]' => '',
+        '[[setting:showyourprogress]]' => 'none',
         '[[setting:tabbedlayoutdashboardcolorselected]]' => '#06c',
         '[[setting:tabbedlayoutdashboardcolorunselected]]' => '#eee',
         '[[setting:tabbedlayoutcoursepagetabcolorselected]]' => '#06c',
@@ -300,7 +333,7 @@ function theme_adaptable_process_css($css, $theme) {
 
     // Get all the defined settings for the theme and replace defaults.
     foreach ($theme->settings as $key => $val) {
-        if (array_key_exists('[[setting:'.$key.']]', $defaults)) {
+        if ((!empty($val)) && (array_key_exists('[[setting:'.$key.']]', $defaults))) {
             $defaults['[[setting:'.$key.']]'] = $val;
         }
     }
@@ -331,18 +364,20 @@ function theme_adaptable_process_css($css, $theme) {
 
     $loginbgopacity = '';
     if (!empty($theme->settings->loginbgopacity)) {
-            $loginbgopacity = '#page-login-index header {'.PHP_EOL;
-            $loginbgopacity .= 'background-color: '.\theme_adaptable\toolbox::hex2rgba($theme->settings->headerbkcolor2,
-                               $theme->settings->loginbgopacity).' !important;'.PHP_EOL;
-            $loginbgopacity .= '}'.PHP_EOL;
-            $loginbgopacity .= '#page-login-index #page-navbar,'.PHP_EOL.
+        $loginbgopacity = '#page-login-index header {'.PHP_EOL;
+        $loginbgopacity .= 'background-color: '.\theme_adaptable\toolbox::hex2rgba($theme->settings->headerbkcolor2,
+            $theme->settings->loginbgopacity).' !important;'.PHP_EOL;
+        $loginbgopacity .= '}'.PHP_EOL;
+        $loginbgopacity .= '#page-login-index #page-navbar,'.PHP_EOL.
+            '#page-login-index.pagelayout-login #region-main [role="main"] > h2,'.PHP_EOL.
+            '#page-login-index.pagelayout-login #region-main [role="main"] > div.box,'.PHP_EOL.
             '#page-login-index .card {';
-            $loginbgopacity .= 'background-color: rgba(255, 255, 255, '.$theme->settings->loginbgopacity.') !important;'.PHP_EOL;
-            $loginbgopacity .= '}'.PHP_EOL;
-            $loginbgopacity .= '#page-login-index #page-footer {'.PHP_EOL;
-            $loginbgopacity .= 'background-color: '.\theme_adaptable\toolbox::hex2rgba($theme->settings->footerbkcolor,
-                               $theme->settings->loginbgopacity).') !important;'.PHP_EOL;
-            $loginbgopacity .= '}'.PHP_EOL;
+        $loginbgopacity .= 'background-color: rgba(255, 255, 255, '.$theme->settings->loginbgopacity.') !important;'.PHP_EOL;
+        $loginbgopacity .= '}'.PHP_EOL;
+        $loginbgopacity .= '#page-login-index #page-footer {'.PHP_EOL;
+        $loginbgopacity .= 'background-color: '.\theme_adaptable\toolbox::hex2rgba($theme->settings->footerbkcolor,
+            $theme->settings->loginbgopacity).' !important;'.PHP_EOL;
+        $loginbgopacity .= '}'.PHP_EOL;
     }
     $defaults['[[setting:loginbgopacity]]'] = $loginbgopacity;
 
@@ -353,12 +388,34 @@ function theme_adaptable_process_css($css, $theme) {
     $defaults['[[setting:socialpaddingsidehalf]]'] = $socialpaddingsidehalf;
 
     // Replace the CSS with values from the $defaults array.
-    $css = strtr($css, $defaults);
+    $scss = strtr($scss, $defaults);
     if (empty($theme->settings->tilesshowallcontacts) || $theme->settings->tilesshowallcontacts == false) {
-        $css = theme_adaptable_set_tilesshowallcontacts($css, false);
+        $scss = theme_adaptable_set_tilesshowallcontacts($scss, false);
     } else {
-        $css = theme_adaptable_set_tilesshowallcontacts($css, true);
+        $scss = theme_adaptable_set_tilesshowallcontacts($scss, true);
     }
+    return $scss;
+}
+
+/**
+ * Parses CSS before it is cached.
+ *
+ * This function can make alterations and replace patterns within the CSS.
+ *
+ * @param string $css The CSS
+ * @param theme_config $theme The theme config object.
+ * @return string The parsed CSS The parsed CSS.
+ */
+function theme_adaptable_process_customcss($css, $theme) {
+
+    // Set custom CSS.
+    if (!empty($theme->settings->customcss)) {
+        $customcss = $theme->settings->customcss;
+    } else {
+        $customcss = null;
+    }
+    $css = theme_adaptable_set_customcss($css, $customcss);
+
     return $css;
 }
 
@@ -423,9 +480,7 @@ function theme_adaptable_set_categorycustomcss($css, $settings) {
 
     $tag = '[[setting:catgorycustomcss]]';
 
-    $css = str_replace($tag, $replacement, $css);
-
-    return $css;
+    return str_replace($tag, $replacement, $css);
 }
 
 /**

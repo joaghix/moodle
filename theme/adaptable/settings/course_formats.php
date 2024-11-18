@@ -51,7 +51,7 @@ if ($ADMIN->fulltree) {
         'none' => get_string('hide', 'theme_adaptable'),
         'inline' => get_string('show', 'theme_adaptable'),
     );
-    $setting = new admin_setting_configselect($name, $title, $description, '', $radchoices);
+    $setting = new admin_setting_configselect($name, $title, $description, 'none', $radchoices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
@@ -262,7 +262,7 @@ if ($ADMIN->fulltree) {
     $title = get_string('coursesectionheaderborderwidth', 'theme_adaptable');
     $description = get_string('coursesectionheaderborderwidthdesc', 'theme_adaptable');
     $radchoices = $from0to6px;
-    $setting = new admin_setting_configselect($name, $title, $description, '0', $radchoices);
+    $setting = new admin_setting_configselect($name, $title, $description, '0px', $radchoices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
@@ -271,7 +271,7 @@ if ($ADMIN->fulltree) {
     $title = get_string('coursesectionheaderborderradiustop', 'theme_adaptable');
     $description = get_string('coursesectionheaderborderradiustopdesc', 'theme_adaptable');
     $radchoices = $from0to50px;
-    $setting = new admin_setting_configselect($name, $title, $description, '0', $radchoices);
+    $setting = new admin_setting_configselect($name, $title, $description, '0px', $radchoices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
@@ -316,7 +316,7 @@ if ($ADMIN->fulltree) {
     $title = get_string('coursesectionborderradius', 'theme_adaptable');
     $description = get_string('coursesectionborderradiusdesc', 'theme_adaptable');
     $radchoices = $from0to50px;
-    $setting = new admin_setting_configselect($name, $title, $description, '0', $radchoices);
+    $setting = new admin_setting_configselect($name, $title, $description, '0px', $radchoices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
@@ -325,15 +325,6 @@ if ($ADMIN->fulltree) {
     $name = 'theme_adaptable/coursesectionactivitycolors';
     $heading = get_string('coursesectionactivitycolors', 'theme_adaptable');
     $setting = new admin_setting_heading($name, $heading, '');
-    $page->add($setting);
-
-    // Use Adaptable icons.
-    $name = 'theme_adaptable/coursesectionactivityuseadaptableicons';
-    $title = get_string('coursesectionactivityuseadaptableicons', 'theme_adaptable');
-    $description = get_string('coursesectionactivityuseadaptableiconsdesc', 'theme_adaptable');
-    $default = true;
-    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
-    $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
     // Default icon size.
@@ -525,6 +516,31 @@ if ($ADMIN->fulltree) {
     $description = get_string('socialwallactionlinkhovercolordesc', 'theme_adaptable');
     $previewconfig = null;
     $setting = new admin_setting_configcolourpicker($name, $title, $description, '#009688', $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $page->add($setting);
+
+    // One Topic course format heading.
+    $name = 'theme_adaptable/onetopicheading';
+    $heading = get_string('onetopicheading', 'theme_adaptable');
+    $description = get_string('onetopicdesc', 'theme_adaptable');
+    $setting = new admin_setting_heading($name, $heading, $description);
+    $page->add($setting);
+
+    // One Topic active tab background color.
+    $name = 'theme_adaptable/onetopicactivetabbackgroundcolor';
+    $title = get_string('onetopicactivetabbackgroundcolor', 'theme_adaptable');
+    $description = get_string('onetopicactivetabbackgroundcolordesc', 'theme_adaptable');
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#d9edf7', $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $page->add($setting);
+
+    // One Topic active tab text color.
+    $name = 'theme_adaptable/onetopicactivetabtextcolor';
+    $title = get_string('onetopicactivetabtextcolor', 'theme_adaptable');
+    $description = get_string('onetopicactivetabtextcolordesc', 'theme_adaptable');
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#000000', $previewconfig);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 

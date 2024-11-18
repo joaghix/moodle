@@ -140,6 +140,13 @@
     <version>1.0</version>
     <licenseversion></licenseversion>
   </library>
+  <library>
+    <location>./pix_plugins/</location>
+    <name>Font Awesome 6 - free - https://fontawesome.com</name>
+    <license>Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License</license>
+    <version>6.2.1</version>
+    <licenseversion></licenseversion>
+  </library>
 </libraries>
 
 

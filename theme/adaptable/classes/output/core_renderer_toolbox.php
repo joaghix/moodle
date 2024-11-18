@@ -1537,6 +1537,7 @@ EOT;
                     $breadcrumbs .= '</li>';
                 }
                 $start = false;
+                continue; // This effectively removes the 'core' Home / Dashboard / User preference for such item.
             }
             $breadcrumbs .= '<span class="separator"><i class="fa-'.$breadcrumbseparator.' fa"></i></span><li>'.
                 $this->render($item).'</li>';
@@ -1601,7 +1602,7 @@ EOT;
     /**
      * Returns menu object containing main navigation.
      *
-     * @return menu boject
+     * @return menu object.
      */
     public function navigation_menu_content() {
         global $COURSE;
@@ -1630,12 +1631,12 @@ EOT;
 
         if (isloggedin() && !isguestuser()) {
             if (!empty($this->page->theme->settings->enablehome)) {
-                $branchtitle = get_string('home', 'theme_adaptable');
                 $branchlabel = '';
+                $branchtitle = get_string('home', 'theme_adaptable');
                 if ($navbardisplayicons) {
                     $branchlabel .= '<i class="fa fa-home fa-lg"></i>';
                 }
-                $branchlabel .= ' ' . $branchtitle;
+                $branchlabel .= $branchtitle;
 
                 if (!empty($this->page->theme->settings->enablehomeredirect)) {
                     $branchurl   = new moodle_url('/?redirect=0');
@@ -1643,33 +1644,32 @@ EOT;
                     $branchurl   = new moodle_url('/');
                 }
                 $branchsort  = 9998;
-                $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
+                $branch = $menu->add($branchlabel, $branchurl, $branchtitle, $branchsort);
             }
 
             if (!empty($this->page->theme->settings->enablemyhome)) {
-                $branchtitle = get_string('myhome');
-
                 $branchlabel = '';
+                $branchtitle = get_string('myhome');
                 if ($navbardisplayicons) {
-                    $branchlabel .= '<i class="fa fa-dashboard fa-lg"></i> ';
+                    $branchlabel .= '<i class="fa fa-dashboard fa-lg"></i>';
                 }
-                $branchlabel .= ' ' . $branchtitle;
+                $branchlabel .= $branchtitle;
                 $branchurl   = new moodle_url('/my/index.php');
                 $branchsort  = 9999;
-                $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
+                $branch = $menu->add($branchlabel, $branchurl, $branchtitle, $branchsort);
             }
 
             if (!empty($this->page->theme->settings->enableevents)) {
-                $branchtitle = get_string('events', 'theme_adaptable');
                 $branchlabel = '';
+                $branchtitle = get_string('events', 'theme_adaptable');
                 if ($navbardisplayicons) {
                     $branchlabel .= '<i class="fa fa-calendar fa-lg"></i>';
                 }
-                $branchlabel .= ' ' . $branchtitle;
+                $branchlabel .= $branchtitle;
 
                 $branchurl   = new moodle_url('/calendar/view.php');
                 $branchsort  = 10000;
-                $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
+                $branch = $menu->add($branchlabel, $branchurl, $branchtitle, $branchsort);
             }
 
             $overridetype = null;
@@ -1711,14 +1711,12 @@ EOT;
                 }
 
                 if ($showmysites) {
-                    $branchtitle = get_string('mysites', 'theme_adaptable');
                     $branchlabel = '';
-
+                    $branchtitle = get_string('mysites', 'theme_adaptable');
                     if ($navbardisplayicons) {
                         $branchlabel .= '<i class="fa fa-briefcase fa-lg"></i>';
                     }
-
-                    $branchlabel .= ' ' . $branchtitle;
+                    $branchlabel .= $branchtitle;
 
                     $branchurl   = new moodle_url('#');
                     $branchsort  = 10001;
@@ -1759,7 +1757,7 @@ EOT;
 
                     /* Add top level menu option here after finding out if there will be at least one course to display.  This is
                        for the option of displaying a sub-menu arrow symbol above, if configured in the theme settings. */
-                    $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
+                    $branch = $menu->add($branchlabel, $branchurl, $branchtitle, $branchsort);
                     $icon = '';
 
                     if ($sortedcourses) {
@@ -1769,7 +1767,7 @@ EOT;
                             if (!empty($myoverviewcourses[ADAPTABLE_COURSE_STARRED])) {
                                 $icon = \theme_adaptable\toolbox::getfontawesomemarkup('star-o');
                                 $this->addcoursestomenu($branch, $myoverviewcourses[ADAPTABLE_COURSE_STARRED],
-                                    $showshortcode, $showhover, $mysitesmaxlength, $icon);
+                                    $showshortcode, $showhover, $mysitesmaxlength, $mysitesvisibility, $icon);
                             }
 
                             if (!empty($myoverviewcourses[ADAPTABLE_COURSE_IN_PROGRESS])) {
@@ -1778,7 +1776,7 @@ EOT;
                                     mb_strimwidth(format_string(get_string('inprogress', 'theme_adaptable')),
                                     0, $mysitesmaxlengthhidden)) . '...', $this->page->url, '', 1000);
                                 $this->addcoursestomenu($child, $myoverviewcourses[ADAPTABLE_COURSE_IN_PROGRESS],
-                                    $showshortcode, $showhover, $mysitesmaxlength);
+                                    $showshortcode, $showhover, $mysitesmaxlength, $mysitesvisibility);
                             }
 
                             if (!empty($myoverviewcourses[ADAPTABLE_COURSE_PAST])) {
@@ -1787,7 +1785,7 @@ EOT;
                                     mb_strimwidth(format_string(get_string('past', 'theme_adaptable')),
                                     0, $mysitesmaxlengthhidden)) . '...', $this->page->url, '', 1000);
                                 $this->addcoursestomenu($child, $myoverviewcourses[ADAPTABLE_COURSE_PAST],
-                                    $showshortcode, $showhover, $mysitesmaxlength);
+                                    $showshortcode, $showhover, $mysitesmaxlength, $mysitesvisibility);
                             }
 
                             if (!empty($myoverviewcourses[ADAPTABLE_COURSE_FUTURE])) {
@@ -1796,7 +1794,7 @@ EOT;
                                     mb_strimwidth(format_string(get_string('future', 'theme_adaptable')),
                                     0, $mysitesmaxlengthhidden)) . '...', $this->page->url, '', 1000);
                                 $this->addcoursestomenu($child, $myoverviewcourses[ADAPTABLE_COURSE_FUTURE],
-                                    $showshortcode, $showhover, $mysitesmaxlength);
+                                    $showshortcode, $showhover, $mysitesmaxlength, $mysitesvisibility);
                             }
 
                             if (!empty($myoverviewcourses[ADAPTABLE_COURSE_HIDDEN])) {
@@ -1807,7 +1805,7 @@ EOT;
                                     mb_strimwidth(format_string(get_string('hiddenfromview', 'theme_adaptable')),
                                     0, $mysitesmaxlengthhidden)) . '...', $this->page->url, '', 1000);
                                 $this->addcoursestomenu($child, $myoverviewcourses[ADAPTABLE_COURSE_HIDDEN],
-                                    $showshortcode, $showhover, $mysitesmaxlength);
+                                    $showshortcode, $showhover, $mysitesmaxlength, $mysitesvisibility);
                             }
                         } else {
                             foreach ($sortedcourses as $course) {
@@ -1847,7 +1845,7 @@ EOT;
                                         } else {
                                             // If not in array add to sub menu item.
                                             if (!isset($child)) {
-                                                $icon = '<i class="fa fa-history"></i> ';
+                                                $icon = \theme_adaptable\toolbox::getfontawesomemarkup('history');
                                                 $child = $branch->add($icon . rtrim(
                                                     mb_strimwidth(format_string(get_string('pastcourses', 'theme_adaptable')),
                                                     0, $mysitesmaxlengthhidden)) . '...', $this->page->url, $alttext, 1000);
@@ -1873,14 +1871,16 @@ EOT;
                             $hiddenicon = \theme_adaptable\toolbox::getfontawesomemarkup($faicon);
                             $child = null;
                             foreach ($sortedcourses as $course) {
-                                $icon = $this->getcoursemenuicons($course, $hiddenicon);
-                                if (!$course->visible && $mysitesvisibility == 'includehidden') {
+                                $coursecontext = \context_course::instance($course->id);
+                                if (!$course->visible && $mysitesvisibility == 'includehidden' &&
+                                    has_capability('moodle/course:viewhiddencourses', $coursecontext)) {
                                     if (empty($child)) {
                                         $child = $branch->add($hiddenicon.
                                             rtrim(mb_strimwidth(format_string(get_string('hiddencourses', 'theme_adaptable')),
                                             0, $mysitesmaxlengthhidden)) . '...', $this->page->url, '', 2000);
                                     }
 
+                                    $icon = $this->getcoursemenuicons($course, $hiddenicon);
                                     $child->add($icon.rtrim(mb_strimwidth(format_string($course->fullname),
                                         0, $mysitesmaxlengthhidden)) . '...',
                                         new moodle_url('/course/view.php?id='.$course->id), format_string($course->shortname));
@@ -1896,13 +1896,15 @@ EOT;
 
             if (!empty($this->page->theme->settings->enablethiscourse)) {
                 if (ISSET($COURSE->id) && $COURSE->id > 1) {
-                    $branchtitle = get_string('thiscourse', 'theme_adaptable');
                     $branchlabel = '';
+                    $branchtitle = get_string('thiscourse', 'theme_adaptable');
                     if ($navbardisplayicons) {
                         $branchlabel .= '<i class="fa fa-sitemap fa-lg"></i><span class="menutitle">';
                     }
-
-                    $branchlabel .= $branchtitle . '</span>';
+                    $branchlabel .= $branchtitle;
+                    if ($navbardisplayicons) {
+                        $branchlabel .= '</span>';
+                    }
 
                     $data = theme_adaptable_get_course_activities();
 
@@ -1912,7 +1914,7 @@ EOT;
                     }
 
                     $branchurl = $this->page->url;
-                    $branch = $menu->add($branchlabel, $branchurl, '', 10002);
+                    $branch = $menu->add($branchlabel, $branchurl, $branchtitle, 10002);
 
                     // Course sections.
                     if ($this->page->theme->settings->enablecoursesections) {
@@ -1924,7 +1926,7 @@ EOT;
                         $branchtitle = get_string('people', 'theme_adaptable');
                         $branchlabel = '<i class="icon fa fa-users fa-lg"></i>'.$branchtitle;
                         $branchurl = new moodle_url('/user/index.php', array('id' => $this->page->course->id));
-                        $branch->add($branchlabel, $branchurl, '', 100004);
+                        $branch->add($branchlabel, $branchurl, $branchtitle, 100004);
                     }
 
                     // Display Grades.
@@ -1932,7 +1934,7 @@ EOT;
                         $branchtitle = get_string('grades');
                         $branchlabel = $this->pix_icon('i/grades', '', '', array('class' => 'icon')).$branchtitle;
                         $branchurl = new moodle_url('/grade/report/index.php', array('id' => $this->page->course->id));
-                        $branch->add($branchlabel, $branchurl, '', 100005);
+                        $branch->add($branchlabel, $branchurl, $branchtitle, 100005);
                     }
 
                     // Kaltura video gallery.
@@ -1941,7 +1943,7 @@ EOT;
                         $branchlabel = $this->pix_icon('media-gallery', '', 'local_kalturamediagallery').$branchtitle;
                         $branchurl = new moodle_url('/local/kalturamediagallery/index.php',
                             array('courseid' => $this->page->course->id));
-                        $branch->add($branchlabel, $branchurl, '', 100006);
+                        $branch->add($branchlabel, $branchurl, $branchtitle, 100006);
                     }
 
                     // Display Competencies.
@@ -1950,8 +1952,8 @@ EOT;
                             $branchtitle = get_string('competencies', 'competency');
                             $branchlabel = $this->pix_icon('i/competencies', '', '', array('class' => 'icon')).$branchtitle;
                             $branchurl = new moodle_url('/admin/tool/lp/coursecompetencies.php',
-                                         array('courseid' => $this->page->course->id));
-                            $branch->add($branchlabel, $branchurl, '', 100007);
+                                array('courseid' => $this->page->course->id));
+                            $branch->add($branchlabel, $branchurl, $branchtitle, 100007);
                         }
                     }
 
@@ -1960,11 +1962,11 @@ EOT;
                         if ($modname === 'resources') {
                             $icon = $this->pix_icon('icon', '', 'mod_page', array('class' => 'icon'));
                             $branch->add($icon.$modfullname, new moodle_url('/course/resources.php',
-                                    array('id' => $this->page->course->id)));
+                                array('id' => $this->page->course->id)), $modfullname);
                         } else {
                             $icon = $this->pix_icon('icon', '', $modname, array('class' => 'icon'));
                             $branch->add($icon.$modfullname, new moodle_url('/mod/'.$modname.'/index.php',
-                                    array('id' => $this->page->course->id)));
+                                    array('id' => $this->page->course->id)), $modfullname);
                         }
                     }
                 }
@@ -2004,7 +2006,7 @@ EOT;
                             array('helptarget' => $this->page->theme->settings->helptarget));
 
                         $branchsort  = 10003;
-                        $branch = $menu->add($branchlabel, $branchurl, '', $branchsort);
+                        $branch = $menu->add($branchlabel, $branchurl, $branchtitle, $branchsort);
                     }
                 }
             }
@@ -2111,12 +2113,17 @@ EOT;
      * @param array $courses Array of courses.
      * @param bool $showshortcode Use the course shortname instead of full.
      * @param bool $showhover Put the course full name in the alternative text.
-     * @param int $mysitesmaxlength Max lenghth of the course name string displayed.
+     * @param int $mysitesmaxlength Max length of the course name string displayed.
+     * @param bool $mysitesvisibility Value of the 'enablemysites' setting.
      * @param string $icon Prefix an icon (HTML markup) if any.
      */
-    protected function addcoursestomenu(&$menu, $courses, $showshortcode, $showhover, $mysitesmaxlength, $icon = '') {
+    protected function addcoursestomenu(&$menu, $courses, $showshortcode, $showhover, $mysitesmaxlength, $mysitesvisibility,
+        $icon = '') {
         foreach ($courses as $course) {
-            if (($course->visible) || (has_capability('moodle/course:viewhiddencourses', $this->page->context))) {
+            $coursecontext = \context_course::instance($course->id);
+            if (($course->visible) ||
+                (!$course->visible && $mysitesvisibility == 'includehidden' &&
+                has_capability('moodle/course:viewhiddencourses', $coursecontext))) {
                 if ($showshortcode) {
                     $coursename = mb_strimwidth(format_string($course->shortname), 0,
                         $mysitesmaxlength, '...', 'utf-8');
@@ -2170,10 +2177,10 @@ EOT;
         if (!empty($sectionsformnenu)) { // Rare but possible!
             $branchtitle = get_string('sections', 'theme_adaptable');
             $branchlabel = '<i class="icon fa fa-list-ol fa-lg"></i>'.$branchtitle;
-            $branch = $menu->add($branchlabel, null, '', 100003);
+            $branch = $menu->add($branchlabel, null, $branchtitle, 100003);
 
             foreach ($sectionsformnenu as $sectionformenu) {
-                $branch->add($sectionformenu['sectionname'], $sectionformenu['url']);
+                $branch->add($sectionformenu['sectionname'], $sectionformenu['url'], $sectionformenu['sectionname']);
             }
         }
 
@@ -2183,30 +2190,15 @@ EOT;
     /**
      * Returns html to render main navigation menu
      *
-     * @param string $menuid The id to use when creating menu. Used so this can be called for a nav drawer style display.
+     * @param string $menuid The id to use when creating menu.  Used so this can be called for a nav drawer style display.
      *
-     * @return string
+     * @return string Markup.
      */
     public function navigation_menu($menuid) {
+        static $menu = null;
 
-        $sessttl = 0;
-        $cache = \cache::make('theme_adaptable', 'userdata');
-
-        if ($sessttl > 0 && time() <= $cache->get('usernavbarttl')) {
-            return $cache->get('mysitesvisibility');
-        }
-        static $builtmenu = null;
-
-        if ($builtmenu != null) {
-            $menu = $builtmenu;
-        } else {
+        if (is_null($menu)) {
             $menu = $this->navigation_menu_content();
-            $builtmenu = $menu;
-        }
-
-        if ($sessttl > 0) {
-            $cache->set('usernavbarttl', $sessttl);
-            $cache->set('usernavbar', $this->render_custom_menu($menu, '', '', $menuid));
         }
 
         return $this->render_custom_menu($menu, '', '', $menuid);
@@ -2359,15 +2351,16 @@ EOT;
 
         if (!empty($logosetarea)) {
             // Logo.
-            $logomarkup = '<div class="bd-highlight ' . $responsivelogo . '">';
-            $logo = '<img src=' . $this->page->theme->setting_file_url($logosetarea, $logosetarea) . ' id="logo" alt="" />';
+            $logomarkup = '<div class="p-2 bd-highlight '.$responsivelogo.'">';
+            $logo = '<img src='.$this->page->theme->setting_file_url($logosetarea, $logosetarea).' id="logo"';
+            $logo .= ' alt="'.get_string('logo', 'theme_adaptable').'">';
 
             // Exception - logo is not a link to site homepage.
             if (!empty($this->page->layout_options['nonavbar'])) {
                 $logomarkup .= $logo;
             } else {
                 // Standard - Output the logo as a link to site homepage.
-                $logomarkup .= '<a href=' . $CFG->wwwroot . ' aria-label="home" title="' . format_string($SITE->fullname). '">';
+                $logomarkup .= '<a href='.$CFG->wwwroot.' aria-label="home" title="'.format_string($SITE->fullname).'">';
                 $logomarkup .= $logo;
                 $logomarkup .= '</a>';
             }
@@ -2432,7 +2425,7 @@ EOT;
                 // Full / Short Course Name.
                 case 'fullname':
                 case 'shortname':
-                    $retval .= '<div id="sitetitle" class="pb-1 pt-1 bd-highlight ' . $responsivecoursetitle . '">';
+                    $retval .= '<div id="sitetitle" class="bd-highlight ' . $responsivecoursetitle . '">';
                     if (!empty($categoryheadercustomtitle)) {
                         $retval .= '<h1>'. format_string($categoryheadercustomtitle) . '</h1>';
                     }
@@ -2449,14 +2442,14 @@ EOT;
         // If the course id is one or 'enableheading' was 'off' above then we display the site title.
         if (($COURSE->id == 1) || ($usedefault)) {
             if (!empty($categoryheadercustomtitle)) {
-                $retval .= '<div id="sitetitle" class="pb-1 pt-1 bd-highlight ' . $responsivecoursetitle . '">';
+                $retval .= '<div id="sitetitle" class="bd-highlight ' . $responsivecoursetitle . '">';
                 $retval .= '<h1>'. format_string($categoryheadercustomtitle) . '</h1>';
                 $retval .= '</div>';
             } else {
                 switch ($this->page->theme->settings->sitetitle) {
                     case 'default':
                         $sitetitle = $SITE->fullname;
-                        $retval .= '<div id="sitetitle" class="pb-1 pt-1 bd-highlight ' . $responsivecoursetitle . '"><h1>'
+                        $retval .= '<div id="sitetitle" class="bd-highlight ' . $responsivecoursetitle . '"><h1>'
                             . format_string($sitetitle) . '</h1></div>';
                         break;
 
@@ -2468,7 +2461,7 @@ EOT;
                             $header = format_string($header);
                             $this->page->set_heading($header);
 
-                            $retval .= '<div id="sitetitle" class="pb-1 pt-1 bd-highlight ' . $responsivecoursetitle . '">'
+                            $retval .= '<div id="sitetitle" class="bd-highlight ' . $responsivecoursetitle . '">'
                                 . format_text($sitetitlehtml, FORMAT_HTML) . '</div>';
                         }
                 }
@@ -2712,20 +2705,14 @@ EOT;
      */
     public function check_menu_access($ftype, $setvalue, $menu) {
         global $CFG, $USER;
-        $usersvalue = 'default-zz'; // Just want a value that will not be matched by accident.
-        $sessttl = (time() + ($this->page->theme->settings->menusessionttl * 60));
-        $menuttl = $menu . 'ttl';
+        $menuttl = $menu.'ttl';
+        $time = time();
 
         if ($this->page->theme->settings->menusession) {
             if (isset($USER->theme_adaptable_menus[$menu])) {
-
                 // If cache hasn't yet expired.
-                if ($USER->theme_adaptable_menus[$menuttl] >= time()) {
-                    if ($USER->theme_adaptable_menus[$menu] == true) {
-                        return true;
-                    } else if ($USER->theme_adaptable_menus[$menu] == false) {
-                        return false;
-                    }
+                if ($USER->theme_adaptable_menus[$menuttl] >= $time) {
+                    return $USER->theme_adaptable_menus[$menu];
                 }
             }
         }
@@ -2736,17 +2723,19 @@ EOT;
         $ftype = "profile_field_$ftype";
         if (isset($USER->$ftype)) {
             $usersvalue = $USER->$ftype;
+        } else {
+            $usersvalue = 'default-zz'; // Just want a value that will not be matched by accident.
         }
 
+        $sessttl = ($time + ($this->page->theme->settings->menusessionttl * 60));
+        $USER->theme_adaptable_menus[$menuttl] = $sessttl;
         if ($usersvalue == $setvalue) {
             $USER->theme_adaptable_menus[$menu] = true;
-            $USER->theme_adaptable_menus[$menuttl] = $sessttl;
-            return true;
+        } else {
+            $USER->theme_adaptable_menus[$menu] = false;
         }
 
-        $USER->theme_adaptable_menus[$menu] = false;
-        $USER->theme_adaptable_menus[$menuttl] = $sessttl;
-        return false;
+        return $USER->theme_adaptable_menus[$menu];
     }
 
     /**
@@ -2776,24 +2765,22 @@ EOT;
      * Returns contents of multiple comma delimited custom profile fields.
      *
      * @param string $profilefields delimited list of fields.
-     * @return array.
+     * @return array of multiple comma delimited custom profile fields.
      */
     public function get_profile_field_contents($profilefields) {
         global $CFG, $USER;
         $timestamp = 'currentcoursestime';
         $list = 'currentcourseslist';
+        $time = time();
 
         if (isset($USER->theme_adaptable_menus[$timestamp])) {
-            if ($USER->theme_adaptable_menus[$timestamp] >= time()) {
+            if ($USER->theme_adaptable_menus[$timestamp] >= $time) {
                 if (isset($USER->theme_adaptable_menus[$list])) {
                     return $USER->theme_adaptable_menus[$list];
                 }
             }
         }
 
-        $sessttl = 1000 * 60 * 3;
-        $sessttl = 0;
-        $sessttl = time() + $sessttl;
         $retval = array();
 
         require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -2801,7 +2788,6 @@ EOT;
         profile_load_data($USER);
 
         $fields = explode(',', $profilefields);
-
         foreach ($fields as $field) {
             $field = trim($field);
             $field = "profile_field_$field";
@@ -2814,7 +2800,8 @@ EOT;
         }
 
         $USER->theme_adaptable_menus[$list] = $retval;
-        $USER->theme_adaptable_menus[$timestamp] = $sessttl;
+        $USER->theme_adaptable_menus[$timestamp] = $time + 1000 * 60 * 3; // Sess TTL.
+
         return $retval;
     }
 
@@ -3005,29 +2992,34 @@ EOT;
             $content .= '</ul></li>';
 
         } else {
-            if ($level == 0) {
-                $content = '<li class="nav-item">';
-                $linkclass = 'nav-link';
+            if (preg_match("/^#+$/", $menunode->get_text())) {
+                // This is a divider.
+                $content = html_writer::start_tag('li', array('class' => 'dropdown-divider'));
             } else {
-                $content = '<li>';
-                $linkclass = 'dropdown-item';
-            }
+                if ($level == 0) {
+                    $content = '<li class="nav-item">';
+                    $linkclass = 'nav-link';
+                } else {
+                    $content = '<li>';
+                    $linkclass = 'dropdown-item';
+                }
 
-            /* This is a bit of a cludge, but allows us to pass url, of type moodle_url with a param of
-             * "helptarget", which when equal to "_blank", will create a link with target="_blank" to allow the link to open
-             * in a new window.  This param is removed once checked.
-             */
-            if (is_object($url) && (get_class($url) == 'moodle_url') && ($url->get_param('helptarget') != null)) {
-                $helptarget = $url->get_param('helptarget');
-                $url->remove_params('helptarget');
-                $content .= html_writer::link($url, $menunode->get_text(), array('title' => $menunode->get_title(),
-                    'target' => $helptarget, 'class' => $linkclass));
-            } else {
-                $content .= html_writer::link($url, $menunode->get_text(),
-                    array('title' => $menunode->get_title(), 'class' => $linkclass));
-            }
+                /* This is a bit of a cludge, but allows us to pass url, of type moodle_url with a param of
+                 * "helptarget", which when equal to "_blank", will create a link with target="_blank" to allow the link to open
+                 * in a new window.  This param is removed once checked.
+                 */
+                if (is_object($url) && (get_class($url) == 'moodle_url') && ($url->get_param('helptarget') != null)) {
+                    $helptarget = $url->get_param('helptarget');
+                    $url->remove_params('helptarget');
+                    $content .= html_writer::link($url, $menunode->get_text(), array('title' => $menunode->get_title(),
+                        'target' => $helptarget, 'class' => $linkclass));
+                } else {
+                    $content .= html_writer::link($url, $menunode->get_text(),
+                        array('title' => $menunode->get_title(), 'class' => $linkclass));
+                }
 
-            $content .= "</li>";
+                $content .= "</li>";
+            }
         }
         return $content;
     }
@@ -3126,8 +3118,8 @@ EOT;
             return html_writer::tag('li', html_writer::tag('a', $tab->text,
                 array('class' => 'nav-link active')), array('class' => 'nav-item'));
         } else if ($tab->inactive) {
-            return html_writer::tag('li', html_writer::tag('a', $tab->text, array('class' => 'nav-link disabled')),
-                array('class' => 'nav-link'));
+            return html_writer::tag('li', html_writer::tag('a', $tab->text,
+                array('class' => 'nav-link disabled')), array('class' => 'nav-item'));
         } else {
             if (!($tab->link instanceof moodle_url)) {
                 // Backward compatibility when link was passed as quoted string.
@@ -3552,56 +3544,20 @@ EOT;
            result in an extra included file for each site, even the ones where global search
            is disabled. */
         if (empty($CFG->enableglobalsearch) || !has_capability('moodle/search:query', \context_system::instance())) {
-            return '';
-        }
-
-        $header2searchbox = 'expandable';
-        if (!empty($this->page->theme->settings->header2searchbox)) {
-            $header2searchbox = $this->page->theme->settings->header2searchbox;
-        }
-
-        if ($header2searchbox == 'disabled') {
-            return '';
-        } else if ($header2searchbox == 'static') {
-            $expandable = false;
+            $action = new moodle_url('/course/search.php');
+            $searchstring = get_string('coursesearch', 'theme_adaptable');
         } else {
-            $expandable = true;
+            $action = new moodle_url('/search/index.php');
+            $searchstring = get_string('globalsearch', 'core_admin');
         }
 
-        if ($id == false) {
-            $id = uniqid();
-        } else {
-            // Needs to be cleaned, we use it for the input id.
-            $id = clean_param($id, PARAM_ALPHANUMEXT);
-        }
+        $data = [
+            'action' => $action,
+            'hiddenfields' => (object) ['name' => 'context', 'value' => $this->page->context->id],
+            'inputname' => 'q',
+            'searchstring' => $searchstring
+        ];
 
-        // JS to animate the form.
-        $this->page->requires->js_call_amd('theme_adaptable/search-input',
-            'init', array('data' => array('id' => $id, 'expandable' => $expandable)));
-
-        $searchicon = html_writer::tag('div', $this->pix_icon('a/search', get_string('search', 'search'), 'moodle'),
-            array('role' => 'button', 'tabindex' => 0));
-        $formclass = 'search-input-form';
-        if (!$expandable) {
-            $formclass .= ' expanded';
-        }
-        $formattrs = array('class' => $formclass, 'action' => $CFG->wwwroot . '/search/index.php');
-        $inputattrs = array('type' => 'text', 'name' => 'q', 'placeholder' => get_string('search', 'search'),
-            'size' => 13, 'tabindex' => -1, 'id' => 'id_q_' . $id, 'class' => 'form-control');
-
-        $contents = html_writer::tag('label', get_string('enteryoursearchquery', 'search'),
-            array('for' => 'id_q_' . $id, 'class' => 'accesshide')) . html_writer::tag('input', '', $inputattrs);
-        if ($this->page->context && $this->page->context->contextlevel !== CONTEXT_SYSTEM) {
-            $contents .= html_writer::empty_tag('input', ['type' => 'hidden',
-                'name' => 'context', 'value' => $this->page->context->id]);
-        }
-        $searchinput = html_writer::tag('form', $contents, $formattrs);
-
-        $wrapperclass = 'search-input-wrapper nav-link';
-        if (!$expandable) {
-            $wrapperclass .= ' expanded expandable';
-        }
-
-        return html_writer::tag('div', $searchicon . $searchinput, array('class' => $wrapperclass, 'id' => $id));
+        return $this->render_from_template('theme_adaptable/adaptable_search_input_navbar', $data);
     }
 }

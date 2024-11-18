@@ -28,9 +28,10 @@ define(['jquery', 'core/log'], function($, log) {
                     }
                 });
                 body.addClass('drawer-ease');
+
                 log.debug('Adaptable Drawer AMD init');
             });
         }
-    }
+    };
 });
 /* jshint ignore:end */

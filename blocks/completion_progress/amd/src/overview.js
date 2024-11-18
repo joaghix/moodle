@@ -17,7 +17,6 @@
  * Completion Progress overview page behaviour.
  *
  * @module     block_completion_progress/overview
- * @package    block_completion_progress
  * @copyright  2020 Jonathon Fowler <fowlerj@usq.edu.au>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,7 +29,20 @@ define(['core_user/participants'],
              * @param {object} options initialisation options.
              */
             init: function(options) {
+                var form = document.getElementById('participantsform');
+                var action = document.getElementById('formactionid');
+
+                /**
+                 * Manage the activation of the 'With selected users' control.
+                 */
+                function checkaction() {
+                    action.disabled = (form.querySelector('input.usercheckbox:checked') === null);
+                }
+
                 Participants.init(options);
+
+                checkaction();
+                form.addEventListener('change', checkaction);
             }
         };
     });

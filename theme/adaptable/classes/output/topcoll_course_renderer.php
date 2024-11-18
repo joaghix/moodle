@@ -48,7 +48,7 @@ class topcoll_course_renderer extends \theme_adaptable\output\core\course_render
      * Note that for course modules that never have separate pages (i.e. labels)
      * this function return an empty string.
      *
-     * This method has only been overriden in order to strip -24 and similar from icon image filenames
+     * This method has only been overridden in order to strip -24 and similar from icon image filenames
      * to allow using of local theme icons in /pix_core/f.
      *
      * @param cm_info $mod
@@ -65,22 +65,14 @@ class topcoll_course_renderer extends \theme_adaptable\output\core\course_render
             return '';
         }
 
-        // If use adaptable icons is set to false, then just run CT version of the method.
-        if (empty($this->page->theme->settings->coursesectionactivityuseadaptableicons)) {
-            list($linkclasses, $textclasses) = $this->course_section_cm_classes($mod);
-            $groupinglabel = $mod->get_grouping_label($textclasses);
+        // Run CT version of the method.
+        list($linkclasses, $textclasses) = $this->course_section_cm_classes($mod);
+        $groupinglabel = $mod->get_grouping_label($textclasses);
 
-            /* Render element that allows to edit activity name inline. It calls course_section_cm_name_title()
-               to get the display title of the activity. */
-            $tmpl = new \format_topcoll\output\course_module_name($mod, $this->page->user_is_editing(), $displayoptions);
-            return $this->output->render_from_template('core/inplace_editable', $tmpl->export_for_template($this->output)).
-                $groupinglabel;
-        }
-
-        $templateclass = new \format_topcoll\output\course_module_name($mod, $this->page->user_is_editing(), $displayoptions);
-        $data = $this->adaptable_course_section_cm_name($mod, $templateclass);
-
-        // Not sure about groupinglabel at end as same as CT but not Adaptable, need to see what happens.
-        return $this->output->render_from_template('core/inplace_editable', $data['templatedata']).$data['groupinglabel'];
+        /* Render element that allows to edit activity name inline. It calls course_section_cm_name_title()
+           to get the display title of the activity. */
+        $tmpl = new \format_topcoll\output\course_module_name($mod, $this->page->user_is_editing(), $displayoptions);
+        return $this->output->render_from_template('core/inplace_editable', $tmpl->export_for_template($this->output)).
+            $groupinglabel;
     }
 }

@@ -1,3 +1,85 @@
+Change Log in version 39.1.6 (2020073113)
+=========================================
+1. Change the following mod icons to Font Awesome 6.2.1 free ones:
+     Assign - fa-solid fa-file-pen
+     Assignment - fa-solid fa-file-signature
+     Book - fa-solid fa-book-open
+     Chat - fa-regular fa-comments
+     Choice - fa-solid fa-arrows-split-up-and-left
+     Data - fa-solid fa-database
+     Feedback - fa-regular fa-comment-dots
+     File - fa-regular fa-file
+     Folder - fa-regular fa-folder
+     Forum - fa-solid fa-people-group
+     Glossary - fa-solid fa-box-archive
+     IMScp - fa-solid fa-boxes-stacked
+     Label - fa-solid fa-tag
+     Lesson - fa-solid fa-chalkboard-user
+     LTI - fa-solid fa-puzzle-piece
+     Page - fa-solid fa-sheet-plastic
+     Quiz - fa-solid fa-person-circle-question
+     Resource - fa-regular fa-file
+     SCORM - fa-solid fa-box
+     Survey - fa-solid fa-square-poll-horizontal
+     URL - fa-solid fa-link
+     Wiki - fa-solid fa-circle-nodes
+     Workshop - fa-solid fa-people-arrows
+  Converted to PNG with Inkscape.
+
+Change Log in version 39.1.5 (2020073112)
+=========================================
+1. Re-fix 'Title moved to top by search', ref: https://moodle.org/mod/forum/discuss.php?d=425729#p1718073.
+2. Fix 'block configuration actions menu does not contrast enough', ref: https://moodle.org/mod/forum/discuss.php?d=427627.
+3. Fix 'My Courses dropdown not showing all enrolled courses' - #258.
+4. Fix "My courses dropdown can show hidden courses when user does not have capability when 'mysitessortoverride' setting is not
+   set to 'Use list from my overview'", related to #258.
+5. Fix 'One Topic font color change not getting applied' - #264.
+6. Add 'OneTopic active tab colour' - #269.
+7. Fixed semantic versioning 2.0.0 (https://semver.org/) for the release value, whereby the 'major' number is the Moodle core branch
+   number.  The 'version' property still needs to follow the Moodle way in order for the plugin to operate within the core API.
+
+Change Log in version 3.9.1.4 (2020073111)
+==========================================
+1. Fix 'Drag-and-drop onto image question type - preview not visible' - Ref: https://moodle.org/mod/forum/discuss.php?d=426557.
+2. Remove redundant CSS selector - #33.
+3. Fix 'Grader report preferences layout broken', ref: https://moodle.org/mod/forum/discuss.php?d=425016&parent=1715752.
+4. Remove redundant navbar toggler and tidy the CSS.
+5. Further CSS tidy and refactor some to SCSS.
+6. Settings in the CSS can now be pre-processed before passed to the SCSS compiler.  Thus enabling further transition to SCSS of the CSS.
+   This will reduce the amount of source 'CSS' and help to spot duplication and mistakes.
+7. Added extra information in the settings tabs about maturity of the release.
+8. Fix 'Userdata cache not used' - #247.
+9. Fix 'setting colours (courses)' - Ref: https://moodle.org/mod/forum/discuss.php?d=426492.
+10. Fix empty setting value of 'pageheaderheight' causes SCSS compilation issue - Ref: https://moodle.org/mod/forum/discuss.php?d=426553.
+11. Change SCSS comments from CSS to SCSS ones so that they are not in the 'all' file sent to the browser and hence it will be smaller.
+12. Fix dialog text colour, i.e. adding a new question to a quiz.
+13. Fix 'Title moved to top by search', ref: https://moodle.org/mod/forum/discuss.php?d=425729#p1718073.
+
+Change Log in version 3.9.1.3 (2020073110)
+==========================================
+1. Fix 'Expandable search in header two not working well' - #234.
+2. Fix 'Assignment Grouping' - #233.
+3. Fix 'This course section list overflows page' - #236.
+4. Fix 'Navbar link icon spacing wrong' - #235.
+5. Fix 'Missing theme cache reset' - Ref: https://moodle.org/mod/forum/discuss.php?d=420530.
+6. Added upgrade script to change settings with '0px' to '0' for upgrades that don't have "No such thing as '0px'" change.
+   Thus, when they do, the setting will be changed correctly instead of getting a default and effectively changing the
+   value of the setting.
+7. README.md to Readme.md - #240.
+8. Fix 'Mobile view does not show bulleted list' - #238.
+9. Fix 'Site administration in 'dock' on mobile view' - #237.
+10. Improve menu accessible titles and vertically centred header title.
+11. Fix 'Breadcrumb trail' - #242.
+12. Enhancement 'Implement Global Search capability' - #241.
+13. Fix 'Inactive tabs are displaced' - #244.
+14. Fix 'Styling self-registration message card on login page' - #183.
+15. Fix 'Site title not showing when 'responsiveheader' and 'responsivecoursetitle' settings are set to 'Extra small - Extra large'.'.
+    Ref: https://moodle.org/mod/forum/discuss.php?d=424098.
+16. Fix 'Divider in custom menus' - Ref: https://moodle.org/mod/forum/discuss.php?d=424547.
+17. Fix 'Notifications menu colour problem' - #248.
+18. Fix 'Message drawer height' - Header height fluctuates so go with a simple solution as there is a close icon.
+19. Fix 'Sitename overlays loginbox on mobile devices' - Ref: https://moodle.org/mod/forum/discuss.php?d=424098#p1708632.
+
 Change Log in version 3.9.1.2 (2020073109)
 ==========================================
 1. Fix 'borderradius cannot be set to zero' - Ref: https://moodle.org/mod/forum/discuss.php?d=419461#p1692161.
