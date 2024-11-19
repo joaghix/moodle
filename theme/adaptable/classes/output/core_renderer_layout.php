@@ -635,6 +635,7 @@ trait core_renderer_layout {
             }
         }
 
+	$context->customjs = $themesettings->customjs;
         $localtoolbox = \theme_adaptable\toolbox::get_local_toolbox();
         if (is_object($localtoolbox)) {
             if (method_exists($localtoolbox, 'get_custom_js')) { // Todo - Temporary until such time as not.
@@ -657,6 +658,7 @@ trait core_renderer_layout {
 
         $context = new stdClass();
         $context->output = $this;
+	$context->customjs = $themesettings->customjs;
         $localtoolbox = \theme_adaptable\toolbox::get_local_toolbox();
         if (is_object($localtoolbox)) {
             if (method_exists($localtoolbox, 'get_custom_js')) { // Todo - Temporary until such time as not.

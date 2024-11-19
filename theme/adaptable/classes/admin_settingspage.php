@@ -53,7 +53,7 @@ class admin_settingspage extends \admin_settingpage {
             $localadaptableheadingdesc = 'These settings and functionlity are available to sponsors only, '.
                 'please see the \'Information\' tab.';
 
-            $this->disabled = true;
+           // $this->disabled = true;
             $this->add(new \admin_setting_heading(
                 'theme_adaptable_sponsor'.$name,
                 $localadaptableheading,
