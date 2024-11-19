@@ -25,8 +25,8 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022080500;
-$plugin->requires = 2020061500; // Moodle 3.9
+$plugin->version = 2022080501;
+$plugin->requires = 2021051700; // Moodle 3.11
 $plugin->component = 'block_messageteacher';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.6.0';
+$plugin->release = '2.6.1';
