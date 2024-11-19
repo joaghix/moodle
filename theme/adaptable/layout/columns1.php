@@ -15,42 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Columns one
  *
  * @package    theme_adaptable
  * @copyright  2015-2016 Jeremy Hopkins (Coventry University)
  * @copyright  2015-2016 Fernando Acedo (3-bits.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @copyright  2019 G J Barnard
+ *               {@link https://moodle.org/user/profile.php?id=442195}
+ *               {@link https://gjbarnard.co.uk}
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-// Include header.
-require_once(dirname(__FILE__) . '/includes/header.php');
-
-?>
-
-<div class="container outercont">
-    <?php
-        echo $OUTPUT->page_navbar();
-    ?>
-    <div id="page-content" class="row">
-        <section id="region-main" class="col-12">
-            <?php
-            echo $OUTPUT->course_content_header();
-            echo $OUTPUT->main_content();
-            echo $OUTPUT->activity_navigation();
-            echo $OUTPUT->course_content_footer();
-            ?>
-        </section>
-    </div>
-</div>
-
-<?php
-if (empty($PAGE->layout_options['nofooter'])) {
-    // Include footer.
-    require_once(dirname(__FILE__) . '/includes/footer.php');
-} else {
-    require_once(dirname(__FILE__) . '/includes/nofooter.php');
-}
+echo $OUTPUT->columns_one_layout();

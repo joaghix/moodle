@@ -53,10 +53,6 @@
     margin-bottom: 2px;
 }
 
-.block {
-    padding: .5rem;
-}
-
 // Block action classes lifted from previously used bootstrapbase parent theme.
 .block.hidden .header .block_action {
     .block-hider-hide {
@@ -79,11 +75,11 @@
 }
 
 .block .header .block_action .block-hider-show,
-.jsenabled .block.hidden .content {
+.jsenabled .block-region:not(#block-region-information) .block.hidden .content {
     display: none;
 }
 
-.jsenabled .block.hidden .content {
+.jsenabled .block-region:not(#block-region-information) .block.hidden .content {
     opacity: 0;
 }
 
@@ -99,8 +95,7 @@
 
 // Block titles.
 .block .header,
-.block > .card-body,
-#dockeditempanel .dockeditempanel_hd {
+.block > .card-body {
     border-width: [[setting:blockheaderbordertop]] [[setting:blockheaderborderright]] [[setting:blockheaderborderbottom]] [[setting:blockheaderborderleft]];
     border-color: [[setting:blockbordercolor]];
     border-style: [[setting:blockheaderbordertopstyle]];
@@ -123,6 +118,16 @@
     }
 }
 
+#block-region-information {
+    .block {
+        .header {
+            .block-action {
+                display: none;
+            }
+        }
+    }
+}
+
 // Block title.
 .block .title h2 {
     color: [[setting:fontblockheadercolor]];
@@ -134,19 +139,13 @@
 }
 
 // Block content.
-.block > .content,
-#dockeditempanel .dockeditempanel_bd {
-    border-width: [[setting:blockmainbordertop]] [[setting:blockmainborderright]] [[setting:blockmainborderbottom]] [[setting:blockmainborderleft]];
+.block > .content {
     border-color: [[setting:blockbordercolor]];
+    border-radius: [[setting:blockmaintopradius]] [[setting:blockmaintopradius]] [[setting:blockmainbottomradius]] [[setting:blockmainbottomradius]];
     border-style: [[setting:blockmainbordertopstyle]];
-    padding: 10px 5px;
+    border-width: [[setting:blockmainbordertop]] [[setting:blockmainborderright]] [[setting:blockmainborderbottom]] [[setting:blockmainborderleft]];
     font-weight: normal;
-    background: [[setting:blockbackgroundcolor]];
-    border-radius: [[setting:blockmaintopradius]] [[setting:blockmaintopradius]] [[setting:blockmainbottomradius]] [[setting:blockmainbottomradius]];    
-}
-
-#dockeditempanel .dockeditempanel_bd  {
-    margin-left: 5px;
+    padding: 10px 5px;
 }
 
 .block-region-front .block .content {
@@ -216,66 +215,6 @@
     font-family: "FontAwesome";
     margin-right: 5px;
     color: #999;
-}
-
-.block_login2 .btn,
-.block_login2 .content .footer a {
-    background-image: none;
-    background-color: #5cb85c;
-    border-color: #30ADD1;
-    border-image: none;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: none;
-    color: #fff;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
-    padding: 4px 12px;
-    text-align: center;
-    text-shadow: none;
-    vertical-align: middle;
-    margin: 10px 0;
-    transition: 0.25s;
-    width: 100%;
-}
-
-.block_login2 .btn:hover {
-    background-color: #388f9d !important;
-}
-
-#page-login-index2 #loginbtn {
-    background-color: #4f9e4f;
-    text-shadow: none;
-}
-
-.block_login2 .content .footer div:nth-child(1) a,
-#page-login-index2 .forgetpass a {
-    color: #fff;
-    text-align: center;
-    background-color: #ee981e;
-    border-color: #ee981e;
-    background-image: none !important;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-}
-
-#page-login-index2 .forgetpass a {
-    display: block;
-    margin-bottom: 10px;
-    margin-left: 5px;
-    margin-top: 10px;
-    max-width: 260px;
-    text-shadow: none;
-}
-
-
-#page-login-index2 .forgetpass {
-    clear: both;
-    float: right;
-    text-align: left;
-    width: 66%;
 }
 
 .loginbox .loginpanel .desc {
@@ -354,21 +293,39 @@
     text-decoration: none;
 }
 
-.block .calendar-controls .previous:before {
-    content: "\f053";
-    font-family: "FontAwesome";
+.block .calendar-controls {
+    .previous,
+    .next {
+        font-size: 0.8rem;
+        margin-top: 0.125rem;
+        .arrow {
+            display: none;
+        }
+        &:before,
+        &:after {
+            font-family: "FontAwesome";
+        }
+    }
+    .previous {
+        &:before {
+            content: "\f053"; // chevron-left.
+        }
+    }
+    .next {
+        &:after {
+            content: "\f054"; // chevron-right.
+        }
+    }
 }
 
-.block .calendar-controls .next:before {
-    content: "\f054";
-    font-family: "FontAwesome";
+@media (min-width: 768px) {
+    section:not(#region-main) .block.block_calendar_month .maincalendar .calendarwrapper {
+        .previous,
+        .next {
+            font-size: .8rem;
+        }
+    }
 }
-
-.block .calendar-controls .previous .arrow,
-.block .calendar-controls .next .arrow {
-    display: none;
-}
-
 
 // Comments block.
 .block_comments div.content li {
@@ -637,40 +594,39 @@ body.has_dock div#dock {
 // Tabbed layout for course and dashboard.
 
 main.tabcontentcontainer {
-  min-height: 400px;
-  padding: 0;
-  background: #fff;
-  margin: 5px 0;
+    margin: 5px 0;
+    min-height: 400px;
+    padding: 0;
 }
 
 #dashboardtabcontainer section.adaptable-tab-section {
-  display: none;
-  padding: 20px 0 0;
-  border-top: 4px solid [[setting:tabbedlayoutdashboardcolorselected]];
+    border-top: 4px solid [[setting:tabbedlayoutdashboardcolorselected]];
+    display: none;
+    padding: 20px 0 0;
 }
 
 #coursetabcontainer section.adaptable-tab-section {
-  display: none;
-  padding: 20px 0 0;
-  border-top: 4px solid [[setting:tabbedlayoutcoursepagetabcolorselected]];
+    border-top: 4px solid [[setting:tabbedlayoutcoursepagetabcolorselected]];
+    display: none;
+    padding: 20px 0 0;
 }
 
 #dashboardtabcontainer input.dashboardtab,
 #coursetabcontainer input.coursetab {
-  display: none;
+    display: none;
 }
 
 .tabcontentcontainer div.linktab,
 .tabcontentcontainer label.dashboardtab,
 .tabcontentcontainer label.coursetab {
-  position: relative;
-  display: inline-block;
-  padding: 15px 15px 25px;
-  margin: 0 4px 0 0;
-  border-bottom: 0;
-  cursor: pointer;
-  font-weight: 400;
-  transition: background-color 0.2s ease;
+    border-bottom: 0;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 400;
+    padding: 15px 15px 25px;
+    position: relative;
+    margin: 0 4px 0 0;
+    transition: background-color 0.2s ease;
 }
 
 .tabcontentcontainer label.dashboardtab {

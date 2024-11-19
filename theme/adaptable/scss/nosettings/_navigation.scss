@@ -33,32 +33,20 @@ header .nav-item {
 }
 
 @media (max-width: 767px) {
-    .nomobilenavigation .activity-navigation .text,
-    .nomobilenavigation .section_footer .text {
-        display: none;
-    }
+    .responsivesectionnav .activity-navigation {
+        .text {
+            display: none;
+        }
 
-    .nomobilenavigation .next_section {
-        float: right;
-    }
-
-    .nomobilenavigation .activity-navigation .col-md-6 {
-        width: 50%;
-    }
-
-    .nomobilenavigation .section_footer .prevnext {
-        width: auto;
+        .col-md-6 {
+            width: 50%;
+        }
     }
 }
 
 // New message drawer (moodle 3.6 and higher).
 .message-app {
     box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.08);
-}
-
-// Increase width slightly of default nav-drawer.
-[data-region="drawer"] {
-    width: 300px;
 }
 
 // Adjust height according to header style.
@@ -77,9 +65,4 @@ header .nav-item {
         height: calc(100% - 72px);
         top: 72px;
     }
-}
-
-// When the nav-drawer is closed take it out of the dom so it is not read by screenreaders.
-#nav-drawer.closed #nav-drawer-inner {
-    display: none;
 }

@@ -16,26 +16,28 @@
 
 /**
  * Overrides for behat navigation.
+ *
+ * @package   theme_adaptable
  * @author    Marcus Green derived from code by Guy Thomas
  * @copyright Copyright (c) 2017 Blackboard Inc.
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
-use Behat\Mink\Exception\ExpectationException as ExpectationException;
+use Behat\Mink\Exception\ExpectationException;
 
-require_once __DIR__ . '/../../../../lib/tests/behat/behat_navigation.php';
+require_once(__DIR__ . '/../../../../lib/tests/behat/behat_navigation.php');
 
 /**
  * Overrides to make behat navigation work with adapt.
  *
+ * @package   theme_adaptable
  * @author    Marcus Green derived from Snap theme
  * @copyright Titus Learning 2020
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class behat_theme_adaptable_behat_navigation extends behat_navigation {
-
     /**
      * Open an assignment or resource based on title.
      *
@@ -67,8 +69,17 @@ class behat_theme_adaptable_behat_navigation extends behat_navigation {
         $node->click();
     }
 
-
-
+    /**
+     * Go to current page setting item
+     *
+     * This can be used on front page, course, category or modules pages.
+     *
+     * @override /^I navigate to "(?P<nodetext_string>(?:[^"]|\\")*)" in current page administration$/
+     *
+     * @throws ExpectationException
+     * @param string $nodetext navigation node to click, may contain path, for example "Reports > Overview"
+     * @return void
+     */
     public function i_navigate_to_in_current_page_administration($nodetext) {
         $parentnodes = array_map('trim', explode('>', $nodetext));
 
@@ -82,6 +93,13 @@ class behat_theme_adaptable_behat_navigation extends behat_navigation {
         $this->select_node_in_navigation($lastnode, $parentnodes);
     }
 
+    /**
+     * Finds a node in the Navigation or Administration tree and clicks on it.
+     *
+     * @param string $nodetext
+     * @param array $parentnodes
+     * @throws ExpectationException
+     */
     protected function select_node_in_navigation($nodetext, $parentnodes) {
         $nodetoclick = $this->find_node_in_navigation($nodetext, $parentnodes);
         // Throw exception if no node found.
@@ -93,6 +111,13 @@ class behat_theme_adaptable_behat_navigation extends behat_navigation {
         $this->execute('behat_general::i_click_on', [$nodetoclick, 'NodeElement']);
     }
 
+    /**
+     * Helper function to get top navigation node in tree.
+     *
+     * @throws ExpectationException if note not found.
+     * @param string $nodetext name of top navigation node in tree.
+     * @return NodeElement
+     */
     protected function get_top_navigation_node($nodetext) {
         // Avoid problems with quotes.
         $nodetextliteral = behat_context_helper::escape($nodetext);
@@ -143,6 +168,12 @@ class behat_theme_adaptable_behat_navigation extends behat_navigation {
         $this->select_node_in_navigation($lastnode, $parentnodes);
     }
 
+    /**
+     * Click on an entry in the user menu.
+     * @override /^I follow "(?P<nodetext_string>(?:[^"]|\\")*)" in the user menu$/
+     *
+     * @param string $nodetext
+     */
     public function i_follow_in_the_user_menu($nodetext) {
         if ($this->running_javascript()) {
             // The user menu must be expanded when JS is enabled.
@@ -152,9 +183,9 @@ class behat_theme_adaptable_behat_navigation extends behat_navigation {
         // Now select the link.
         // The CSS path is always present, with or without JS.
         $xpath = "//div[@id='usermenu-dropdown']";
-        $this->execute('behat_general::i_click_on_in_the',
+        $this->execute(
+            'behat_general::i_click_on_in_the',
             [$nodetext, "link", $xpath, "xpath_element"]
         );
     }
-
 }

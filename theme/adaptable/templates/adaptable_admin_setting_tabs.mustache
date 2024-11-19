@@ -23,13 +23,15 @@
         "versioninfo": "Release 3.0.3, version 2020073104 on Moodle 3.9.4 (Build: 20210118)",
         "maturity": "Maturity info",
         "maturityalert": "info",
+        "privacynote": "Privacy info",
         "versioncheck": "Not supported on this version of Moodle",
         "tabs": [
          {
             "name": "tab1",
             "active": 0,
             "displayname": "Inactive tab1",
-            "html": "<p>Tab 1 content</p>"
+            "html": "<p>Tab 1 content</p>",
+            "disabled": true
          },
          {
             "name": "tab2",
@@ -43,11 +45,13 @@
 {{#maturity}}
 <div class="alert alert-{{maturityalert}} mb-3">
 <h3>{{versioninfo}}</h3>
-{{{maturity}}}
+<p>{{{maturity}}}</p>
+{{{privacynote}}}
 </div>
 {{/maturity}}
 {{^maturity}}
 <h3>{{versioninfo}}</h3>
+{{privacynote}}}
 {{/maturity}}
 {{#versioncheck}}
 <div class="alert alert-warning mb-3">
@@ -57,7 +61,7 @@
 <ul class="nav nav-tabs" role="tablist">
     {{#tabs}}
         <li class="nav-item">
-            <a href="#{{name}}" class="nav-link {{#active}}active{{/active}}" data-toggle="tab" role="tab"
+            <a href="#{{name}}" class="nav-link{{#active}} active{{/active}}{{#disabled}} font-italic{{/disabled}}" data-toggle="tab" role="tab"
                 {{#active}}aria-selected="true"{{/active}}
                 {{^active}}aria-selected="false" tabindex="-1"{{/active}}>{{displayname}}</a>
         </li>
@@ -65,9 +69,17 @@
 </ul>
 <div class="tab-content mt-3">
     {{#tabs}}
-        <div class="tab-pane {{#active}}active{{/active}}" id="{{name}}" role="tabpanel">
+        <div class="tab-pane{{#active}} active{{/active}}{{#disabled}} disabled{{/disabled}}" id="{{name}}" role="tabpanel">
             {{{html}}}
         </div>
     {{/tabs}}
 </div>
-
+{{#js}}
+    const disabledtabs = document.getElementsByClassName("tab-pane disabled");
+    disabledtabs.forEach(function(tab) {
+        const settings = tab.querySelectorAll("input, select, textarea");
+        settings.forEach(function(setting) {
+            setting.setAttribute("disabled", "disabled");
+        });
+    });
+{{/js}}

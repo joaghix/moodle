@@ -15,24 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Block settings
  *
  * @package    theme_adaptable
- * @copyright 2015 Jeremy Hopkins (Coventry University)
- * @copyright 2015 Fernando Acedo (3-bits.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @copyright  2015 Jeremy Hopkins (Coventry University)
+ * @copyright  2015 Fernando Acedo (3-bits.com)
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    $page = new admin_settingpage('theme_adaptable_blocks', get_string('blocksettings', 'theme_adaptable'));
+    $page = new \theme_adaptable\admin_settingspage(
+        'theme_adaptable_blocks',
+        get_string('settingspageblocksettings', 'theme_adaptable')
+    );
 
     // General.
     $name = 'theme_adaptable/settingsblocksgeneral';
     $heading = get_string('settingsblocksgeneral', 'theme_adaptable');
     $setting = new admin_setting_heading($name, $heading, '');
+    $page->add($setting);
+
+    $name = 'theme_adaptable/frontpageuserblocksenabled';
+    $title = get_string('frontpageuserblocksenabled', 'theme_adaptable');
+    $description = get_string('frontpageuserblocksenableddesc', 'theme_adaptable');
+    $setting = new admin_setting_configcheckbox($name, $title, $description, true);
     $page->add($setting);
 
     // Show the navigation block on the course page.
@@ -41,6 +49,14 @@ if ($ADMIN->fulltree) {
     $description = get_string('shownavigationblockoncoursepagedesc', 'theme_adaptable');
     $default = true;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+    $page->add($setting);
+
+    // Unaddable blocks.
+    $name = 'theme_adaptable/unaddableblocks';
+    $title = get_string('unaddableblocks', 'theme_boost');
+    $description = get_string('unaddableblocks_desc', 'theme_boost');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_TEXT);
     $page->add($setting);
 
     // Colours.

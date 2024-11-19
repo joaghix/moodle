@@ -39,32 +39,62 @@ With a little time you should be able to setup an attractive Moodle site with a 
 knowing any CSS.
 
 Current developer:
-G J Barnard MSc. BSc(Hons)(Sndw). MBCS. CEng. CITP. PGCE.  Moodle profile | http://moodle.org/user/profile.php?id=442195.  Web profile | http://about.me/gjbarnard
+G J Barnard MSc. BSc(Hons)(Sndw). MBCS. CEng. CITP. PGCE.  [Moodle profile](https://moodle.org/user/profile.php?id=442195) and [Web profile](https://about.me/gjbarnard)
 
-This theme has been developed by:
-Lead Developers
-Jeremy Hopkins (Coventry University)
-Fernando Acedo (3bits elearning solutions)
-Manoj Solanki (Coventry University)
-G J Barnard MSc. BSc(Hons)(Sndw). MBCS. CEng. CITP. PGCE.  Moodle profile | http://moodle.org/user/profile.php?id=442195.  Web profile | http://about.me/gjbarnard
+This theme has been developed by the following:
 
-Required version of Moodle
+- Jeremy Hopkins (Coventry University)
+- Fernando Acedo (3bits elearning solutions)
+- Manoj Solanki (Coventry University)
+- G J Barnard MSc. BSc(Hons)(Sndw). MBCS. CEng. CITP. PGCE.
+
+Required release of Moodle
 ==========================
-This version works with Moodle 3.9 version 2020061500.00 (Build: 20200615) and above within the 3.9 branch until the
+This release works with Moodle 4.1 version 2022112800.00 (Build: 20221128) and above within the MOODLE_401_STABLE branch until the
 next release.
 
 Please ensure that your hardware and software complies with 'Requirements' in 'Installing Moodle' on
-'docs.moodle.org/39/en/Installing_Moodle'.
+'https://docs.moodle.org/401/en/Installing_Moodle'.
 
+Installation
+============
+ 1. Ensure you have the release of Moodle as stated above in 'Required release of Moodle'.  This is essential as the
+    theme relies on underlying core code that is out of my control.
+ 2. Login as an administrator and put Moodle in 'Maintenance Mode' so that there are no users using it bar you as the administrator.
+ 3. Copy the extracted 'adaptable' folder to the '/theme/' folder.
+ 4. Go to 'Site administration' -> 'Notifications' and follow standard the 'plugin' update notification.
+ 5. Select as the theme for the site.
+ 6. Put Moodle out of Maintenance Mode.
+
+Upgrading
+=========
+ 1. Ensure you have the release of Moodle as stated above in 'Required release of Moodle'.  This is essential as the
+    theme relies on underlying core code that is out of my control.
+ 2. Login as an administrator and put Moodle in 'Maintenance Mode' so that there are no users using it bar you as the administrator.
+ 3. Make a backup of your old 'adaptable' folder in '/theme/' and then delete the folder.
+ 4. Copy the replacement extracted 'adaptable' folder to the '/theme/' folder.
+ 5. Go to 'Site administration' -> 'Notifications' and follow standard the 'plugin' update notification.
+ 6. If automatic 'Purge all caches' appears not to work by lack of display etc. then perform a manual 'Purge all caches'
+    under 'Home -> Site administration -> Development -> Purge all caches'.
+ 7. Put Moodle out of Maintenance Mode.
+
+Uninstallation
+==============
+ 1. Put Moodle in 'Maintenance Mode' so that there are no users using it bar you as the administrator.
+ 2. Change the theme to another theme of your choice.
+ 3. In '/theme/' remove the folder 'adaptable'.
+ 4. Go to 'Site administration' -> 'Notifications' and follow standard the 'plugin' update notification.
+ 5. Put Moodle out of Maintenance Mode.
 
 Versioning
 ==========
-Adaptable is maintained under the Semantic Versioning guidelines as much as possible. Releases will be numbered with the
+Adaptable is maintained under the Semantic Versioning 2.0.0 guidelines as much as possible. Releases will be numbered with the
 following format:
 
-moodleversion.major.minor.(patch)
+major.minor.patch
 
 and following these guidelines:
+
 - Breaking backward compatibility bumps the major (and resets the minor and patch)
 - New additions without breaking backward compatibility bumps the minor (and resets the patch)
 - Bug fixes and misc changes bumps the patch
@@ -78,6 +108,7 @@ Big thanks to all the volunteers that are collaborating and testing Adaptable co
 support to develop the most adaptable theme for moodle.
 
 Development contributions from:
+
 - Justin Hunt
 - Leonid Chernyavskiy
 - COMETE (UniversitÃ© Paris Nanterre)
@@ -91,37 +122,34 @@ Development contributions from:
 - Mathieu Domingo
 
 Testing:
+
 - Andrew Walding
 - Alexander Goryntsev
 
 Translation:
+
 - GermÃ¡n Valero (EspaÃ±ol - MÃ©xico)
 - Jordi Rodilla (CatalÃ   - Andorra)
-
-
-Contributions
-=============
-You are welcome to collaborate in the project. You can fix bugs, add new features or help in the translation to your language.
-See CONTRIBUTING.txt for more information
-
 
 Licenses
 ========
 Adaptable is licensed under:
-GPL v3 (GNU General Public License) - http://www.gnu.org/licenses
+
+- [GPL v3 (GNU General Public License)](http://www.gnu.org/licenses)
 
 Google Fonts released under:
-SIL Open Font License v1.1 - http://scripts.sil.org/OFL
-Apache 2 license - https://www.apache.org/licenses/LICENSE-2.0
-The Ubuntu fonts use the Ubuntu Font License v1.0 - http://font.ubuntu.com/ufl/ubuntu-font-licence-1.0.txt
 
-The Font Awesome font (by Dave Gandy) http://fontawesome.io) is licensed under:
-Fonts: SIL Open Font License v1.1 - http://scripts.sil.org/OFL
-Documentation: CC BY 3.0
-CSS, LESS, and SASS files are licensed under:
-MIT License - https://opensource.org/licenses/mit-license.html
+- [SIL Open Font License v1.1](http://scripts.sil.org/OFL)
+- [Apache 2 license](https://www.apache.org/licenses/LICENSE-2.0)
+- The Ubuntu fonts use the [Ubuntu Font License v1.0](http://font.ubuntu.com/ufl/ubuntu-font-licence-1.0.txt)
 
-Emoji icons provided free by EmojiOne (http://emojione.com) released under:
-Creative Commons Attribution 4.0 International - https://creativecommons.org/licenses/by/4.0/
+The Font Awesome font (by Dave Gandy) http://fontawesome.io, is licensed under:
 
-Modify it! - Improve it! - Share it!
+- Fonts: [SIL Open Font License v1.1](http://scripts.sil.org/OFL)
+- Documentation: CC BY 3.0
+- CSS, LESS, and SASS files are licensed under:
+[MIT License](https://opensource.org/licenses/mit-license.html)
+
+Emoji icons provided free by [EmojiOne](http://emojione.com) released under:
+
+- [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)

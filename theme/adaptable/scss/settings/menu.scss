@@ -40,43 +40,16 @@
 }
 
 // Remove caret from main navbar menu.
-#adaptable-page-header-wrapper #main-navbar .dropdown-toggle::after,
-#adaptable-page-header-wrapper #nav-drawer .dropdown-toggle::after {
+#adaptable-page-header-wrapper #main-navbar .dropdown-toggle::after {
     content: none;
 }
 
-.adaptable-page-header-wrapper#affix {
-    top: 0;
-    width: 100%;
-    z-index: 1010;
-}
-
-// General menu styling.
-
-// Sticky navbar.
-
-// The sticky class is added to the navbar with JS when it reaches its scroll position.
-#adaptable-page-header-wrapper .adaptable-navbar-sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
-// Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-#adaptable-page-header-wrapper .adaptable-navbar-sticky + .adaptable-navbar-sticky-content-padding {
-    padding-top: 60px;
-}
-
-// Page content */
-#adaptable-page-header-wrapper .adaptable-navbar-sticky-content-padding {
-    padding: 16px;
-}
-
-
-#adaptable-page-header-wrapper .navbar-nav .dropdown li a i,
-#adaptable-page-header-wrapper #above-header a i {
-    text-align: center;
-    width: 22px;
+#adaptable-page-header-wrapper {
+    .navbar-nav .dropdown li a .icon,
+    .above-header a .icon {
+        margin-right: 2px;
+        text-align: center;
+    }
 }
 
 // New main navbar styling */
@@ -102,6 +75,10 @@
     transition: all [[setting:navbardropdowntransitiontime]];
 }
 
+#adaptable-page-header-wrapper #main-navbar .navbar-nav {
+    margin-left: -[[setting:menufontpadding]];
+}
+
 #adaptable-page-header-wrapper .dropdown-menu ul {
     margin: 0;
     padding: 0;
@@ -115,7 +92,8 @@
 #adaptable-page-header-wrapper #main-navbar ul.navbar-nav > li > a.nav-link:hover,
 #adaptable-page-header-wrapper #main-navbar li div.nav-link:hover,
 #adaptable-page-header-wrapper #main-navbar li #editingbutton input[type="submit"]:hover {
-    background-color: [[setting:menuhovercolor]];
+    background-color: [[setting:menubkhovercolor]];
+    color: [[setting:menufonthovercolor]];
 }
 
 #adaptable-page-header-wrapper #main-navbar .input-group {
@@ -123,7 +101,7 @@
     display: flex;
 }
 
-#adaptable-page-header-wrapper #above-header .navbar button {
+#adaptable-page-header-wrapper .above-header .navbar button {
     font-size: 16px;
     margin: 3px 1px 1px 0;
     padding: 2px 2px;
@@ -133,31 +111,32 @@
     border-right: 0 !important;
 }
 
-#above-header {
+#header1 {
     background-color: [[setting:headerbkcolor]];
     border-bottom: 1px solid [[setting:dividingline]];
 }
 
-#adaptable-page-header-wrapper #above-header .dropdown-item {
+#adaptable-page-header-wrapper .above-header .dropdown-item {
     padding: .3rem 0.65rem;
 }
 
-#adaptable-page-header-wrapper #above-header .nav-link > i,
-#adaptable-page-header-wrapper #above-header .navbar-nav > li > a {
+#adaptable-page-header-wrapper .above-header .nav-link > i,
+#adaptable-page-header-wrapper .above-header .navbar-nav > li > a,
+#adaptable-page-header-wrapper .above-header .navbar-nav > li .usermenu .dropdown-toggle {
     color: [[setting:headertextcolor]];
 }
 
-#adaptable-page-header-wrapper #above-header .navbar-nav > li > a {
+#adaptable-page-header-wrapper .above-header .navbar-nav > li > a {
     font-size: [[setting:topmenufontsize]];
     text-decoration: none;
 }
 
-#adaptable-page-header-wrapper #above-header .navbar .popover-region-toggle i {
+#adaptable-page-header-wrapper .above-header .navbar .popover-region-toggle i {
     color: [[setting:headertextcolor]];
     font-size: 1.2em;
 }
 
-#adaptable-page-header-wrapper #above-header .navbar > li {
+#adaptable-page-header-wrapper .above-header .navbar > li {
     line-height: 23px;
 }
 
@@ -170,12 +149,12 @@
     padding: .25rem 1.5rem;
 }
 
-#adaptable-page-header-wrapper #above-header .linksmenu {
+#adaptable-page-header-wrapper .above-header .linksmenu {
     margin: 2px 15px 0 15px;
 }
 
-#adaptable-page-header-wrapper #above-header .navbar .popover-region i
-#adaptable-page-header-wrapper #above-header a i {
+#adaptable-page-header-wrapper .above-header .navbar .popover-region i
+#adaptable-page-header-wrapper .above-header a i {
     color: [[setting:headertextcolor]];
 }
 
@@ -187,58 +166,8 @@
     padding-right: 4px;
 }
 
-#adaptable-page-header-wrapper #above-header a.dropdown-toggle {
+#adaptable-page-header-wrapper .above-header a.dropdown-toggle {
     margin-top: 2px;
-}
-
-// New menus styles */
-.newmenus {
-    font-size: [[setting:topmenufontsize]];
-    height: 26px;
-    margin-left: 20px;
-    position: relative;
-}
-
-.newmenus .dropdown-menu .dropdown-menu {
-    left: 100%;
-}
-
-.newmenus .dropdown-toggle {
-    background-color: transparent !important;
-    color: [[setting:headertextcolor]] !important;
-}
-
-.newmenus .dropdown-menu li a {
-    color: [[setting:maincolor]] !important;
-    font-size: 13px;
-    font-weight: 400;
-    padding: 3px 10px;
-}
-
-.newmenus .dropdown-menu li:hover a {
-    background-color: #eee;
-}
-
-.newmenus .dropdown-toggle:hover,
-.newmenus .dropdown-toggle:active,
-.pull-left .usermenu2.nav a:hover {
-    background-color: transparent !important;
-}
-
-.newmenus .dropdown-toggle::after {
-    color: [[setting:headertextcolor]];
-    content: "\f107";
-    font-family: "Font Awesome";
-    font-weight: normal;
-    margin-left: 5px;
-}
-
-.newmenus .dropdown-menu .dropdown-toggle::after {
-    color: transparent;
-}
-
-.menutitle {
-    height: 100%;
 }
 
 // The Overlay (background) */
@@ -352,10 +281,6 @@
     overflow-y: auto;
 }
 
-.adaptable-navbar-sticky #region-main-settings-menu .dropdown-menu {
-    max-height: calc(100vh - 44px);
-}
-
 .dropdown-menu.fade {
     display: block;
     opacity: 0;
@@ -387,6 +312,16 @@
 .block a.dropdown-item.active {
     background-color: [[setting:navbardropdownhovercolor]];
     color: [[setting:navbardropdowntexthovercolor]];
+}
+
+// Add dropdown menu items styles for each theme color (mantainning default hover colour for contrast).
+@each $color, $value in $theme-colors {
+    .dropdown-item.text-#{$color} {
+        color: $value;
+        &:hover {
+            color: [[setting:navbardropdowntexthovercolor]] !important; /* stylelint-disable-line declaration-no-important */
+        }
+    }
 }
 
 .dropdown-item:focus-within a {
@@ -443,13 +378,17 @@
     margin-bottom: 0;
 }
 
-#adaptable-page-header-wrapper .navbar .popover-region-toggle {
-    color: inherit;
-    width: inherit;
-}
-
-#adaptable-page-header-wrapper .navbar .popover-region {
-    margin: 0 0 0 4px;
+#adaptable-page-header-wrapper .navbar {
+    .popover-region-toggle {
+        color: inherit;
+        width: inherit;
+    }
+    .popover-region {
+        margin: 0 0 0 4px;
+        .icon {
+            font-weight: 900; // https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight - override 'bolder' when body has <= 300 weight.
+        }
+    }
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -465,9 +404,9 @@
 
 #adaptable-page-header-wrapper #main-navbar .action-menu .dropdown-toggle::after {
     border-bottom: 0;
-    border-left: .3em solid transparent;
-    border-right: .3em solid transparent;
-    border-top: .3em solid;
+    border-left: .5em solid transparent;
+    border-right: .5em solid transparent;
+    border-top: .5em solid;
     content: "";
     display: inline-block;
     height: 0;
@@ -518,12 +457,8 @@
         z-index: 1;
     }
 
-    #adaptable-page-header-wrapper #above-header .btco-hover-menu ul ul.dropdown-menu {
+    #adaptable-page-header-wrapper .above-header .btco-hover-menu ul ul.dropdown-menu {
         min-width: 60px;
-    }
-
-    #adaptable-page-header-wrapper #above-header .btco-hover-menu ul [id^='langmenu'] {
-        min-width: 135px;
     }
 }
 
@@ -531,13 +466,13 @@
     margin-right: 0;
 }
 
-
-#adaptable-page-header-wrapper button[aria-controls="nav-drawer"] {
-    font-size: 1.2em;
-}
-
-#adaptable-page-header-wrapper #main-navbar .nav-item .nav-link .fa {
-    margin-right: 2px;
+#adaptable-page-header-wrapper #main-navbar .nav-item {
+    .nav-link .fa:not(.sections-menu) {
+        margin-right: 2px;
+    }
+    &:first-of-type .nav-link .fa:not(.sections-menu) {
+        margin-left: 2px;
+    }
 }
 
 #adaptable-page-header-wrapper #main-navbar .nav-item .fa-circle {
@@ -547,17 +482,6 @@
 
 #adaptable-page-header-wrapper #main-navbar .nav-item i.only {
     padding-right: 0;
-}
-
-#adaptable-page-header-wrapper #adaptable-page-header-nav-drawer button {
-    border: 0;
-    background: none;
-    color: [[setting:headertextcolor]];
-    font-size: 1.5em;
-}
-
-#adaptable-page-header-nav-drawer button {
-    cursor: pointer;
 }
 
 #adaptable-page-header-wrapper .context-header-settings-menu .icon {

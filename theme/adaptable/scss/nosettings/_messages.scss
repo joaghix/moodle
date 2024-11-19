@@ -22,6 +22,10 @@
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 //
 
+.bg-messageheader {
+    background-color: $white !important;
+}
+
 @media screen and (min-width: 768px) {
     // M3.7+
     .message-app.drawer,
@@ -91,7 +95,7 @@
     padding: 1px 1px 0 0 !important;
 }
 
-[data-region=right-hand-drawer].drawer {
+[data-region='right-hand-drawer'].drawer {
     height: 100%;
     top: 0;
 }

@@ -15,21 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Lib
  *
- * @package   theme_adaptable
- * @copyright 2015-2019 Jeremy Hopkins (Coventry University)
- * @copyright 2015-2019 Fernando Acedo (3-bits.com)
- * @copyright 2017-2019 Manoj Solanki (Coventry University)
- * @copyright 2019-onwards G J Barnard - {@link http://moodle.org/user/profile.php?id=442195}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @package    theme_adaptable
+ * @copyright  2015-2019 Jeremy Hopkins (Coventry University)
+ * @copyright  2015-2019 Fernando Acedo (3-bits.com)
+ * @copyright  2017-2019 Manoj Solanki (Coventry University)
+ * @copyright  2019 G J Barnard
+ *               {@link https://moodle.org/user/profile.php?id=442195}
+ *               {@link https://gjbarnard.co.uk}
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 defined('MOODLE_INTERNAL') || die;
 
 global $CFG;
-require_once($CFG->dirroot.'/theme/boost/lib.php');
+require_once($CFG->dirroot . '/theme/boost/lib.php');
 
 define('THEME_ADAPTABLE_DEFAULT_ALERTCOUNT', '1');
 define('THEME_ADAPTABLE_DEFAULT_ANALYTICSCOUNT', '1');
@@ -37,6 +38,40 @@ define('THEME_ADAPTABLE_DEFAULT_TOPMENUSCOUNT', '1');
 define('THEME_ADAPTABLE_DEFAULT_TOOLSMENUSCOUNT', '1');
 define('THEME_ADAPTABLE_DEFAULT_NEWSTICKERCOUNT', '1');
 define('THEME_ADAPTABLE_DEFAULT_SLIDERCOUNT', '3');
+
+/**
+ * Gets the pre SCSS for the theme.
+ *
+ * @param theme_config $theme The theme configuration object.
+ * @return string SCSS.
+ */
+function theme_adaptable_pre_scss($theme) {
+    $regionmaincolor = \theme_adaptable\toolbox::get_setting('regionmaincolor', false, $theme->name, '#ffffff');
+    $fontcolor = \theme_adaptable\toolbox::get_setting('fontcolor', false, $theme->name, '#333333');
+    $fontcolorrgba = \theme_adaptable\toolbox::hex2rgba(\theme_adaptable\toolbox::get_setting('fontcolor'), 0.25);
+    $prescss = '$body-bg: ' . $regionmaincolor . ';';
+    $prescss = '$body-color: ' . $fontcolor . ';';
+    $prescss .= '$primary: ' . \theme_adaptable\toolbox::get_setting('primarycolour', false, $theme->name, '#00796b') . ';';
+    $prescss .= '$secondary: ' . \theme_adaptable\toolbox::get_setting('secondarycolour', false, $theme->name, '#009688') . ';';
+    $prescss .= '$nav-tabs-border-color: $secondary;';
+    $prescss .= '$dialogue-base-bg: ' . $regionmaincolor . ';';
+    $prescss .= '$nav-tabs-link-active-border-color: ' . $fontcolorrgba .' ' . $fontcolorrgba . ' transparent;';
+    $prescss .= '$nav-tabs-link-hover-border-color: transparent transparent '. $fontcolor . ';';
+    $prescss .= '$courseindex-link-color: ' .
+        \theme_adaptable\toolbox::get_setting('courseindexitemcolor', false, $theme->name, '#495057') . ';';
+    $prescss .= '$courseindex-link-hover-color: ' .
+        \theme_adaptable\toolbox::get_setting('courseindexitemhovercolor', false, $theme->name, '#e6e6e6') . ';';
+    $prescss .= '$courseindex-link-color-selected: ' .
+        \theme_adaptable\toolbox::get_setting('courseindexpageitemcolor', false, $theme->name, '#ffffff') . ';';
+    $prescss .= '$courseindex-item-page-bg: ' .
+        \theme_adaptable\toolbox::get_setting('courseindexpageitembgcolor', false, $theme->name, '#0f6cbf') . ';';
+    $prescss .= '$drawer-bg-color: #fff;';  // Currently no setting for 'block region' background.
+    $prescss .= '$input-btn-focus-color: rgba(' .
+        \theme_adaptable\toolbox::get_setting('inputbuttonfocuscolour', false, $theme->name, '#0f6cc0') . ', ' .
+        \theme_adaptable\toolbox::get_setting('inputbuttonfocuscolouropacity', false, $theme->name, '0.75') . ');';
+
+    return $prescss;
+}
 
 /**
  * Returns the main SCSS content.
@@ -51,28 +86,51 @@ function theme_adaptable_get_main_scss_content($theme) {
     if (empty($boosttheme)) {
         $boosttheme = theme_config::load('boost'); // Needs to be the Boost theme so that we get its settings.
     }
-    $scss = theme_boost_get_main_scss_content($boosttheme);
 
-    $scss .= file_get_contents($CFG->dirroot.'/theme/adaptable/scss/main.scss');
+    $scss = '$enable-rounded: false !default;'; // Todo: A setting?
 
-    $settingssheets = array(
+    $scss .= theme_boost_get_main_scss_content($boosttheme);
+
+    $basedir = ((!empty($CFG->themedir)) && (is_dir($CFG->themedir . '/adaptable'))) ? $CFG->themedir : $CFG->dirroot . '/theme';
+    $basedir .= '/adaptable';
+
+    if (!empty(\theme_adaptable\toolbox::get_setting('fav'))) {
+        $scss .= '// Import Theme FontAwesome.' . PHP_EOL;
+        $scss .= '@import "fontawesome/fontawesome";' . PHP_EOL;
+        $scss .= '@import "fontawesome/brands";' . PHP_EOL;
+        $scss .= '@import "fontawesome/regular";' . PHP_EOL;
+        $scss .= '@import "fontawesome/solid";' . PHP_EOL;
+        if (!empty(\theme_adaptable\toolbox::get_setting('faiv'))) {
+            $scss .= '@import "fontawesome/v4-compatibility";' . PHP_EOL;
+            $scss .= '@import "fontawesome/v4-shims";' . PHP_EOL;
+        }
+    }
+
+    $scss .= file_get_contents($basedir . '/scss/main.scss');
+
+    $settingssheets = [
         'adaptable',
+        'admin',
         'blocks',
         'button',
+        'core',
         'course',
         'extras',
+        'header',
         'login',
         'menu',
+        'modal',
         'responsive',
         'search',
+        'secondarynavigation',
         'tabs',
         'print',
-        'categorycustom'
-    );
+        'categorycustom',
+    ];
 
     $settingsscss = '';
     foreach ($settingssheets as $settingsheet) {
-        $settingsscss .= file_get_contents($CFG->dirroot.'/theme/adaptable/scss/settings/'.$settingsheet.'.scss');
+        $settingsscss .= file_get_contents($basedir . '/scss/settings/' . $settingsheet . '.scss');
     }
 
     $scss .= theme_adaptable_process_scss($settingsscss, $theme);
@@ -92,49 +150,59 @@ function theme_adaptable_get_main_scss_content($theme) {
 function theme_adaptable_process_scss($scss, $theme) {
 
     // Set category custom CSS.
-    $scss = theme_adaptable_set_categorycustomcss($scss, $theme->settings);
+    $localtoolbox = \theme_adaptable\toolbox::get_local_toolbox();
+    if (is_object($localtoolbox)) {
+        $scss = $localtoolbox->set_categorycustomcss($scss, $theme->settings);
+    }
 
     // Collapsed Topics colours.
     if (empty($theme->settings->collapsedtopicscoloursenabled)) {
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a:hover,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a:focus,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a:hover,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a:focus {'.PHP_EOL;
-        $scss .= '    color: [[setting:sectionheadingcolor]];'.PHP_EOL;
-        $scss .= '}'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a:hover,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname a:focus,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a:hover,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname a:focus {' . PHP_EOL;
+        $scss .= '    color: [[setting:sectionheadingcolor]];' . PHP_EOL;
+        $scss .= '}' . PHP_EOL;
 
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle:hover,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle:focus {'.PHP_EOL;
-        $scss .= '    background-color: [[setting:coursesectionheaderbg]];'.PHP_EOL;
-        $scss .= '}'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle:hover,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content div.toggle:focus {' . PHP_EOL;
+        $scss .= '    background-color: [[setting:coursesectionheaderbg]];' . PHP_EOL;
+        $scss .= '}' . PHP_EOL;
 
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span:hover,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span:focus,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden:hover,'.PHP_EOL;
-        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden:focus {'.PHP_EOL;
-        $scss .= '    color: inherit;'.PHP_EOL;
-        $scss .= '}'.PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span:hover,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span:focus,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden:hover,' . PHP_EOL;
+        $scss .= '.theme_adaptable .course-content ul.ctopics li.section .content.sectionhidden:focus {' . PHP_EOL;
+        $scss .= '    color: inherit;' . PHP_EOL;
+        $scss .= '}' . PHP_EOL;
     }
 
     // Define the default settings for the theme in case they've not been set.
-    $defaults = array(
+    $defaults = [
         '[[setting:linkcolor]]' => '#51666C',
         '[[setting:linkhover]]' => '#009688',
-        '[[setting:maincolor]]' => '#3A454b',
+        '[[setting:dimmedtextcolor]]' => '#6a737b',
+        '[[setting:maincolor]]' => '#ffffff',
         '[[setting:backcolor]]' => '#FFFFFF',
-        '[[setting:regionmaincolor]]' => '#FFFFFF',
+        '[[setting:primarycolour]]' => '#00796b',
+        '[[setting:secondarycolour]]' => '#009688',
+        '[[setting:regionmaincolor]]' => '#ffffff',
+        '[[setting:regionmaintextcolor]]' => '#000000',
         '[[setting:rendereroverlaycolor]]' => '#3A454b',
         '[[setting:rendereroverlayfontcolor]]' => '#FFFFFF',
         '[[setting:buttoncolor]]' => '#51666C',
         '[[setting:buttontextcolor]]' => '#ffffff',
         '[[setting:buttonhovercolor]]' => '#009688',
+        '[[setting:buttontexthovercolor]]' => '#eeeeee',
+        '[[setting:buttonfocuscolour]]' => '#0f6cc0',
+        '[[setting:buttontextfocuscolour]]' => '#eeeeee',
         '[[setting:buttoncolorscnd]]' => '#51666C',
         '[[setting:buttontextcolorscnd]]' => '#ffffff',
         '[[setting:buttonhovercolorscnd]]' => '#009688',
@@ -164,6 +232,7 @@ function theme_adaptable_process_scss($scss, $theme) {
         '[[setting:footerlinkcolor]]' => '#ffffff',
         '[[setting:headerbkcolor]]' => '#00796B',
         '[[setting:headerbkcolor2]]' => '#009688',
+        '[[setting:headerbgimagetextcolour]]' => '#ffffff',
         '[[setting:headertextcolor]]' => '#ffffff',
         '[[setting:headertextcolor2]]' => '#ffffff',
         '[[setting:msgbadgecolor]]' => '#E53935',
@@ -224,11 +293,10 @@ function theme_adaptable_process_scss($scss, $theme) {
         '[[setting:topmenufontsize]]' => '14px',
         '[[setting:menubkcolor]]' => '#ffffff',
         '[[setting:menufontcolor]]' => '#444444',
-        '[[setting:menuhovercolor]]' => '#00B3A1',
+        '[[setting:menubkhovercolor]]' => '#00B3A1',
+        '[[setting:menufonthovercolor]]' => '#ffffff',
         '[[setting:menubordercolor]]' => '#00B3A1',
         '[[setting:mobilemenubkcolor]]' => '#F9F9F9',
-        '[[setting:mobileslidebartabbkcolor]]' => '#F9F9F9',
-        '[[setting:mobileslidebartabiconcolor]]' => '#000000',
         '[[setting:navbardropdownborderradius]]' => '0',
         '[[setting:navbardropdownhovercolor]]' => '#EEE',
         '[[setting:navbardropdowntextcolor]]' => '#007',
@@ -255,14 +323,14 @@ function theme_adaptable_process_scss($scss, $theme) {
         '[[setting:mobile]]' => '22',
         '[[setting:socialpaddingside]]' => 16,
         '[[setting:socialpaddingtop]]' => '0%',
-        '[[setting:fontname]]' => 'Open Sans',
+        '[[setting:fontname]]' => 'sans-serif',
         '[[setting:fontsize]]' => '95%',
-        '[[setting:fontheadername]]' => 'Roboto',
+        '[[setting:fontheadername]]' => 'sans-serif',
         '[[setting:fontcolor]]' => '#333333',
         '[[setting:fontheadercolor]]' => '#333333',
         '[[setting:fontweight]]' => '400',
         '[[setting:fontheaderweight]]' => '400',
-        '[[setting:fonttitlename]]' => 'Roboto Condensed',
+        '[[setting:fonttitlename]]' => 'sans-serif',
         '[[setting:fonttitleweight]]' => '400',
         '[[setting:fonttitlesize]]' => '48px',
         '[[setting:fonttitlecolor]]' => '#ffffff',
@@ -276,8 +344,8 @@ function theme_adaptable_process_scss($scss, $theme) {
         '[[setting:responsiveheader]]' => 'd-none d-lg-block',
         '[[setting:responsivesocial]]' => 'd-none d-lg-block',
         '[[setting:responsivesocialsize]]' => '34px',
-        '[[setting:responsivelogo]]' => 'd-none d-lg-block',
-        '[[setting:responsivecoursetitle]]' => 'd-none d-lg-block',
+        '[[setting:responsivelogo]]' => 'd-none d-lg-inline-block',
+        '[[setting:responsivecoursetitle]]' => 'd-none d-lg-inline-block',
         '[[setting:responsivesectionnav]]' => '1',
         '[[setting:responsiveticker]]' => 'd-none d-lg-block',
         '[[setting:responsivebreadcrumb]]' => 'd-none d-md-flex',
@@ -288,13 +356,10 @@ function theme_adaptable_process_scss($scss, $theme) {
         '[[setting:enableticker]]' => true,
         '[[setting:enabletickermy]]' => true,
         '[[setting:tickerwidth]]' => '',
-        '[[setting:socialwallbackgroundcolor]]' => '#FFFFFF',
-        '[[setting:socialwallsectionradius]]' => '6px',
-        '[[setting:socialwallbordertopstyle]]' => 'solid',
-        '[[setting:socialwallborderwidth]]' => '2px',
-        '[[setting:socialwallbordercolor]]' => '#B9B9B9',
-        '[[setting:socialwallactionlinkcolor]]' => '#51666C',
-        '[[setting:socialwallactionlinkhovercolor]]' => '#009688',
+        '[[setting:tickerheaderbackgroundcolour]]' => '#00796b',
+        '[[setting:tickerheadertextcolour]]' => '#eee',
+        '[[setting:tickerconstainerbackgroundcolour]]' => '#009688',
+        '[[setting:tickerconstainertextcolour]]' => '#eee',
         '[[setting:onetopicactivetabbackgroundcolor]]' => '#d9edf7',
         '[[setting:onetopicactivetabtextcolor]]' => '#000000',
         '[[setting:fontblockheaderweight]]' => '400',
@@ -313,28 +378,26 @@ function theme_adaptable_process_scss($scss, $theme) {
         '[[setting:forumheaderbackgroundcolor]]' => '#ffffff',
         '[[setting:forumbodybackgroundcolor]]' => '#ffffff',
         '[[setting:introboxbackgroundcolor]]' => '#ffffff',
-        '[[setting:showyourprogress]]' => 'none',
         '[[setting:tabbedlayoutdashboardcolorselected]]' => '#06c',
         '[[setting:tabbedlayoutdashboardcolorunselected]]' => '#eee',
         '[[setting:tabbedlayoutcoursepagetabcolorselected]]' => '#06c',
         '[[setting:tabbedlayoutcoursepagetabcolorunselected]]' => '#eee',
         '[[setting:frontpagenumbertiles]]' => '4',
-        '[[setting:sidebarnotlogged]]' => 'true',
         '[[setting:gdprbutton]]' => 1,
         '[[setting:infoiconcolor]]' => '#5bc0de',
         '[[setting:dangericoncolor]]' => '#d9534f',
-        '[[setting:loginheader]]' => 1,
-        '[[setting:loginfooter]]' => 1,
+        '[[setting:loginheader]]' => 0,
+        '[[setting:loginfooter]]' => 0,
         '[[setting:printpageorientation]]' => 'landscape',
         '[[setting:printbodyfontsize]]' => '11pt',
         '[[setting:printmargin]]' => '2cm 1cm 2cm 2cm',
-        '[[setting:printlineheight]]' => '1.2'
-    );
+        '[[setting:printlineheight]]' => '1.2',
+    ];
 
     // Get all the defined settings for the theme and replace defaults.
     foreach ($theme->settings as $key => $val) {
-        if ((!empty($val)) && (array_key_exists('[[setting:'.$key.']]', $defaults))) {
-            $defaults['[[setting:'.$key.']]'] = $val;
+        if (((!empty($val)) || (strlen($val) > 0)) && (array_key_exists('[[setting:' . $key . ']]', $defaults))) {
+            $defaults['[[setting:' . $key . ']]'] = $val;
         }
     }
 
@@ -345,47 +408,29 @@ function theme_adaptable_process_scss($scss, $theme) {
     }
     $defaults['[[setting:homebkg]]'] = $homebkg;
 
-    $loginbgimage = '';
-    if (!empty($theme->settings->loginbgimage)) {
-        $loginbgimage = $theme->setting_file_url('loginbgimage', 'loginbgimage');
-        $loginbgimage = 'background-image: url("' . $loginbgimage . '");';
+    $localtoolbox = \theme_adaptable\toolbox::get_local_toolbox();
+    if (is_object($localtoolbox)) {
+        $retr = $localtoolbox->login_style($theme);
+        $defaults['[[setting:loginbgimage]]'] = $retr->loginbgimage;
+        $defaults['[[setting:loginbgstyle]]'] = $retr->loginbgstyle;
+        $defaults['[[setting:loginbgopacity]]'] = $retr->loginbgopacity;
+    } else {
+        $defaults['[[setting:loginbgimage]]'] = '';
+        $defaults['[[setting:loginbgstyle]]'] = '';
+        $defaults['[[setting:loginbgopacity]]'] = '';
     }
-    $defaults['[[setting:loginbgimage]]'] = $loginbgimage;
-
-    $loginbgstyle = '';
-    if (!empty($theme->settings->loginbgstyle)) {
-        $replacementstyle = 'cover';
-        if ($theme->settings->loginbgstyle === 'stretch') {
-            $replacementstyle = '100% 100%';
-        }
-        $loginbgstyle = 'background-size: ' . $replacementstyle . ';';
-    }
-    $defaults['[[setting:loginbgstyle]]'] = $loginbgstyle;
-
-    $loginbgopacity = '';
-    if (!empty($theme->settings->loginbgopacity)) {
-        $loginbgopacity = '#page-login-index header {'.PHP_EOL;
-        $loginbgopacity .= 'background-color: '.\theme_adaptable\toolbox::hex2rgba($theme->settings->headerbkcolor2,
-            $theme->settings->loginbgopacity).' !important;'.PHP_EOL;
-        $loginbgopacity .= '}'.PHP_EOL;
-        $loginbgopacity .= '#page-login-index #page-navbar,'.PHP_EOL.
-            '#page-login-index.pagelayout-login #region-main [role="main"] > h2,'.PHP_EOL.
-            '#page-login-index.pagelayout-login #region-main [role="main"] > div.box,'.PHP_EOL.
-            '#page-login-index .card {';
-        $loginbgopacity .= 'background-color: rgba(255, 255, 255, '.$theme->settings->loginbgopacity.') !important;'.PHP_EOL;
-        $loginbgopacity .= '}'.PHP_EOL;
-        $loginbgopacity .= '#page-login-index #page-footer {'.PHP_EOL;
-        $loginbgopacity .= 'background-color: '.\theme_adaptable\toolbox::hex2rgba($theme->settings->footerbkcolor,
-            $theme->settings->loginbgopacity).' !important;'.PHP_EOL;
-        $loginbgopacity .= '}'.PHP_EOL;
-    }
-    $defaults['[[setting:loginbgopacity]]'] = $loginbgopacity;
 
     $socialpaddingsidehalf = '16';
     if (!empty($theme->settings->socialpaddingside)) {
-        $socialpaddingsidehalf = ''.$theme->settings->socialpaddingside / 2;
+        $socialpaddingsidehalf = '' . $theme->settings->socialpaddingside / 2;
     }
     $defaults['[[setting:socialpaddingsidehalf]]'] = $socialpaddingsidehalf;
+
+    // Add in rgba colours.
+    $defaults['[[setting:fontcolorrgba]]'] = \theme_adaptable\toolbox::hex2rgba($defaults['[[setting:fontcolor]]'], 0.25);
+    $defaults['[[setting:regionmaincolorrgba]]'] = \theme_adaptable\toolbox::hex2rgba($defaults['[[setting:regionmaincolor]]'], 0.75);
+    $defaults['[[setting:linkcolorrgba]]'] = \theme_adaptable\toolbox::hex2rgba($defaults['[[setting:linkcolor]]'], 0.75);
+    $defaults['[[setting:linkhoverrgba]]'] = \theme_adaptable\toolbox::hex2rgba($defaults['[[setting:linkhover]]'], 0.75);
 
     // Replace the CSS with values from the $defaults array.
     $scss = strtr($scss, $defaults);
@@ -394,6 +439,7 @@ function theme_adaptable_process_scss($scss, $theme) {
     } else {
         $scss = theme_adaptable_set_tilesshowallcontacts($scss, true);
     }
+
     return $scss;
 }
 
@@ -420,70 +466,6 @@ function theme_adaptable_process_customcss($css, $theme) {
 }
 
 /**
- * Adds any category custom CSS to the CSS before it is cached.
- *
- * @param string $css The original CSS.
- * @param array $settings Theme settings.
- * @return string The CSS which now contains our custom CSS.
- */
-function theme_adaptable_set_categorycustomcss($css, $settings) {
-    $tohavecustomheader = $settings->categoryhavecustomheader;
-    $replacement = '';
-    if (!empty($tohavecustomheader)) {
-        $customheaderids = explode(',', $tohavecustomheader);
-        $topcats = \theme_adaptable\toolbox::get_top_categories_with_children();
-        $scss = new core_scss();
-        $categoryscss = '';
-        foreach ($customheaderids as $customheaderid) {
-            $categoryheadercustomcssset = 'categoryheadercustomcss'.$customheaderid;
-            if (!empty($settings->$categoryheadercustomcssset)) {
-                // Validate and add if ok.
-                try {
-                    $scss->compile($settings->$categoryheadercustomcssset);
-
-                    $catids = array($customheaderid);
-                    $catinfo = $topcats[$customheaderid];
-                    if (!empty($catinfo['children'])) {
-                        // Child categories.
-                        $catids = array_merge($catids, array_keys($catinfo['children']));
-                    }
-                    $categoryids = array();
-                    foreach ($catids as $catid) {
-                        $categoryids[] = '.category-'.$catid;
-                    }
-                    $categoryselector = implode(', ', $categoryids);
-                    $categoryscss .= $categoryselector.'{'.PHP_EOL;
-                    $categoryscss .= $settings->$categoryheadercustomcssset;
-                    $categoryscss .= PHP_EOL.'}'.PHP_EOL;
-                } catch (Leafo\ScssPhp\Exception\ParserException $e) {
-                    debugging(get_string('invalidcategorycss', 'theme_adaptable',
-                                array('css' => $settings->$categoryheadercustomcssset,
-                                'topcatname' => $catinfo['name'], 'topcatid' => $customheaderid)), DEBUG_NONE);
-                } catch (Leafo\ScssPhp\Exception\CompilerException $e) {
-                    debugging(get_string('invalidcategorycss', 'theme_adaptable',
-                                array('css' => $settings->$categoryheadercustomcssset,
-                                'topcatname' => $catinfo['name'], 'topcatid' => $customheaderid)), DEBUG_NONE);
-                }
-            }
-        }
-
-        if (!empty($categoryscss)) {
-            try {
-                $replacement = $scss->compile($categoryscss);
-            } catch (Leafo\ScssPhp\Exception\ParserException $e) {
-                debugging(get_string('invalidcategorygeneratedcss', 'theme_adaptable', array('css' => $categoryscss)), DEBUG_NONE);
-            } catch (Leafo\ScssPhp\Exception\CompilerException $e) {
-                debugging(get_string('invalidcategorygeneratedcss', 'theme_adaptable', array('css' => $categoryscss)), DEBUG_NONE);
-            }
-        }
-    }
-
-    $tag = '[[setting:catgorycustomcss]]';
-
-    return str_replace($tag, $replacement, $css);
-}
-
-/**
  * Adds any custom CSS to the CSS before it is cached.
  *
  * @param string $css The original CSS.
@@ -500,6 +482,56 @@ function theme_adaptable_set_customcss($css, $customcss) {
     $css = str_replace($tag, $replacement, $css);
 
     return $css;
+}
+
+/**
+ * Serves the H5P Custom CSS.
+ *
+ * @param string $filename The filename.
+ * @param theme_config $theme The theme config object.
+ */
+function theme_adaptable_serve_hvp_css($filename, $theme) {
+    global $CFG, $PAGE;
+    require_once($CFG->dirroot . '/lib/configonlylib.php'); // For 'min_enable_zlib_compression' function.
+
+    $PAGE->set_context(context_system::instance());
+    $themename = $theme->name;
+
+    $content = \theme_adaptable\toolbox::get_setting('hvpcustomcss');
+    $md5content = md5($content);
+    $md5stored = get_config('theme_' . $themename, 'hvpccssmd5');
+    if ((empty($md5stored)) || ($md5stored != $md5content)) {
+        // Content changed, so the last modified time needs to change.
+        set_config('hvpccssmd5', $md5content, 'theme_' . $themename);
+        $lastmodified = time();
+        set_config('hvpccsslm', $lastmodified, 'theme_' . $themename);
+    } else {
+        $lastmodified = get_config('theme_' . $themename, 'hvpccsslm');
+        if (empty($lastmodified)) {
+            $lastmodified = time();
+        }
+    }
+
+    // Sixty days only - the revision may get incremented quite often.
+    $lifetime = 60 * 60 * 24 * 60;
+
+    header('HTTP/1.1 200 OK');
+
+    header('Etag: "' . $md5content . '"');
+    header('Content-Disposition: inline; filename="' . $filename . '"');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $lastmodified) . ' GMT');
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $lifetime) . ' GMT');
+    header('Pragma: ');
+    header('Cache-Control: public, max-age=' . $lifetime);
+    header('Accept-Ranges: none');
+    header('Content-Type: text/css; charset=utf-8');
+    if (!min_enable_zlib_compression()) {
+        header('Content-Length: ' . strlen($content));
+    }
+
+    echo $content;
+
+    die;
 }
 
 /**
@@ -539,7 +571,7 @@ function theme_adaptable_initialise_zoom() {
  * @return void
  */
 function theme_adaptable_initialise_full() {
-    if (theme_adaptable_get_setting('enablezoom')) {
+    if (\theme_adaptable\toolbox::get_setting('enablezoom')) {
         user_preference_allow_ajax_update('theme_adaptable_full', PARAM_TEXT);
     }
 }
@@ -549,12 +581,12 @@ function theme_adaptable_initialise_full() {
  */
 function theme_adaptable_get_full() {
     $fullpref = '';
-    if ((isloggedin()) && (theme_adaptable_get_setting('enablezoom'))) {
+    if ((isloggedin()) && (\theme_adaptable\toolbox::get_setting('enablezoom'))) {
         $fullpref = get_user_preferences('theme_adaptable_full', '');
     }
 
     if (empty($fullpref)) { // Zoom disabled, not logged in or user not chosen preference.
-        $defaultzoom = theme_adaptable_get_setting('defaultzoom');
+        $defaultzoom = \theme_adaptable\toolbox::get_setting('defaultzoom');
         if (empty($defaultzoom)) {
             $defaultzoom = 'normal';
         }
@@ -569,40 +601,6 @@ function theme_adaptable_get_full() {
 }
 
 /**
- * Get the key of the last closed alert for a specific alert index.
- * This will be used in the renderer to decide whether to include the alert or not
- * @param int $alertindex
- */
-function theme_adaptable_get_alertkey($alertindex) {
-    user_preference_allow_ajax_update('theme_adaptable_alertkey' . $alertindex, PARAM_TEXT);
-    return get_user_preferences('theme_adaptable_alertkey' . $alertindex, '');
-}
-
-/**
- * Get theme setting
- * @param string $setting
- * @param string $format = false
- */
-function theme_adaptable_get_setting($setting, $format = false) {
-    static $theme;
-    if (empty($theme)) {
-        $theme = theme_config::load('adaptable');
-    }
-
-    if (empty($theme->settings->$setting)) {
-        return false;
-    } else if (!$format) {
-        return $theme->settings->$setting;
-    } else if ($format === 'format_text') {
-        return format_text($theme->settings->$setting, FORMAT_PLAIN);
-    } else if ($format === 'format_html') {
-        return format_text($theme->settings->$setting, FORMAT_HTML, array('trusted' => true));
-    } else {
-        return format_string($theme->settings->$setting);
-    }
-}
-
-/**
  * Serves any files associated with the theme settings.
  *
  * @param stdClass $course
@@ -614,7 +612,7 @@ function theme_adaptable_get_setting($setting, $format = false) {
  * @param array $options
  * @return bool
  */
-function theme_adaptable_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function theme_adaptable_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     static $theme;
     if (empty($theme)) {
         $theme = theme_config::load('adaptable');
@@ -626,8 +624,8 @@ function theme_adaptable_pluginfile($course, $cm, $context, $filearea, $args, $f
         }
         if ($filearea === 'logo') {
             return $theme->setting_file_serve('logo', $args, $forcedownload, $options);
-        } else if ($filearea === 'favicon') {
-            return $theme->setting_file_serve('favicon', $args, $forcedownload, $options);
+        } else if ($filearea === 'customjsfiles') {
+            return $theme->setting_file_serve('customjsfiles', $args, $forcedownload, $options);
         } else if ($filearea === 'homebk') {
             return $theme->setting_file_serve('homebk', $args, $forcedownload, $options);
         } else if ($filearea === 'pagebackground') {
@@ -636,6 +634,8 @@ function theme_adaptable_pluginfile($course, $cm, $context, $filearea, $args, $f
             return $theme->setting_file_serve('frontpagerendererdefaultimage', $args, $forcedownload, $options);
         } else if ($filearea === 'headerbgimage') {
             return $theme->setting_file_serve('headerbgimage', $args, $forcedownload, $options);
+        } else if ($filearea === 'hvp') {
+            theme_adaptable_serve_hvp_css($args[1], $theme);
         } else if ($filearea === 'loginbgimage') {
             return $theme->setting_file_serve('loginbgimage', $args, $forcedownload, $options);
         } else if (preg_match("/^p[1-9][0-9]?$/", $filearea)) {
@@ -662,13 +662,13 @@ function theme_adaptable_get_course_activities() {
     // A copy of block_activity_modules.
     $course = $PAGE->course;
     $modinfo = get_fast_modinfo($course);
-    $modfullnames = array();
+    $modfullnames = [];
 
-    $archetypes = array();
+    $archetypes = [];
 
     foreach ($modinfo->cms as $cm) {
         // Exclude activities which are not visible or have no link (=label).
-        if (!$cm->uservisible or !$cm->has_view()) {
+        if (!$cm->uservisible || !$cm->has_view()) {
             continue;
         }
         if (array_key_exists($cm->modname, $modfullnames)) {
@@ -697,58 +697,13 @@ function theme_adaptable_get_course_activities() {
 function theme_adaptable_page_init(moodle_page $page) {
     global $CFG;
 
-    $page->requires->jquery_plugin('pace', 'theme_adaptable');
-    $page->requires->jquery_plugin('flexslider', 'theme_adaptable');
-    $page->requires->jquery_plugin('ticker', 'theme_adaptable');
-    $page->requires->jquery_plugin('easing', 'theme_adaptable');
-    $page->requires->jquery_plugin('adaptable', 'theme_adaptable');
-
-    if ((isloggedin()) && (theme_adaptable_get_setting('enableaccesstool')) &&
-        (file_exists($CFG->dirroot . "/local/accessibilitytool/lib.php"))) {
+    if (
+        (isloggedin()) && (\theme_adaptable\toolbox::get_setting('enableaccesstool')) &&
+        (file_exists($CFG->dirroot . "/local/accessibilitytool/lib.php"))
+    ) {
         require_once($CFG->dirroot . "/local/accessibilitytool/lib.php");
         local_accessibilitytool_page_init($page);
     }
-}
-
-/**
- * Strip full site title from header
- * @param string $heading
- */
-function theme_adaptable_remove_site_fullname($heading) {
-    global $SITE, $PAGE;
-    if (strpos($PAGE->pagetype, 'course-view-') === 0) {
-        return $heading;
-    }
-
-    $header = preg_replace("/^".$SITE->fullname."/", "", $heading);
-
-    return $header;
-}
-
-/**
- * Generate theme grid.
- * @param bool $left
- * @param bool $hassidepost
- */
-function theme_adaptable_grid($left, $hassidepost) {
-    if ($hassidepost) {
-        if ('rtl' === get_string('thisdirection', 'langconfig')) {
-            $left = !$left; // Invert.
-        }
-        $regions = array('content' => 'col-9');
-        $regions['blocks'] = 'col-3';
-        if ($left) {
-            $regions['direction'] = ' flex-row-reverse';
-        } else {
-            $regions['direction'] = ' flex-row';
-        }
-    } else {
-        $regions = array('content' => 'col-12');
-        $regions['direction'] = '';
-        return $regions;
-    }
-
-    return $regions;
 }
 
 /**
@@ -773,21 +728,19 @@ function theme_adaptable_get_current_page() {
         $currentpage = 'dashboard';
     }
     // Check if course home page.
-    if (empty ($currentpage)) {
+    if (empty($currentpage)) {
         if ($url !== null) {
             // Check if this is the course view page.
-            if (strstr ($url->raw_out(), 'course/view.php')) {
-
+            if (strstr($url->raw_out(), 'course/view.php')) {
                 $currentpage = 'coursepage';
 
                 // Check url paramaters.  Count should be 1 if course home page. Use this to check if section page.
                 $urlparams = $url->params();
 
                 // Allow the block to display on course sections too if the relevant setting is on.
-                if ((count ($urlparams) > 1) && (array_key_exists('section', $urlparams))) {
+                if ((count($urlparams) > 1) && (array_key_exists('section', $urlparams))) {
                     $currentpage = 'coursesectionpage';
                 }
-
             }
         }
     }
@@ -813,10 +766,10 @@ function theme_adaptable_extend_navigation_course($coursenode, $course, $coursec
             $editurl = clone($PAGE->url);
             $editurl->param('plugin', 'grader');
 
-            // From /grade/report/grader/index.php.
-            if (has_capability('moodle/grade:edit', $coursecontext)) {
-                global $USER;
-                $editing = $USER->gradeediting[$course->id];
+            // From /grade/report/grader/index.php ish.
+            $edit = optional_param('edit', -1, PARAM_BOOL); // Sticky editing mode.
+            if (($edit != - 1) && (has_capability('moodle/grade:edit', $coursecontext))) {
+                $editing = $edit;
             } else {
                 $editing = 0;
             }
@@ -835,7 +788,7 @@ function theme_adaptable_extend_navigation_course($coursenode, $course, $coursec
                 // Edit on the main course page.
                 $editurl = new moodle_url(
                     '/course/view.php',
-                    array('id' => $course->id, 'return' => $PAGE->url->out_as_local_url(false))
+                    ['id' => $course->id, 'return' => $PAGE->url->out_as_local_url(false)]
                 );
             }
             $editing = $PAGE->user_is_editing();
@@ -856,7 +809,10 @@ function theme_adaptable_extend_navigation_course($coursenode, $course, $coursec
         $childnode = navigation_node::create(
             $editstring,
             $editurl,
-            navigation_node::TYPE_SETTING, null, 'turneditingonoff', new pix_icon('i/edit', '')
+            navigation_node::TYPE_SETTING,
+            null,
+            'turneditingonoff',
+            new pix_icon('i/edit', '')
         );
         $keylist = $coursenode->get_children_key_list();
         if (!empty($keylist)) {

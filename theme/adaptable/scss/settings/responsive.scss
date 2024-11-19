@@ -42,6 +42,19 @@
 }
 
 // =======================================================
+// 991px
+// =======================================================
+@media(max-width: 991px) {
+    #region-main-box {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    #block-region-side-post .block-controls {
+        display: none;
+    }
+}
+
+// =======================================================
 // 979px
 // =======================================================
 @media (max-width: 979px) {
@@ -118,8 +131,8 @@
         margin: 0 auto;
     }
 
-    // Site title.
-    #sitetitle {
+    // Header title.
+    #headertitle {
         clear: both;
         display: block;
         height: auto;
@@ -208,8 +221,8 @@
         margin: 4px 0 0 4px;
     }
 
-    .has-page-header.page-header-margin.header-style1 #page {
-        margin-top: 40px;
+    .page-header-margin.header-style1 #page {
+        margin-top: 41px;
     }
 
     .mobiletheme.page-header-margin.header-style1.has-header-bg .headerbgimage {
@@ -217,7 +230,7 @@
     }
 
     .page-header-margin.header-style2 #page {
-        margin-top: 84px;
+        margin-top: 46px;
     }
 
     // Course activity and section layout updates to remove any extra padding on smaller screens.
@@ -228,26 +241,12 @@
     .activity-meta-container {
         margin: 0 0 0 20px;
     }
-
-    #region-main,
-    .pagelayout-mydashboard #region-main {
-        padding: 0 15px;
-    }
 }
 
 // =======================================================
 // 767px
 // =======================================================
 @media (max-width: 767px) {
-    #page-login-index2 .forgetpass {
-        clear: both;
-        float: none;
-        margin: 0 auto;
-        min-width: 200px;
-        text-align: center;
-        width: 50%;
-    }
-
     #ticker-announce {
         float: none;
         margin: 0;
@@ -260,14 +259,10 @@
         overflow: inherit;
         padding: 10px 10px 10px;
         white-space: normal;
-    }
 
-    #ticker-wrap #newscontent #news {
-        white-space: normal;
-    }
-
-    #ticker-wrap #controls {
-        display: none;
+        #news {
+            white-space: normal;
+        }
     }
 
     .slidestyle2 .flex-caption {
@@ -429,12 +424,12 @@
     }
 
     // Links and Language menu, hide text on small screens.
-    #above-header .langdesc,
-    #above-header .linksdesc {
+    .above-header .langdesc,
+    .above-header .linksdesc {
         display: none;
     }
 
-    #above-header {
+    .above-header {
         min-height: 37px;
     }
 
@@ -450,7 +445,7 @@
     }
 
     .socialbox a {
-        color: [[setting:headertextcolor2]];
+        color: [[setting:headertextcolor]];
     }
 
     .socialbox a i {
@@ -498,61 +493,7 @@
 // Mins in ascending order.
 
 // =======================================================
-// 786px
-// =======================================================
-@media (min-width: 768px) {
-    body.drawer-open-left {
-        margin-left: 0;
-    }
-}
-
-// =======================================================
-// 1201px or higher / nozoom
-// =======================================================
-@media (min-width: 1200px) {
-    .standard .container {
-        max-width: 100%;
-        width: 1170px;
-    }
-}
-
-@media (min-width: 992px) and (max-width: 1199px) {
-    .standard .container {
-        max-width: 100%;
-        width: 960px;
-    }
-}
-
-@media (min-width: 1000px) {
-    .narrow .container {
-        max-width: 100%;
-        width: 1000px;
-    }
-}
-
-@media (max-width: 992px) and (max-width: 999px) {
-    .narrow .container {
-        max-width: 100%;
-        width: 960px;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-    #adaptable-page-header-wrapper .container,
-    .container {
-        max-width: 100%;
-        width: 724px;
-    }
-}
-
-@media (min-width: 576px) and (max-width: 767px) {
-    .container {
-        max-width: 100%;
-    }
-}
-
-// =======================================================
-// Other.
+// 481px
 // =======================================================
 @media (min-width: 481px) {
     // Activity chooser styling. Desktop styling.
@@ -620,17 +561,65 @@
         border-bottom-left-radius: 0;
         padding: 0;
     }
-
     // End Activity chooser styling.
-
 }
 
+// =======================================================
+// 786px
+// =======================================================
 @media (min-width: 768px) {
-    #above-header .linksmenu {
+    body.drawer-open-left {
+        margin-left: 0;
+    }
+    .above-header .linksmenu {
         margin-left: 0;
     }
 
     .adaptable-drawer {
         display: none;
+    }
+}
+
+// =======================================================
+// 1201px or higher / nozoom
+// =======================================================
+@media (min-width: 1200px) {
+    .standard .container {
+        max-width: 100%;
+        width: 1170px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .standard .container {
+        max-width: 100%;
+        width: 960px;
+    }
+}
+
+@media (min-width: 1000px) {
+    .narrow .container {
+        max-width: 100%;
+        width: 1000px;
+    }
+}
+
+@media (max-width: 992px) and (max-width: 999px) {
+    .narrow .container {
+        max-width: 100%;
+        width: 960px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    #adaptable-page-header-wrapper .container,
+    .container {
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .container {
+        max-width: 100%;
     }
 }

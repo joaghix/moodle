@@ -23,10 +23,6 @@
 //
 //
 
-#page-login-index .card-header {
-    display: none;
-}
-
 // Login Page.
 // Background Image.
 /*rtl:ignore*/
@@ -49,44 +45,9 @@
     width: 100% !important;
 }
 
-#page-login-index {
+.pagelayout-login #page {
     [[setting:loginbgimage]]
     background-position: 0 0;
     background-repeat: no-repeat;
     [[setting:loginbgstyle]]
-}
-
-#page-login-index #page {
-    background-image: none;
-}
-
-#page-login-index.pagelayout-login #region-main [role="main"] > h2 {
-    margin-bottom: 0;
-    margin-top: .5rem;
-    padding-bottom: .5rem;
-}
-
-#page-login-index.pagelayout-login #region-main [role="main"] > div.box {
-    margin-top: 0;
-}
-
-#page-login-index.pagelayout-login #region-main [role="main"] > div.singlebutton {
-    display: block;
-    text-align: center;
-}
-
-@media (min-width: 576px) {
-    #page-login-index.pagelayout-login #region-main [role="main"] > h2,
-    #page-login-index.pagelayout-login #region-main [role="main"] > div.box {
-        margin-left: auto;
-        margin-right: auto;
-        width: calc(66.6666666667% - 15px);
-    }
-}
-
-@media (min-width: 1200px) {
-    #page-login-index.pagelayout-login #region-main [role="main"] > h2,
-    #page-login-index.pagelayout-login #region-main [role="main"] > div.box {
-        width: calc(50% - 15px);
-    }
 }

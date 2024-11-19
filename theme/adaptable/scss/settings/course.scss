@@ -27,19 +27,13 @@
 
 // Common settings.
 
-// Remove 'Your Progress' in Course page (only 3.6 or lower).
-#completionprogressid {
-    display: [[setting:showyourprogress]];
-    margin-bottom: 15px;
-}
-
 #page-coursetitle h1 {
     font-size: 1.5rem;
     text-align: center;
 }
 
 #coursetitle,
-#sitetitle #coursetitle {
+#headertitle #coursetitle {
     color: [[setting:fonttitlecolorcourse]];
 }
 
@@ -456,214 +450,9 @@ body:not(.editing) .sitetopic ul.section,
     margin-right: 40px;
 }
 
-// Social Wall.
-
-// All sections.
-// Add padding, background, and word-wrap on all sections.
-.format-socialwall .topics {
-    padding: 2em;
-    border-radius: [[setting:socialwallsectionradius]];
-    background-color: [[setting:socialwallbackgroundcolor]];
-    word-wrap: break-word;
-    font-family: [[setting:fontname]];
-}
-
-//Add padding, background, and border to all sections.
-.format-socialwall .section.main.clearfix#section-0,
-.format-socialwall .section.main.clearfix#section-2,
-.format-socialwall .topics > form,
-.format-socialwall #counttotalpost,
-.format-socialwall .topics .tl-post,
-.format-socialwall .tl-post .tl-post-actionarea {
-    padding: 1em;
-    background: #fff;
-    border: [[setting:socialwallborderwidth]] [[setting:socialwallbordertopstyle]] [[setting:socialwallbordercolor]];
-    border-radius: [[setting:socialwallsectionradius]];
-}
-
-// Section 0.
-// Combine section 0, section 2, search form, and post count.
-.format-socialwall .section.main.clearfix#section-0 {
-    border-bottom: 0;
-    margin-bottom: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.format-socialwall .section.main.clearfix#section-2 {
-    border-top: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom: 0;
-    margin-bottom: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.format-socialwall .topics > form {
-    border-top: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.format-socialwall #counttotalpost {
-    border-top: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-// Make title background white.
-.format-socialwall .section.main.clearfix#section-0 h3.sectionname {
-    background: #fff;
-}
-
-// Section .
-// Make activity/resource link inactive.
-.format-socialwall #postform input#sw-addactivitylink {
-    pointer-events: none;
-}
-
-// Text area resizing.
-// Allow the comment starting text area to expand to the width of the parent element.
-.format-socialwall div.felement.ftextarea {
-    max-width: 100%;
-}
-// Set the starting text areas of post and comment to the maximum width, and stop them from expanding futher than their parent element.
-.format-socialwall .sw-texarea, .format-socialwall .tl-commentform .tl-commenttext {
-    box-sizing: border-box;
-    min-width: 100%;
-    max-width: 100%;
-}
-
-// Post.
-// Add space between post text and author, and post text and attached files.
-.format-socialwall .tl-posttext .text_to_html {
-    padding: 2em 0 1.5em;
-}
-
-// Remove border between post author picture and post.
-.format-socialwall .tl-text {
-    border-left: 0;
-}
-
-// Resize, re-align, and recolour post time edited ago.
-.format-socialwall .tl-edited-wrapper {
-    font-size: 0.8em;
-    text-align: right;
-    color: [[setting:fontcolor]];
-    background: #fff;
-}
-
-// Comment.
-// Add space at the bottom of each comment.
-.format-socialwall .tl-comment {
-    padding-bottom: 1em;
-}
-
-// Add space between comment author name and comment text.
-.format-socialwall .tl-text .tl-authorname {
-    padding-bottom: 1.5em;
-}
-
-// Add space between comment text and time ago.
-.format-socialwall .tl-comment .tl-text div:nth-child(2) {
-    padding-bottom: 1.5em;
-}
-
-// Remove space at the bottom of replywrapper.
-.format-socialwall .tl-comment-replywrapper {
-    padding-bottom: 0;
-}
-
 // Moves the required text to the right.
 div.fdescription.required {
     float: right;
-}
-
-// Post attachment.
-// Add space between attached files and post text or post author, and space between attached files and post action area.
-.format-socialwall ul.section.tl-postattachment {
-    padding: 2em 0 2.5em;
-    margin: 0;
-}
-
-// Present attached files horizontally.
-.format-socialwall ul.section.tl-postattachment div {
-    float: left;
-}
-
-// Post action area.
-// Add space around post counts and timeago.
-.format-socialwall .tl-counts, .format-socialwall .tl-timeago {
-    font-size: 0.8em;
-    color: [[setting:fontcolor]];
-    padding: 1em 0 1.5em;
-}
-
-// Add space after each count (likes and comments).
-.format-socialwall .tl-counts span {
-    padding-right: 1.5em;
-}
-
-// Add space at the end of action area and remove right, bottom, left border.
-.format-socialwall .tl-post .tl-post-actionarea {
-    padding: 0 0 1em;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-// Post action links.
-// Make the color of action link grey.
-.format-socialwall .tl-actionlink a {
-    color: [[setting:socialwallactionlinkcolor]];
-}
-
-// Add space after like.
-.format-socialwall .tl-actionlink a.like {
-    padding-right: 3em;
-}
-
-// Add space after likenomore and change color to light blue.
-.format-socialwall .tl-actionlink a.likenomore {
-    padding-right: 3em;
-    font-weight: bold;
-}
-
-// Change color on hover over to all action link from grey to light blue.
-.format-socialwall .tl-actionlink a:hover {
-    font-weight: bold;
-    color: [[setting:socialwallactionlinkhovercolor]];
-    text-decoration: none;
-}
-
-// Before the like action link.
-// Add a hollow thumbs up icon before like.
-.format-socialwall .like:before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f087";
-    position: relative;
-    padding-right: .15em;
-}
-
-// Add a full thumbs up icon before like.
-.format-socialwall .likenomore:before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f164";
-    position: relative;
-    padding-right: .15em;
-}
-
-// Add a hollow comment icon before like.
-.format-socialwall .tl-actionlink a:nth-child(3):before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f0e5";
-    position: relative;
-    padding-right: .15em;
 }
 
 // One Topic.
@@ -671,6 +460,7 @@ div.fdescription.required {
 .format-onetopic .onetopic {
     .tab_content {
         background-color: [[setting:regionmaincolor]];
+        color: [[setting:regionmaintextcolor]];
     }
 
     .nav-tabs {
@@ -712,7 +502,7 @@ div.fdescription.required {
 .activity_footer,
 .section_footer {
   margin-top: 2em;
-  padding: 1em 0;
+  padding: 1em 15px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   clear: both;
@@ -813,25 +603,21 @@ div.fdescription.required {
     padding: 5px 10px;
 }
 
-.section li.modtype_assign div.ad-activity-wrapper {
-    background-color: [[setting:coursesectionactivityassignbgcolor]];
+.section li .ad-activity-wrapper {
     border-bottom: [[setting:coursesectionactivityborderwidth]] [[setting:coursesectionactivityborderstyle]] [[setting:coursesectionactivitybordercolor]];
-    -webkit-box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityassignleftbordercolor]];
     box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityassignleftbordercolor]];
 }
 
-.section li.modtype_forum div.ad-activity-wrapper {
-    background-color: [[setting:coursesectionactivityforumbgcolor]];
-    border-bottom: [[setting:coursesectionactivityborderwidth]] [[setting:coursesectionactivityborderstyle]] [[setting:coursesectionactivitybordercolor]];
-    -webkit-box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityforumleftbordercolor]];
-    box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityforumleftbordercolor]];
+.section li .modtype_assign .ad-activity-wrapper {
+    background-color: [[setting:coursesectionactivityassignbgcolor]];
 }
 
-.section li.modtype_quiz div.ad-activity-wrapper {
+.section li.modtype_forum .ad-activity-wrapper {
+    background-color: [[setting:coursesectionactivityforumbgcolor]];
+}
+
+.section li.modtype_quiz .ad-activity-wrapper {
     background-color: [[setting:coursesectionactivityquizbgcolor]];
-    border-bottom: [[setting:coursesectionactivityborderwidth]] [[setting:coursesectionactivityborderstyle]] [[setting:coursesectionactivitybordercolor]];
-    -webkit-box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityquizleftbordercolor]];
-    box-shadow: -[[setting:coursesectionactivityleftborderwidth]] 0 0 0 [[setting:coursesectionactivityquizleftbordercolor]];
 }
 
 .activity img.activityicon {
@@ -861,72 +647,18 @@ div.fdescription.required {
 // Activity further information styling.
 .ad-activity-meta-container {
     padding: 5px 0 0 0;
-    margin: 0 10px 0 30px;
-}
-
-.ad-activity-due-date {
-    background-color: #555555;
-    color: #ffffff;
-    padding: 7px;
-    margin: 0 10px 0 0;
-    line-height: 3em;
-    border-radius: 0.5em;
-    font-size: 0.9em;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-.ad-activity-due-date a {
-    color: #fff;
 }
 
 .ad-activity-mod-feedback {
     padding: 5px 0;
 }
 
-.ad-activity-mod-feedback i {
-    font-size: 1.1em;
-}
-
-.ad-activity-action {
-    margin: 0 7px;
-}
-
 .ad-activity-action i {
     margin-right: 0.35rem;
 }
 
-.ad-activity-date-overdue {
-    background-color: #f8d7da;
-}
-
-.ad-activity-date-overdue a {
-    color: #721c24;
-}
-
-.ad-activity-date-overdue .text-warning {
-    color: #721C24 !important;
-}
-
-.ad-activity-date-submitted {
-    background-color: #d4edda;
-}
-
-.ad-activity-date-submitted a {
-    color: #155724;
-}
-
-.ad-activity-date-nearly-due {
-    background-color: #fff3cd;
-}
-
-.ad-activity-date-nearly-due a {
-    color: #856404;
-}
-
 .ad-activity-mod-feedback i,
-.ad-activity-mod-engagement i,
-.ad-activity-due-date i {
+.ad-activity-mod-engagement i {
     font-size: 1.1em;
 }
 
@@ -986,7 +718,7 @@ li.activity div.actions-right {
 }
 
 .course-content .single-section .section-navigation {
-    padding: .1em;
+    margin-bottom: auto;
 }
 
 // region-main-settings-menu is used on pages other than course pages, but included here to keep the settings together.

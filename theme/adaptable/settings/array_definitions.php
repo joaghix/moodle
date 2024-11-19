@@ -15,20 +15,279 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Array definitions
  *
- * @package   theme_adaptable
- * @copyright 2015-2016 Jeremy Hopkins (Coventry University)
- * @copyright 2015-2016 Fernando Acedo (3-bits.com)
- * @copyright 2017-2018 Manoj Solanki (Coventry University)
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @package    theme_adaptable
+ * @copyright  2015-2016 Jeremy Hopkins (Coventry University)
+ * @copyright  2015-2016 Fernando Acedo (3-bits.com)
+ * @copyright  2017-2018 Manoj Solanki (Coventry University)
+ * @copyright  2020 G J Barnard
+ *               {@link https://moodle.org/user/profile.php?id=442195}
+ *               {@link https://gjbarnard.co.uk}
+ * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 defined('MOODLE_INTERNAL') || die;
 if ($ADMIN->fulltree) {
-    // Google Fonts.
-    $fontlist = array(
-        'sans-serif' => new lang_string('default'),
+    // Pixels.
+    $from0to6px = ['0' => '0'];
+    for ($i = 1; $i < 7; $i++) {
+        $from0to6px[$i . 'px'] = $i . 'px';
+    }
+
+    $from0to8px = ['0' => '0'];
+    for ($i = 1; $i < 9; $i++) {
+        $from0to8px[$i . 'px'] = $i . 'px';
+    }
+
+    $from0to12px = ['0' => '0'];
+    for ($i = 1; $i < 13; $i++) {
+        $from0to12px[$i . 'px'] = $i . 'px';
+    }
+
+    $from10to16px = [];
+    for ($i = 10; $i < 17; $i++) {
+        $from10to16px[$i . 'px'] = $i . 'px';
+    }
+
+    $from0to20px = ['0' => '0'];
+    for ($i = 1; $i < 21; $i++) {
+        $from0to20px[$i . 'px'] = $i . 'px';
+    }
+
+    $from10to20px = [];
+    for ($i = 10; $i < 21; $i++) {
+        $from10to20px[$i . 'px'] = $i . 'px';
+    }
+
+    $from10to30px = [];
+    for ($i = 10; $i < 31; $i++) {
+        $from10to30px[$i . 'px'] = $i . 'px';
+    }
+
+    $from10to30pxnovalueunit = [];
+    for ($i = 10; $i < 31; $i++) {
+        $from10to30pxnovalueunit[$i] = $i . 'px';
+    }
+
+    $from0to30px = ['0' => '0'];
+    for ($i = 1; $i < 31; $i++) {
+        $from0to30px[$i . 'px'] = $i . 'px';
+    }
+
+    $from0to50px = ['0' => '0'];
+    for ($i = 1; $i < 51; $i++) {
+        $from0to50px[$i . 'px'] = $i . 'px';
+    }
+
+    $from0to100px = ['0' => '0'];
+    for ($i = 1; $i < 101; $i++) {
+        $from0to100px[$i . 'px'] = $i . 'px';
+    }
+
+    $from14to46px = [];
+    for ($i = 14; $i < 47; $i++) {
+        $from14to46px[$i . 'px'] = $i . 'px';
+    }
+
+    $standardfontsize = [
+        '8px' => '8px',
+        '9px' => '9px',
+        '10px' => '10px',
+        '11px' => '11px',
+        '12px' => '12px',
+        '13px' => '13px',
+        '14px' => '14px',
+        '15px' => '15px',
+        '16px' => '16px',
+        '18px' => '18px',
+        '20px' => '20px',
+        '22px' => '22px',
+        '24px' => '24px',
+        '26px' => '26px',
+        '28px' => '28px',
+        '32px' => '32px',
+        '36px' => '36px',
+        '40px' => '40px',
+        '44px' => '44px',
+        '48px' => '48px',
+        '54px' => '54px',
+        '60px' => '60px',
+        '66px' => '66px',
+        '72px' => '72px',
+        '80px' => '80px',
+        '88px' => '88px',
+        '96px' => '96px',
+    ];
+
+    $screensizeblock = [
+        'd-block' => get_string('bs4all', 'theme_adaptable'),
+        'd-none d-sm-block' => new lang_string('bs4small', 'theme_adaptable'),
+        'd-none d-md-block' => new lang_string('bs4medium', 'theme_adaptable'),
+        'd-none d-lg-block' => new lang_string('bs4large', 'theme_adaptable'),
+        'd-none d-xl-block' => new lang_string('bs4extralarge', 'theme_adaptable'),
+        'd-none' => get_string('bs4none', 'theme_adaptable'),
+    ];
+
+    $screensizeinlineblock = [
+        'd-inline-block' => get_string('bs4all', 'theme_adaptable'),
+        'd-none d-sm-inline-block' => new lang_string('bs4small', 'theme_adaptable'),
+        'd-none d-md-inline-block' => new lang_string('bs4medium', 'theme_adaptable'),
+        'd-none d-lg-inline-block' => new lang_string('bs4large', 'theme_adaptable'),
+        'd-none d-xl-inline-block' => new lang_string('bs4extralarge', 'theme_adaptable'),
+        'd-none' => get_string('bs4none', 'theme_adaptable'),
+    ];
+
+    $screensizeflex = [
+        'd-flex' => get_string('bs4all', 'theme_adaptable'),
+        'd-none d-sm-flex' => new lang_string('bs4small', 'theme_adaptable'),
+        'd-none d-md-flex' => new lang_string('bs4medium', 'theme_adaptable'),
+        'd-none d-lg-flex' => new lang_string('bs4large', 'theme_adaptable'),
+        'd-none d-xl-flex' => new lang_string('bs4extralarge', 'theme_adaptable'),
+        'd-none' => get_string('bs4none', 'theme_adaptable'),
+    ];
+
+    // Numbers.
+    $from20to40 = [];
+    for ($i = 20; $i < 41; $i++) {
+        $from20to40[$i] = $i;
+    }
+
+    $from0to60inc5 = [];
+    for ($i = 0; $i < 61; $i += 5) {
+        $from0to60inc5[$i] = $i;
+    }
+
+    $choices0to12 = [];
+    for ($i = 0; $i < 13; $i++) {
+        $choices0to12[$i] = $i;
+    }
+
+    $from100to900 = [];
+    for ($i = 100; $i < 901; $i += 100) {
+        $from100to900[$i] = $i;
+    }
+
+    // Percentages.
+    $from0to2point5percent = [];
+    for ($i = 0; $i < 2.6; $i += 0.1) {
+        $from0to2point5percent[$i . '%'] = $i . '%';
+    }
+
+    $from95to100percent = [
+        '95%' => '95%',
+        '96%' => '96%',
+        '97%' => '97%',
+        '98%' => '98%',
+        '99%' => '99%',
+        '100%' => '100%',
+    ];
+
+    $from35to80percent = [];
+    for ($i = 35; $i < 81; $i++) {
+        $from35to80percent[$i . '%'] = $i . '%';
+    }
+
+    $from35to100percent = [];
+    for ($i = 35; $i < 101; $i++) {
+        $from35to100percent[$i . '%'] = $i . '%';
+    }
+
+    $from85to110percent = [];
+    for ($i = 85; $i < 111; $i++) {
+        $from85to110percent[$i . '%'] = $i . '%';
+    }
+
+    // Seconds.
+    $from0to1second = [];
+    $floatcount = 0.0;
+    for ($i = 0; $i <= 10; $i++) {
+        $from0to1second[floatval($floatcount) . 's'] = floatval($floatcount) . 's';
+        $floatcount += 0.1;
+    }
+
+    // Texts.
+    $borderstyles = [
+        'none' => new lang_string('none'),
+        'solid' => new lang_string('solid', 'theme_adaptable'),
+        'dashed' => new lang_string('dashed', 'theme_adaptable'),
+        'dotted' => new lang_string('dotted', 'theme_adaptable'),
+        'double' => new lang_string('double', 'theme_adaptable'),
+    ];
+
+    $htmltarget = [
+        '_blank' => new lang_string('targetnewwindow', 'theme_adaptable'),
+        '_self' => new lang_string('targetsamewindow', 'theme_adaptable'),
+    ];
+
+    $marketblockstyles = [
+        '' => get_string('nostyle', 'theme_adaptable'),
+        'internalmarket' => new lang_string('bcustyle', 'theme_adaptable'),
+        'covtiles' => new lang_string('coventrystyle', 'theme_adaptable'),
+    ];
+
+    $sliderstyles = [
+        'slider1' => new lang_string('sliderstyle1', 'theme_adaptable'),
+        'slider2' => new lang_string('sliderstyle2', 'theme_adaptable'),
+    ];
+
+    $bootstrap12 = [
+        '0-0-0-0' => new lang_string('disabled', 'theme_adaptable'),
+        '12-0-0-0' => '1',
+        '6-6-0-0' => '6 + 6',
+        '4-4-4-0' => '4 + 4 + 4',
+        '3-3-3-3' => '3 + 3 + 3 + 3',
+        '6-3-3-0' => '6 + 3 + 3',
+        '3-3-6-0' => '3 + 3 + 6',
+        '3-6-3-0' => '3 + 6 + 3',
+        '4-8-0-0' => '4 + 8',
+        '8-4-0-0' => '8 + 4',
+        '3-9-0-0' => '3 + 9',
+        '9-3-0-0' => '9 + 3',
+        '5-7-0-0' => '5 + 7',
+        '7-5-0-0' => '7 + 5',
+    ];
+
+    $bootstrap12defaults = ['3-3-3-3', '4-4-4-0', '3-3-3-3', '0-0-0-0', '0-0-0-0'];
+
+    $footerblocksbuilderdefaults = ['3-3-3-3', '0-0-0-0', '0-0-0-0'];
+    $informationblocksbuilderdefaults = ['3-3-3-3', '0-0-0-0', '0-0-0-0', '0-0-0-0', '0-0-0-0'];
+    $marketingfooterbuilderdefaults = ['3-3-3-3', '0-0-0-0', '0-0-0-0', '0-0-0-0', '0-0-0-0'];
+
+    // Adaptable Tabbed Layout changes. 0 signifies the course content or dashboard main content.
+    $courselabel = new lang_string('tabbedlayouttablabelcourse', 'theme_adaptable');
+    $tab1label = new lang_string('tabbedlayouttablabelcourse1', 'theme_adaptable');
+    $tab2label = new lang_string('tabbedlayouttablabelcourse2', 'theme_adaptable');
+    $tabbedlayoutdefaultscourse = [
+        '0' => get_string('disabled', 'theme_adaptable'),
+        '0-1' => $courselabel . ' + ' . $tab1label,
+        '1-0' => $tab1label . ' + ' . $courselabel,
+        '0-1-2' => $courselabel . ' + ' . $tab1label . ' + ' . $tab2label,
+        '1-0-2' => $tab1label . ' + ' . $courselabel . ' + ' . $tab2label,
+        '1-2-0' => $tab1label . ' + ' . $tab2label . ' + ' . $courselabel,
+        '0-2-1' => $courselabel . ' + ' . $tab2label . ' + ' . $tab1label,
+    ];
+
+    $dashboardlabel = new lang_string('tabbedlayouttablabeldashboard', 'theme_adaptable');
+    $tab1label = new lang_string('tabbedlayouttablabeldashboard1', 'theme_adaptable');
+    $tab2label = new lang_string('tabbedlayouttablabeldashboard2', 'theme_adaptable');
+    $tabbedlayoutdefaultsdashboard = [
+        '0' => get_string('disabled', 'theme_adaptable'),
+        '0-1' => $dashboardlabel . ' + ' . $tab1label,
+        '1-0' => $tab1label . ' + ' . $dashboardlabel,
+        '0-1-2' => $dashboardlabel . ' + ' . $tab1label . ' + ' . $tab2label,
+        '1-0-2' => $tab1label . ' + ' . $dashboardlabel . ' + ' . $tab2label,
+        '1-2-0' => $tab1label . ' + ' . $tab2label . ' + ' . $dashboardlabel,
+        '0-2-1' => $dashboardlabel . ' + ' . $tab2label . ' + ' . $tab1label,
+    ];
+
+    $dashboardblockregionposition = [
+        'abovecontent' => new lang_string('dashblocksabovecontent', 'theme_adaptable'),
+        'belowcontent' => new lang_string('dashblocksbelowcontent', 'theme_adaptable'),
+    ];
+
+    // Fonts and Google ones.
+    $fontlist = [
+        'default' => new lang_string('fontdefault', 'theme_adaptable'),
         'ABeeZee' => 'ABeeZee',
         'Abel' => 'Abel',
         'Abhaya Libre' => 'Abhaya Libre',
@@ -39,6 +298,8 @@ if ($ADMIN->fulltree) {
         'Adamina' => 'Adamina',
         'Advent Pro' => 'Advent Pro',
         'Aguafina Script' => 'Aguafina Script',
+        'Akaya Kanadaka' => 'Akaya Kanadaka',
+        'Akaya Telivigala' => 'Akaya Telivigala',
         'Akronim' => 'Akronim',
         'Aladin' => 'Aladin',
         'Alata' => 'Alata',
@@ -58,11 +319,13 @@ if ($ADMIN->fulltree) {
         'Allan' => 'Allan',
         'Allerta' => 'Allerta',
         'Allerta Stencil' => 'Allerta Stencil',
+        'Allison' => 'Allison',
         'Allura' => 'Allura',
         'Almarai' => 'Almarai',
         'Almendra' => 'Almendra',
         'Almendra Display' => 'Almendra Display',
         'Almendra SC' => 'Almendra SC',
+        'Alumni Sans' => 'Alumni Sans',
         'Amarante' => 'Amarante',
         'Amaranth' => 'Amaranth',
         'Amatic SC' => 'Amatic SC',
@@ -71,8 +334,9 @@ if ($ADMIN->fulltree) {
         'Amiri' => 'Amiri',
         'Amita' => 'Amita',
         'Anaheim' => 'Anaheim',
-        'Andada' => 'Andada',
+        'Andada Pro' => 'Andada Pro',
         'Andika' => 'Andika',
+        'Andika New Basic' => 'Andika New Basic',
         'Angkor' => 'Angkor',
         'Annie Use Your Telescope' => 'Annie Use Your Telescope',
         'Anonymous Pro' => 'Anonymous Pro',
@@ -80,6 +344,7 @@ if ($ADMIN->fulltree) {
         'Antic Didone' => 'Antic Didone',
         'Antic Slab' => 'Antic Slab',
         'Anton' => 'Anton',
+        'Antonio' => 'Antonio',
         'Arapey' => 'Arapey',
         'Arbutus' => 'Arbutus',
         'Arbutus Slab' => 'Arbutus Slab',
@@ -87,6 +352,7 @@ if ($ADMIN->fulltree) {
         'Archivo' => 'Archivo',
         'Archivo Black' => 'Archivo Black',
         'Archivo Narrow' => 'Archivo Narrow',
+        'Are You Serious' => 'Are You Serious',
         'Aref Ruqaa' => 'Aref Ruqaa',
         'Arima Madurai' => 'Arima Madurai',
         'Arimo' => 'Arimo',
@@ -104,6 +370,7 @@ if ($ADMIN->fulltree) {
         'Astloch' => 'Astloch',
         'Asul' => 'Asul',
         'Athiti' => 'Athiti',
+        'Atkinson Hyperlegible' => 'Atkinson Hyperlegible',
         'Atma' => 'Atma',
         'Atomic Age' => 'Atomic Age',
         'Aubrey' => 'Aubrey',
@@ -115,12 +382,14 @@ if ($ADMIN->fulltree) {
         'Averia Libre' => 'Averia Libre',
         'Averia Sans Libre' => 'Averia Sans Libre',
         'Averia Serif Libre' => 'Averia Serif Libre',
+        'Azeret Mono' => 'Azeret Mono',
         'B612' => 'B612',
         'B612 Mono' => 'B612 Mono',
         'Bad Script' => 'Bad Script',
         'Bahiana' => 'Bahiana',
         'Bahianita' => 'Bahianita',
         'Bai Jamjuree' => 'Bai Jamjuree',
+        'Ballet' => 'Ballet',
         'Baloo 2' => 'Baloo 2',
         'Baloo Bhai 2' => 'Baloo Bhai 2',
         'Baloo Bhaina 2' => 'Baloo Bhaina 2',
@@ -144,6 +413,7 @@ if ($ADMIN->fulltree) {
         'Baumans' => 'Baumans',
         'Bayon' => 'Bayon',
         'Be Vietnam' => 'Be Vietnam',
+        'Be Vietnam Pro' => 'Be Vietnam Pro',
         'Bebas Neue' => 'Bebas Neue',
         'Belgrano' => 'Belgrano',
         'Bellefair' => 'Bellefair',
@@ -151,11 +421,17 @@ if ($ADMIN->fulltree) {
         'Bellota' => 'Bellota',
         'Bellota Text' => 'Bellota Text',
         'BenchNine' => 'BenchNine',
+        'Benne' => 'Benne',
         'Bentham' => 'Bentham',
         'Berkshire Swash' => 'Berkshire Swash',
+        'Besley' => 'Besley',
         'Beth Ellen' => 'Beth Ellen',
         'Bevan' => 'Bevan',
         'Big Shoulders Display' => 'Big Shoulders Display',
+        'Big Shoulders Inline Display' => 'Big Shoulders Inline Display',
+        'Big Shoulders Inline Text' => 'Big Shoulders Inline Text',
+        'Big Shoulders Stencil Display' => 'Big Shoulders Stencil Display',
+        'Big Shoulders Stencil Text' => 'Big Shoulders Stencil Text',
         'Big Shoulders Text' => 'Big Shoulders Text',
         'Bigelow Rules' => 'Bigelow Rules',
         'Bigshot One' => 'Bigshot One',
@@ -163,19 +439,25 @@ if ($ADMIN->fulltree) {
         'Bilbo Swash Caps' => 'Bilbo Swash Caps',
         'BioRhyme' => 'BioRhyme',
         'BioRhyme Expanded' => 'BioRhyme Expanded',
+        'Birthstone' => 'Birthstone',
+        'Birthstone Bounce' => 'Birthstone Bounce',
         'Biryani' => 'Biryani',
         'Bitter' => 'Bitter',
         'Black And White Picture' => 'Black And White Picture',
         'Black Han Sans' => 'Black Han Sans',
         'Black Ops One' => 'Black Ops One',
         'Blinker' => 'Blinker',
+        'Bodoni Moda' => 'Bodoni Moda',
         'Bokor' => 'Bokor',
+        'Bona Nova' => 'Bona Nova',
         'Bonbon' => 'Bonbon',
+        'Bonheur Royale' => 'Bonheur Royale',
         'Boogaloo' => 'Boogaloo',
         'Bowlby One' => 'Bowlby One',
         'Bowlby One SC' => 'Bowlby One SC',
         'Brawler' => 'Brawler',
         'Bree Serif' => 'Bree Serif',
+        'Brygada 1918' => 'Brygada 1918',
         'Bubblegum Sans' => 'Bubblegum Sans',
         'Bubbler One' => 'Bubbler One',
         'Buda' => 'Buda',
@@ -203,11 +485,14 @@ if ($ADMIN->fulltree) {
         'Cantata One' => 'Cantata One',
         'Cantora One' => 'Cantora One',
         'Capriola' => 'Capriola',
+        'Caramel' => 'Caramel',
+        'Carattere' => 'Carattere',
         'Cardo' => 'Cardo',
         'Carme' => 'Carme',
         'Carrois Gothic' => 'Carrois Gothic',
         'Carrois Gothic SC' => 'Carrois Gothic SC',
         'Carter One' => 'Carter One',
+        'Castoro' => 'Castoro',
         'Catamaran' => 'Catamaran',
         'Caudex' => 'Caudex',
         'Caveat' => 'Caveat',
@@ -225,6 +510,7 @@ if ($ADMIN->fulltree) {
         'Chela One' => 'Chela One',
         'Chelsea Market' => 'Chelsea Market',
         'Chenla' => 'Chenla',
+        'Cherish' => 'Cherish',
         'Cherry Cream Soda' => 'Cherry Cream Soda',
         'Cherry Swash' => 'Cherry Swash',
         'Chewy' => 'Chewy',
@@ -243,6 +529,7 @@ if ($ADMIN->fulltree) {
         'Comfortaa' => 'Comfortaa',
         'Comic Neue' => 'Comic Neue',
         'Coming Soon' => 'Coming Soon',
+        'Commissioner' => 'Commissioner',
         'Concert One' => 'Concert One',
         'Condiment' => 'Condiment',
         'Content' => 'Content',
@@ -285,6 +572,7 @@ if ($ADMIN->fulltree) {
         'Dawning of a New Day' => 'Dawning of a New Day',
         'Days One' => 'Days One',
         'Dekko' => 'Dekko',
+        'Dela Gothic One' => 'Dela Gothic One',
         'Delius' => 'Delius',
         'Delius Swash Caps' => 'Delius Swash Caps',
         'Delius Unicase' => 'Delius Unicase',
@@ -302,6 +590,7 @@ if ($ADMIN->fulltree) {
         'Doppio One' => 'Doppio One',
         'Dorsa' => 'Dorsa',
         'Dosis' => 'Dosis',
+        'DotGothic16' => 'DotGothic16',
         'Dr Sugiyama' => 'Dr Sugiyama',
         'Duru Sans' => 'Duru Sans',
         'Dynalight' => 'Dynalight',
@@ -320,11 +609,13 @@ if ($ADMIN->fulltree) {
         'Encode Sans' => 'Encode Sans',
         'Encode Sans Condensed' => 'Encode Sans Condensed',
         'Encode Sans Expanded' => 'Encode Sans Expanded',
+        'Encode Sans SC' => 'Encode Sans SC',
         'Encode Sans Semi Condensed' => 'Encode Sans Semi Condensed',
         'Encode Sans Semi Expanded' => 'Encode Sans Semi Expanded',
         'Engagement' => 'Engagement',
         'Englebert' => 'Englebert',
         'Enriqueta' => 'Enriqueta',
+        'Ephesis' => 'Ephesis',
         'Epilogue' => 'Epilogue',
         'Erica One' => 'Erica One',
         'Esteban' => 'Esteban',
@@ -333,6 +624,7 @@ if ($ADMIN->fulltree) {
         'Exo' => 'Exo',
         'Exo 2' => 'Exo 2',
         'Expletus Sans' => 'Expletus Sans',
+        'Explora' => 'Explora',
         'Fahkwang' => 'Fahkwang',
         'Fanwood Text' => 'Fanwood Text',
         'Farro' => 'Farro',
@@ -347,6 +639,7 @@ if ($ADMIN->fulltree) {
         'Federo' => 'Federo',
         'Felipa' => 'Felipa',
         'Fenix' => 'Fenix',
+        'Festive' => 'Festive',
         'Finger Paint' => 'Finger Paint',
         'Fira Code' => 'Fira Code',
         'Fira Mono' => 'Fira Mono',
@@ -357,11 +650,13 @@ if ($ADMIN->fulltree) {
         'Fjord One' => 'Fjord One',
         'Flamenco' => 'Flamenco',
         'Flavors' => 'Flavors',
+        'Fleur De Leah' => 'Fleur De Leah',
         'Fondamento' => 'Fondamento',
         'Fontdiner Swanky' => 'Fontdiner Swanky',
         'Forum' => 'Forum',
         'Francois One' => 'Francois One',
         'Frank Ruhl Libre' => 'Frank Ruhl Libre',
+        'Fraunces' => 'Fraunces',
         'Freckle Face' => 'Freckle Face',
         'Fredericka the Great' => 'Fredericka the Great',
         'Fredoka One' => 'Fredoka One',
@@ -370,6 +665,7 @@ if ($ADMIN->fulltree) {
         'Frijole' => 'Frijole',
         'Fruktur' => 'Fruktur',
         'Fugaz One' => 'Fugaz One',
+        'Fuggles' => 'Fuggles',
         'GFS Didot' => 'GFS Didot',
         'GFS Neohellenic' => 'GFS Neohellenic',
         'Gabriela' => 'Gabriela',
@@ -381,12 +677,15 @@ if ($ADMIN->fulltree) {
         'Gamja Flower' => 'Gamja Flower',
         'Gayathri' => 'Gayathri',
         'Gelasio' => 'Gelasio',
+        'Gemunu Libre' => 'Gemunu Libre',
         'Gentium Basic' => 'Gentium Basic',
         'Gentium Book Basic' => 'Gentium Book Basic',
         'Geo' => 'Geo',
+        'Georama' => 'Georama',
         'Geostar' => 'Geostar',
         'Geostar Fill' => 'Geostar Fill',
         'Germania One' => 'Germania One',
+        'Gideon Roman' => 'Gideon Roman',
         'Gidugu' => 'Gidugu',
         'Gilda Display' => 'Gilda Display',
         'Girassol' => 'Girassol',
@@ -394,18 +693,26 @@ if ($ADMIN->fulltree) {
         'Glass Antiqua' => 'Glass Antiqua',
         'Glegoo' => 'Glegoo',
         'Gloria Hallelujah' => 'Gloria Hallelujah',
+        'Glory' => 'Glory',
+        'Gluten' => 'Gluten',
         'Goblin One' => 'Goblin One',
         'Gochi Hand' => 'Gochi Hand',
+        'Goldman' => 'Goldman',
         'Gorditas' => 'Gorditas',
         'Gothic A1' => 'Gothic A1',
         'Gotu' => 'Gotu',
         'Goudy Bookletter 1911' => 'Goudy Bookletter 1911',
+        'Gowun Batang' => 'Gowun Batang',
+        'Gowun Dodum' => 'Gowun Dodum',
         'Graduate' => 'Graduate',
         'Grand Hotel' => 'Grand Hotel',
+        'Grandstander' => 'Grandstander',
         'Gravitas One' => 'Gravitas One',
         'Great Vibes' => 'Great Vibes',
+        'Grechen Fuemen' => 'Grechen Fuemen',
         'Grenze' => 'Grenze',
         'Grenze Gotisch' => 'Grenze Gotisch',
+        'Grey Qo' => 'Grey Qo',
         'Griffy' => 'Griffy',
         'Gruppo' => 'Gruppo',
         'Gudea' => 'Gudea',
@@ -413,6 +720,8 @@ if ($ADMIN->fulltree) {
         'Gupter' => 'Gupter',
         'Gurajada' => 'Gurajada',
         'Habibi' => 'Habibi',
+        'Hachi Maru Pop' => 'Hachi Maru Pop',
+        'Hahmlet' => 'Hahmlet',
         'Halant' => 'Halant',
         'Hammersmith One' => 'Hammersmith One',
         'Hanalei' => 'Hanalei',
@@ -427,6 +736,7 @@ if ($ADMIN->fulltree) {
         'Hepta Slab' => 'Hepta Slab',
         'Herr Von Muellerhoff' => 'Herr Von Muellerhoff',
         'Hi Melody' => 'Hi Melody',
+        'Hina Mincho' => 'Hina Mincho',
         'Hind' => 'Hind',
         'Hind Guntur' => 'Hind Guntur',
         'Hind Madurai' => 'Hind Madurai',
@@ -437,7 +747,13 @@ if ($ADMIN->fulltree) {
         'Homenaje' => 'Homenaje',
         'IBM Plex Mono' => 'IBM Plex Mono',
         'IBM Plex Sans' => 'IBM Plex Sans',
+        'IBM Plex Sans Arabic' => 'IBM Plex Sans Arabic',
         'IBM Plex Sans Condensed' => 'IBM Plex Sans Condensed',
+        'IBM Plex Sans Devanagari' => 'IBM Plex Sans Devanagari',
+        'IBM Plex Sans Hebrew' => 'IBM Plex Sans Hebrew',
+        'IBM Plex Sans KR' => 'IBM Plex Sans KR',
+        'IBM Plex Sans Thai' => 'IBM Plex Sans Thai',
+        'IBM Plex Sans Thai Looped' => 'IBM Plex Sans Thai Looped',
         'IBM Plex Serif' => 'IBM Plex Serif',
         'IM Fell DW Pica' => 'IM Fell DW Pica',
         'IM Fell DW Pica SC' => 'IM Fell DW Pica SC',
@@ -452,6 +768,7 @@ if ($ADMIN->fulltree) {
         'Ibarra Real Nova' => 'Ibarra Real Nova',
         'Iceberg' => 'Iceberg',
         'Iceland' => 'Iceland',
+        'Imbue' => 'Imbue',
         'Imprima' => 'Imprima',
         'Inconsolata' => 'Inconsolata',
         'Inder' => 'Inder',
@@ -469,6 +786,7 @@ if ($ADMIN->fulltree) {
         'Jacques Francois' => 'Jacques Francois',
         'Jacques Francois Shadow' => 'Jacques Francois Shadow',
         'Jaldi' => 'Jaldi',
+        'JetBrains Mono' => 'JetBrains Mono',
         'Jim Nightshade' => 'Jim Nightshade',
         'Jockey One' => 'Jockey One',
         'Jolly Lodger' => 'Jolly Lodger',
@@ -488,10 +806,15 @@ if ($ADMIN->fulltree) {
         'Just Me Again Down Here' => 'Just Me Again Down Here',
         'K2D' => 'K2D',
         'Kadwa' => 'Kadwa',
+        'Kaisei Decol' => 'Kaisei Decol',
+        'Kaisei HarunoUmi' => 'Kaisei HarunoUmi',
+        'Kaisei Opti' => 'Kaisei Opti',
+        'Kaisei Tokumin' => 'Kaisei Tokumin',
         'Kalam' => 'Kalam',
         'Kameron' => 'Kameron',
         'Kanit' => 'Kanit',
         'Kantumruy' => 'Kantumruy',
+        'Karantina' => 'Karantina',
         'Karla' => 'Karla',
         'Karma' => 'Karma',
         'Katibeh' => 'Katibeh',
@@ -507,9 +830,12 @@ if ($ADMIN->fulltree) {
         'Khula' => 'Khula',
         'Kirang Haerang' => 'Kirang Haerang',
         'Kite One' => 'Kite One',
+        'Kiwi Maru' => 'Kiwi Maru',
+        'Klee One' => 'Klee One',
         'Knewave' => 'Knewave',
         'KoHo' => 'KoHo',
         'Kodchasan' => 'Kodchasan',
+        'Koh Santepheap' => 'Koh Santepheap',
         'Kosugi' => 'Kosugi',
         'Kosugi Maru' => 'Kosugi Maru',
         'Kotta One' => 'Kotta One',
@@ -519,9 +845,11 @@ if ($ADMIN->fulltree) {
         'Kristi' => 'Kristi',
         'Krona One' => 'Krona One',
         'Krub' => 'Krub',
+        'Kufam' => 'Kufam',
         'Kulim Park' => 'Kulim Park',
         'Kumar One' => 'Kumar One',
         'Kumar One Outline' => 'Kumar One Outline',
+        'Kumbh Sans' => 'Kumbh Sans',
         'Kurale' => 'Kurale',
         'La Belle Aurore' => 'La Belle Aurore',
         'Lacquer' => 'Lacquer',
@@ -529,6 +857,7 @@ if ($ADMIN->fulltree) {
         'Lakki Reddy' => 'Lakki Reddy',
         'Lalezar' => 'Lalezar',
         'Lancelot' => 'Lancelot',
+        'Langar' => 'Langar',
         'Lateef' => 'Lateef',
         'Lato' => 'Lato',
         'League Script' => 'League Script',
@@ -537,6 +866,7 @@ if ($ADMIN->fulltree) {
         'Lekton' => 'Lekton',
         'Lemon' => 'Lemon',
         'Lemonada' => 'Lemonada',
+        'Lexend' => 'Lexend',
         'Lexend Deca' => 'Lexend Deca',
         'Lexend Exa' => 'Lexend Exa',
         'Lexend Giga' => 'Lexend Giga',
@@ -544,12 +874,6 @@ if ($ADMIN->fulltree) {
         'Lexend Peta' => 'Lexend Peta',
         'Lexend Tera' => 'Lexend Tera',
         'Lexend Zetta' => 'Lexend Zetta',
-        'Libre Barcode 128' => 'Libre Barcode 128',
-        'Libre Barcode 128 Text' => 'Libre Barcode 128 Text',
-        'Libre Barcode 39' => 'Libre Barcode 39',
-        'Libre Barcode 39 Extended' => 'Libre Barcode 39 Extended',
-        'Libre Barcode 39 Extended Text' => 'Libre Barcode 39 Extended Text',
-        'Libre Barcode 39 Text' => 'Libre Barcode 39 Text',
         'Libre Baskerville' => 'Libre Baskerville',
         'Libre Caslon Display' => 'Libre Caslon Display',
         'Libre Caslon Text' => 'Libre Caslon Text',
@@ -642,6 +966,7 @@ if ($ADMIN->fulltree) {
         'Monoton' => 'Monoton',
         'Monsieur La Doulaise' => 'Monsieur La Doulaise',
         'Montaga' => 'Montaga',
+        'MonteCarlo' => 'MonteCarlo',
         'Montez' => 'Montez',
         'Montserrat' => 'Montserrat',
         'Montserrat Alternates' => 'Montserrat Alternates',
@@ -668,10 +993,13 @@ if ($ADMIN->fulltree) {
         'Nanum Gothic Coding' => 'Nanum Gothic Coding',
         'Nanum Myeongjo' => 'Nanum Myeongjo',
         'Nanum Pen Script' => 'Nanum Pen Script',
+        'Nerko One' => 'Nerko One',
         'Neucha' => 'Neucha',
         'Neuton' => 'Neuton',
         'New Rocker' => 'New Rocker',
+        'New Tegomin' => 'New Tegomin',
         'News Cycle' => 'News Cycle',
+        'Newsreader' => 'Newsreader',
         'Niconne' => 'Niconne',
         'Niramit' => 'Niramit',
         'Nixie One' => 'Nixie One',
@@ -682,17 +1010,188 @@ if ($ADMIN->fulltree) {
         'Notable' => 'Notable',
         'Nothing You Could Do' => 'Nothing You Could Do',
         'Noticia Text' => 'Noticia Text',
+        'Noto Kufi Arabic' => 'Noto Kufi Arabic',
+        'Noto Music' => 'Noto Music',
+        'Noto Naskh Arabic' => 'Noto Naskh Arabic',
+        'Noto Nastaliq Urdu' => 'Noto Nastaliq Urdu',
+        'Noto Rashi Hebrew' => 'Noto Rashi Hebrew',
         'Noto Sans' => 'Noto Sans',
+        'Noto Sans Adlam' => 'Noto Sans Adlam',
+        'Noto Sans Adlam Unjoined' => 'Noto Sans Adlam Unjoined',
+        'Noto Sans Anatolian Hieroglyphs' => 'Noto Sans Anatolian Hieroglyphs',
+        'Noto Sans Arabic' => 'Noto Sans Arabic',
+        'Noto Sans Armenian' => 'Noto Sans Armenian',
+        'Noto Sans Avestan' => 'Noto Sans Avestan',
+        'Noto Sans Balinese' => 'Noto Sans Balinese',
+        'Noto Sans Bamum' => 'Noto Sans Bamum',
+        'Noto Sans Bassa Vah' => 'Noto Sans Bassa Vah',
+        'Noto Sans Batak' => 'Noto Sans Batak',
+        'Noto Sans Bengali' => 'Noto Sans Bengali',
+        'Noto Sans Bhaiksuki' => 'Noto Sans Bhaiksuki',
+        'Noto Sans Brahmi' => 'Noto Sans Brahmi',
+        'Noto Sans Buginese' => 'Noto Sans Buginese',
+        'Noto Sans Buhid' => 'Noto Sans Buhid',
+        'Noto Sans Canadian Aboriginal' => 'Noto Sans Canadian Aboriginal',
+        'Noto Sans Carian' => 'Noto Sans Carian',
+        'Noto Sans Caucasian Albanian' => 'Noto Sans Caucasian Albanian',
+        'Noto Sans Chakma' => 'Noto Sans Chakma',
+        'Noto Sans Cham' => 'Noto Sans Cham',
+        'Noto Sans Cherokee' => 'Noto Sans Cherokee',
+        'Noto Sans Coptic' => 'Noto Sans Coptic',
+        'Noto Sans Cuneiform' => 'Noto Sans Cuneiform',
+        'Noto Sans Cypriot' => 'Noto Sans Cypriot',
+        'Noto Sans Deseret' => 'Noto Sans Deseret',
+        'Noto Sans Devanagari' => 'Noto Sans Devanagari',
+        'Noto Sans Display' => 'Noto Sans Display',
+        'Noto Sans Duployan' => 'Noto Sans Duployan',
+        'Noto Sans Egyptian Hieroglyphs' => 'Noto Sans Egyptian Hieroglyphs',
+        'Noto Sans Elbasan' => 'Noto Sans Elbasan',
+        'Noto Sans Elymaic' => 'Noto Sans Elymaic',
+        'Noto Sans Georgian' => 'Noto Sans Georgian',
+        'Noto Sans Glagolitic' => 'Noto Sans Glagolitic',
+        'Noto Sans Gothic' => 'Noto Sans Gothic',
+        'Noto Sans Grantha' => 'Noto Sans Grantha',
+        'Noto Sans Gujarati' => 'Noto Sans Gujarati',
+        'Noto Sans Gunjala Gondi' => 'Noto Sans Gunjala Gondi',
+        'Noto Sans Gurmukhi' => 'Noto Sans Gurmukhi',
         'Noto Sans HK' => 'Noto Sans HK',
+        'Noto Sans Hanifi Rohingya' => 'Noto Sans Hanifi Rohingya',
+        'Noto Sans Hanunoo' => 'Noto Sans Hanunoo',
+        'Noto Sans Hatran' => 'Noto Sans Hatran',
+        'Noto Sans Hebrew' => 'Noto Sans Hebrew',
+        'Noto Sans Imperial Aramaic' => 'Noto Sans Imperial Aramaic',
+        'Noto Sans Indic Siyaq Numbers' => 'Noto Sans Indic Siyaq Numbers',
+        'Noto Sans Inscriptional Pahlavi' => 'Noto Sans Inscriptional Pahlavi',
+        'Noto Sans Inscriptional Parthian' => 'Noto Sans Inscriptional Parthian',
         'Noto Sans JP' => 'Noto Sans JP',
+        'Noto Sans Javanese' => 'Noto Sans Javanese',
         'Noto Sans KR' => 'Noto Sans KR',
+        'Noto Sans Kaithi' => 'Noto Sans Kaithi',
+        'Noto Sans Kannada' => 'Noto Sans Kannada',
+        'Noto Sans Kayah Li' => 'Noto Sans Kayah Li',
+        'Noto Sans Kharoshthi' => 'Noto Sans Kharoshthi',
+        'Noto Sans Khmer' => 'Noto Sans Khmer',
+        'Noto Sans Khojki' => 'Noto Sans Khojki',
+        'Noto Sans Khudawadi' => 'Noto Sans Khudawadi',
+        'Noto Sans Lao' => 'Noto Sans Lao',
+        'Noto Sans Lepcha' => 'Noto Sans Lepcha',
+        'Noto Sans Limbu' => 'Noto Sans Limbu',
+        'Noto Sans Linear A' => 'Noto Sans Linear A',
+        'Noto Sans Linear B' => 'Noto Sans Linear B',
+        'Noto Sans Lisu' => 'Noto Sans Lisu',
+        'Noto Sans Lycian' => 'Noto Sans Lycian',
+        'Noto Sans Lydian' => 'Noto Sans Lydian',
+        'Noto Sans Mahajani' => 'Noto Sans Mahajani',
+        'Noto Sans Malayalam' => 'Noto Sans Malayalam',
+        'Noto Sans Mandaic' => 'Noto Sans Mandaic',
+        'Noto Sans Manichaean' => 'Noto Sans Manichaean',
+        'Noto Sans Marchen' => 'Noto Sans Marchen',
+        'Noto Sans Masaram Gondi' => 'Noto Sans Masaram Gondi',
+        'Noto Sans Math' => 'Noto Sans Math',
+        'Noto Sans Mayan Numerals' => 'Noto Sans Mayan Numerals',
+        'Noto Sans Medefaidrin' => 'Noto Sans Medefaidrin',
+        'Noto Sans Meroitic' => 'Noto Sans Meroitic',
+        'Noto Sans Miao' => 'Noto Sans Miao',
+        'Noto Sans Modi' => 'Noto Sans Modi',
+        'Noto Sans Mongolian' => 'Noto Sans Mongolian',
+        'Noto Sans Mono' => 'Noto Sans Mono',
+        'Noto Sans Mro' => 'Noto Sans Mro',
+        'Noto Sans Multani' => 'Noto Sans Multani',
+        'Noto Sans Myanmar' => 'Noto Sans Myanmar',
+        'Noto Sans N Ko' => 'Noto Sans N Ko',
+        'Noto Sans Nabataean' => 'Noto Sans Nabataean',
+        'Noto Sans New Tai Lue' => 'Noto Sans New Tai Lue',
+        'Noto Sans Newa' => 'Noto Sans Newa',
+        'Noto Sans Nushu' => 'Noto Sans Nushu',
+        'Noto Sans Ogham' => 'Noto Sans Ogham',
+        'Noto Sans Ol Chiki' => 'Noto Sans Ol Chiki',
+        'Noto Sans Old Hungarian' => 'Noto Sans Old Hungarian',
+        'Noto Sans Old Italic' => 'Noto Sans Old Italic',
+        'Noto Sans Old North Arabian' => 'Noto Sans Old North Arabian',
+        'Noto Sans Old Permic' => 'Noto Sans Old Permic',
+        'Noto Sans Old Persian' => 'Noto Sans Old Persian',
+        'Noto Sans Old Sogdian' => 'Noto Sans Old Sogdian',
+        'Noto Sans Old South Arabian' => 'Noto Sans Old South Arabian',
+        'Noto Sans Old Turkic' => 'Noto Sans Old Turkic',
+        'Noto Sans Oriya' => 'Noto Sans Oriya',
+        'Noto Sans Osage' => 'Noto Sans Osage',
+        'Noto Sans Osmanya' => 'Noto Sans Osmanya',
+        'Noto Sans Pahawh Hmong' => 'Noto Sans Pahawh Hmong',
+        'Noto Sans Palmyrene' => 'Noto Sans Palmyrene',
+        'Noto Sans Pau Cin Hau' => 'Noto Sans Pau Cin Hau',
+        'Noto Sans Phags Pa' => 'Noto Sans Phags Pa',
+        'Noto Sans Phoenician' => 'Noto Sans Phoenician',
+        'Noto Sans Psalter Pahlavi' => 'Noto Sans Psalter Pahlavi',
+        'Noto Sans Rejang' => 'Noto Sans Rejang',
+        'Noto Sans Runic' => 'Noto Sans Runic',
         'Noto Sans SC' => 'Noto Sans SC',
+        'Noto Sans Samaritan' => 'Noto Sans Samaritan',
+        'Noto Sans Saurashtra' => 'Noto Sans Saurashtra',
+        'Noto Sans Sharada' => 'Noto Sans Sharada',
+        'Noto Sans Shavian' => 'Noto Sans Shavian',
+        'Noto Sans Siddham' => 'Noto Sans Siddham',
+        'Noto Sans Sinhala' => 'Noto Sans Sinhala',
+        'Noto Sans Sogdian' => 'Noto Sans Sogdian',
+        'Noto Sans Sora Sompeng' => 'Noto Sans Sora Sompeng',
+        'Noto Sans Soyombo' => 'Noto Sans Soyombo',
+        'Noto Sans Sundanese' => 'Noto Sans Sundanese',
+        'Noto Sans Syloti Nagri' => 'Noto Sans Syloti Nagri',
+        'Noto Sans Symbols' => 'Noto Sans Symbols',
+        'Noto Sans Symbols 2' => 'Noto Sans Symbols 2',
+        'Noto Sans Syriac' => 'Noto Sans Syriac',
         'Noto Sans TC' => 'Noto Sans TC',
+        'Noto Sans Tagalog' => 'Noto Sans Tagalog',
+        'Noto Sans Tagbanwa' => 'Noto Sans Tagbanwa',
+        'Noto Sans Tai Le' => 'Noto Sans Tai Le',
+        'Noto Sans Tai Tham' => 'Noto Sans Tai Tham',
+        'Noto Sans Tai Viet' => 'Noto Sans Tai Viet',
+        'Noto Sans Takri' => 'Noto Sans Takri',
+        'Noto Sans Tamil' => 'Noto Sans Tamil',
+        'Noto Sans Tamil Supplement' => 'Noto Sans Tamil Supplement',
+        'Noto Sans Telugu' => 'Noto Sans Telugu',
+        'Noto Sans Thaana' => 'Noto Sans Thaana',
+        'Noto Sans Thai' => 'Noto Sans Thai',
+        'Noto Sans Thai Looped' => 'Noto Sans Thai Looped',
+        'Noto Sans Tifinagh' => 'Noto Sans Tifinagh',
+        'Noto Sans Tirhuta' => 'Noto Sans Tirhuta',
+        'Noto Sans Ugaritic' => 'Noto Sans Ugaritic',
+        'Noto Sans Vai' => 'Noto Sans Vai',
+        'Noto Sans Wancho' => 'Noto Sans Wancho',
+        'Noto Sans Warang Citi' => 'Noto Sans Warang Citi',
+        'Noto Sans Yi' => 'Noto Sans Yi',
+        'Noto Sans Zanabazar Square' => 'Noto Sans Zanabazar Square',
         'Noto Serif' => 'Noto Serif',
+        'Noto Serif Ahom' => 'Noto Serif Ahom',
+        'Noto Serif Armenian' => 'Noto Serif Armenian',
+        'Noto Serif Balinese' => 'Noto Serif Balinese',
+        'Noto Serif Bengali' => 'Noto Serif Bengali',
+        'Noto Serif Devanagari' => 'Noto Serif Devanagari',
+        'Noto Serif Display' => 'Noto Serif Display',
+        'Noto Serif Dogra' => 'Noto Serif Dogra',
+        'Noto Serif Ethiopic' => 'Noto Serif Ethiopic',
+        'Noto Serif Georgian' => 'Noto Serif Georgian',
+        'Noto Serif Grantha' => 'Noto Serif Grantha',
+        'Noto Serif Gujarati' => 'Noto Serif Gujarati',
+        'Noto Serif Gurmukhi' => 'Noto Serif Gurmukhi',
+        'Noto Serif Hebrew' => 'Noto Serif Hebrew',
         'Noto Serif JP' => 'Noto Serif JP',
         'Noto Serif KR' => 'Noto Serif KR',
+        'Noto Serif Kannada' => 'Noto Serif Kannada',
+        'Noto Serif Khmer' => 'Noto Serif Khmer',
+        'Noto Serif Lao' => 'Noto Serif Lao',
+        'Noto Serif Malayalam' => 'Noto Serif Malayalam',
+        'Noto Serif Myanmar' => 'Noto Serif Myanmar',
+        'Noto Serif Nyiakeng Puachue Hmong' => 'Noto Serif Nyiakeng Puachue Hmong',
         'Noto Serif SC' => 'Noto Serif SC',
+        'Noto Serif Sinhala' => 'Noto Serif Sinhala',
         'Noto Serif TC' => 'Noto Serif TC',
+        'Noto Serif Tamil' => 'Noto Serif Tamil',
+        'Noto Serif Tangut' => 'Noto Serif Tangut',
+        'Noto Serif Telugu' => 'Noto Serif Telugu',
+        'Noto Serif Thai' => 'Noto Serif Thai',
+        'Noto Serif Tibetan' => 'Noto Serif Tibetan',
+        'Noto Serif Yezidi' => 'Noto Serif Yezidi',
+        'Noto Traditional Nushu' => 'Noto Traditional Nushu',
         'Nova Cut' => 'Nova Cut',
         'Nova Flat' => 'Nova Flat',
         'Nova Mono' => 'Nova Mono',
@@ -707,6 +1206,7 @@ if ($ADMIN->fulltree) {
         'Odibee Sans' => 'Odibee Sans',
         'Odor Mean Chey' => 'Odor Mean Chey',
         'Offside' => 'Offside',
+        'Oi' => 'Oi',
         'Old Standard TT' => 'Old Standard TT',
         'Oldenburg' => 'Oldenburg',
         'Oleo Script' => 'Oleo Script',
@@ -716,9 +1216,11 @@ if ($ADMIN->fulltree) {
         'Oranienbaum' => 'Oranienbaum',
         'Orbitron' => 'Orbitron',
         'Oregano' => 'Oregano',
+        'Orelega One' => 'Orelega One',
         'Orienta' => 'Orienta',
         'Original Surfer' => 'Original Surfer',
         'Oswald' => 'Oswald',
+        'Otomanopee One' => 'Otomanopee One',
         'Over the Rainbow' => 'Over the Rainbow',
         'Overlock' => 'Overlock',
         'Overlock SC' => 'Overlock SC',
@@ -738,6 +1240,7 @@ if ($ADMIN->fulltree) {
         'Padauk' => 'Padauk',
         'Palanquin' => 'Palanquin',
         'Palanquin Dark' => 'Palanquin Dark',
+        'Palette Mosaic' => 'Palette Mosaic',
         'Pangolin' => 'Pangolin',
         'Paprika' => 'Paprika',
         'Parisienne' => 'Parisienne',
@@ -756,6 +1259,7 @@ if ($ADMIN->fulltree) {
         'Petit Formal Script' => 'Petit Formal Script',
         'Petrona' => 'Petrona',
         'Philosopher' => 'Philosopher',
+        'Piazzolla' => 'Piazzolla',
         'Piedra' => 'Piedra',
         'Pinyon Script' => 'Pinyon Script',
         'Pirata One' => 'Pirata One',
@@ -774,6 +1278,7 @@ if ($ADMIN->fulltree) {
         'Poppins' => 'Poppins',
         'Port Lligat Sans' => 'Port Lligat Sans',
         'Port Lligat Slab' => 'Port Lligat Slab',
+        'Potta One' => 'Potta One',
         'Pragati Narrow' => 'Pragati Narrow',
         'Prata' => 'Prata',
         'Preahvihear' => 'Preahvihear',
@@ -787,6 +1292,7 @@ if ($ADMIN->fulltree) {
         'Public Sans' => 'Public Sans',
         'Puritan' => 'Puritan',
         'Purple Purse' => 'Purple Purse',
+        'Qahiri' => 'Qahiri',
         'Quando' => 'Quando',
         'Quantico' => 'Quantico',
         'Quattrocento' => 'Quattrocento',
@@ -805,6 +1311,7 @@ if ($ADMIN->fulltree) {
         'Ramaraja' => 'Ramaraja',
         'Rambla' => 'Rambla',
         'Rammetto One' => 'Rammetto One',
+        'Rampart One' => 'Rampart One',
         'Ranchers' => 'Ranchers',
         'Rancho' => 'Rancho',
         'Ranga' => 'Ranga',
@@ -818,6 +1325,7 @@ if ($ADMIN->fulltree) {
         'Redressed' => 'Redressed',
         'Reem Kufi' => 'Reem Kufi',
         'Reenie Beanie' => 'Reenie Beanie',
+        'Reggae One' => 'Reggae One',
         'Revalia' => 'Revalia',
         'Rhodium Libre' => 'Rhodium Libre',
         'Ribeye' => 'Ribeye',
@@ -830,6 +1338,7 @@ if ($ADMIN->fulltree) {
         'Roboto Slab' => 'Roboto Slab',
         'Rochester' => 'Rochester',
         'Rock Salt' => 'Rock Salt',
+        'RocknRoll One' => 'RocknRoll One',
         'Rokkitt' => 'Rokkitt',
         'Romanesco' => 'Romanesco',
         'Ropa Sans' => 'Ropa Sans',
@@ -839,6 +1348,7 @@ if ($ADMIN->fulltree) {
         'Rowdies' => 'Rowdies',
         'Rozha One' => 'Rozha One',
         'Rubik' => 'Rubik',
+        'Rubik Beastly' => 'Rubik Beastly',
         'Rubik Mono One' => 'Rubik Mono One',
         'Ruda' => 'Ruda',
         'Rufina' => 'Rufina',
@@ -849,6 +1359,7 @@ if ($ADMIN->fulltree) {
         'Russo One' => 'Russo One',
         'Ruthie' => 'Ruthie',
         'Rye' => 'Rye',
+        'STIX Two Text' => 'STIX Two Text',
         'Sacramento' => 'Sacramento',
         'Sahitya' => 'Sahitya',
         'Sail' => 'Sail',
@@ -861,6 +1372,7 @@ if ($ADMIN->fulltree) {
         'Sanchez' => 'Sanchez',
         'Sancreek' => 'Sancreek',
         'Sansita' => 'Sansita',
+        'Sansita Swashed' => 'Sansita Swashed',
         'Sarabun' => 'Sarabun',
         'Sarala' => 'Sarala',
         'Sarina' => 'Sarina',
@@ -870,6 +1382,7 @@ if ($ADMIN->fulltree) {
         'Sawarabi Mincho' => 'Sawarabi Mincho',
         'Scada' => 'Scada',
         'Scheherazade' => 'Scheherazade',
+        'Scheherazade New' => 'Scheherazade New',
         'Schoolbell' => 'Schoolbell',
         'Scope One' => 'Scope One',
         'Seaweed Script' => 'Seaweed Script',
@@ -885,6 +1398,8 @@ if ($ADMIN->fulltree) {
         'Share' => 'Share',
         'Share Tech' => 'Share Tech',
         'Share Tech Mono' => 'Share Tech Mono',
+        'Shippori Mincho' => 'Shippori Mincho',
+        'Shippori Mincho B1' => 'Shippori Mincho B1',
         'Shojumaru' => 'Shojumaru',
         'Short Stack' => 'Short Stack',
         'Shrikhand' => 'Shrikhand',
@@ -916,6 +1431,7 @@ if ($ADMIN->fulltree) {
         'Source Code Pro' => 'Source Code Pro',
         'Source Sans Pro' => 'Source Sans Pro',
         'Source Serif Pro' => 'Source Serif Pro',
+        'Space Grotesk' => 'Space Grotesk',
         'Space Mono' => 'Space Mono',
         'Spartan' => 'Spartan',
         'Special Elite' => 'Special Elite',
@@ -932,10 +1448,13 @@ if ($ADMIN->fulltree) {
         'Stalemate' => 'Stalemate',
         'Stalinist One' => 'Stalinist One',
         'Stardos Stencil' => 'Stardos Stencil',
+        'Stick' => 'Stick',
+        'Stick No Bills' => 'Stick No Bills',
         'Stint Ultra Condensed' => 'Stint Ultra Condensed',
         'Stint Ultra Expanded' => 'Stint Ultra Expanded',
         'Stoke' => 'Stoke',
         'Strait' => 'Strait',
+        'Style Script' => 'Style Script',
         'Stylish' => 'Stylish',
         'Sue Ellen Francisco' => 'Sue Ellen Francisco',
         'Suez One' => 'Suez One',
@@ -950,6 +1469,9 @@ if ($ADMIN->fulltree) {
         'Suwannaphum' => 'Suwannaphum',
         'Swanky and Moo Moo' => 'Swanky and Moo Moo',
         'Syncopate' => 'Syncopate',
+        'Syne' => 'Syne',
+        'Syne Mono' => 'Syne Mono',
+        'Syne Tactile' => 'Syne Tactile',
         'Tajawal' => 'Tajawal',
         'Tangerine' => 'Tangerine',
         'Taprom' => 'Taprom',
@@ -960,6 +1482,7 @@ if ($ADMIN->fulltree) {
         'Tenali Ramakrishna' => 'Tenali Ramakrishna',
         'Tenor Sans' => 'Tenor Sans',
         'Text Me One' => 'Text Me One',
+        'Texturina' => 'Texturina',
         'Thasadith' => 'Thasadith',
         'The Girl Next Door' => 'The Girl Next Door',
         'Tienne' => 'Tienne',
@@ -969,16 +1492,21 @@ if ($ADMIN->fulltree) {
         'Titan One' => 'Titan One',
         'Titillium Web' => 'Titillium Web',
         'Tomorrow' => 'Tomorrow',
+        'Tourney' => 'Tourney',
         'Trade Winds' => 'Trade Winds',
+        'Train One' => 'Train One',
         'Trirong' => 'Trirong',
+        'Trispace' => 'Trispace',
         'Trocchi' => 'Trocchi',
         'Trochut' => 'Trochut',
+        'Truculenta' => 'Truculenta',
         'Trykker' => 'Trykker',
         'Tulpen One' => 'Tulpen One',
         'Turret Road' => 'Turret Road',
         'Ubuntu' => 'Ubuntu',
         'Ubuntu Condensed' => 'Ubuntu Condensed',
         'Ubuntu Mono' => 'Ubuntu Mono',
+        'Uchen' => 'Uchen',
         'Ultra' => 'Ultra',
         'Uncial Antiqua' => 'Uncial Antiqua',
         'Underdog' => 'Underdog',
@@ -988,6 +1516,7 @@ if ($ADMIN->fulltree) {
         'Unkempt' => 'Unkempt',
         'Unlock' => 'Unlock',
         'Unna' => 'Unna',
+        'Urbanist' => 'Urbanist',
         'VT323' => 'VT323',
         'Vampiro One' => 'Vampiro One',
         'Varela' => 'Varela',
@@ -1011,8 +1540,11 @@ if ($ADMIN->fulltree) {
         'Warnes' => 'Warnes',
         'Wellfleet' => 'Wellfleet',
         'Wendy One' => 'Wendy One',
+        'WindSong' => 'WindSong',
         'Wire One' => 'Wire One',
         'Work Sans' => 'Work Sans',
+        'Xanh Mono' => 'Xanh Mono',
+        'Yaldevi' => 'Yaldevi',
         'Yanone Kaffeesatz' => 'Yanone Kaffeesatz',
         'Yantramanav' => 'Yantramanav',
         'Yatra One' => 'Yatra One',
@@ -1020,261 +1552,18 @@ if ($ADMIN->fulltree) {
         'Yeon Sung' => 'Yeon Sung',
         'Yeseva One' => 'Yeseva One',
         'Yesteryear' => 'Yesteryear',
+        'Yomogi' => 'Yomogi',
         'Yrsa' => 'Yrsa',
+        'Yusei Magic' => 'Yusei Magic',
         'ZCOOL KuaiLe' => 'ZCOOL KuaiLe',
         'ZCOOL QingKe HuangYou' => 'ZCOOL QingKe HuangYou',
         'ZCOOL XiaoWei' => 'ZCOOL XiaoWei',
+        'Zen Dots' => 'Zen Dots',
+        'Zen Loop' => 'Zen Loop',
+        'Zen Tokyo Zoo' => 'Zen Tokyo Zoo',
         'Zeyada' => 'Zeyada',
         'Zhi Mang Xing' => 'Zhi Mang Xing',
         'Zilla Slab' => 'Zilla Slab',
-        'Zilla Slab Highlight' => 'Zilla Slab Highlight'
-    );
-
-    // Pixels.
-    $from0to6px = array('0' => '0');
-    for ($i = 1; $i < 7; $i++) {
-        $from0to6px[$i . 'px'] = $i . 'px';
-    }
-
-    $from0to8px = array('0' => '0');
-    for ($i = 1; $i < 9; $i++) {
-        $from0to8px[$i . 'px'] = $i . 'px';
-    }
-
-    $from0to12px = array('0' => '0');
-    for ($i = 1; $i < 13; $i++) {
-        $from0to12px[$i . 'px'] = $i . 'px';
-    }
-
-    $from10to16px = array();
-    for ($i = 10; $i < 17; $i++) {
-        $from10to16px[$i . 'px'] = $i . 'px';
-    }
-
-    $from0to20px = array('0' => '0');
-    for ($i = 1; $i < 21; $i++) {
-        $from0to20px[$i . 'px'] = $i . 'px';
-    }
-
-    $from10to20px = array();
-    for ($i = 10; $i < 21; $i++) {
-        $from10to20px[$i . 'px'] = $i . 'px';
-    }
-
-    $from10to30px = array();
-    for ($i = 10; $i < 31; $i++) {
-        $from10to30px[$i . 'px'] = $i . 'px';
-    }
-
-    $from10to30pxnovalueunit = array();
-    for ($i = 10; $i < 31; $i++) {
-        $from10to30pxnovalueunit[$i] = $i . 'px';
-    }
-
-    $from0to30px = array('0' => '0');
-    for ($i = 1; $i < 31; $i++) {
-        $from0to30px[$i . 'px'] = $i . 'px';
-    }
-
-    $from0to50px = array('0' => '0');
-    for ($i = 1; $i < 51; $i++) {
-        $from0to50px[$i . 'px'] = $i . 'px';
-    }
-
-    $from0to100px = array('0' => '0');
-    for ($i = 1; $i < 101; $i++) {
-        $from0to100px[$i . 'px'] = $i . 'px';
-    }
-
-    $from14to46px = array();
-    for ($i = 14; $i < 47; $i++) {
-        $from14to46px[$i . 'px'] = $i . 'px';
-    }
-
-    $standardfontsize = array(
-        '8px' => '8px',
-        '9px' => '9px',
-        '10px' => '10px',
-        '11px' => '11px',
-        '12px' => '12px',
-        '13px' => '13px',
-        '14px' => '14px',
-        '15px' => '15px',
-        '16px' => '16px',
-        '18px' => '18px',
-        '20px' => '20px',
-        '22px' => '22px',
-        '24px' => '24px',
-        '26px' => '26px',
-        '28px' => '28px',
-        '32px' => '32px',
-        '36px' => '36px',
-        '40px' => '40px',
-        '44px' => '44px',
-        '48px' => '48px',
-        '54px' => '54px',
-        '60px' => '60px',
-        '66px' => '66px',
-        '72px' => '72px',
-        '80px' => '80px',
-        '88px' => '88px',
-        '96px' => '96px'
-    );
-
-    $screensizeblock = array(
-        'd-block' => get_string('bs4all', 'theme_adaptable'),
-        'd-none d-sm-block' => get_string('bs4small', 'theme_adaptable'),
-        'd-none d-md-block' => get_string('bs4medium', 'theme_adaptable'),
-        'd-none d-lg-block' => get_string('bs4large', 'theme_adaptable'),
-        'd-none d-xl-block' => get_string('bs4extralarge', 'theme_adaptable'),
-        'd-none' => get_string('bs4none', 'theme_adaptable')
-    );
-
-    $screensizeflex = array(
-        'd-flex' => get_string('bs4all', 'theme_adaptable'),
-        'd-none d-sm-flex' => get_string('bs4small', 'theme_adaptable'),
-        'd-none d-md-flex' => get_string('bs4medium', 'theme_adaptable'),
-        'd-none d-lg-flex' => get_string('bs4large', 'theme_adaptable'),
-        'd-none d-xl-flex' => get_string('bs4extralarge', 'theme_adaptable'),
-        'd-none' => get_string('bs4none', 'theme_adaptable')
-    );
-
-    // Numbers.
-    $from20to40 = array();
-    for ($i = 20; $i < 41; $i++) {
-        $from20to40[$i] = $i;
-    }
-
-    $from0to60inc5 = array();
-    for ($i = 0; $i < 61; $i += 5) {
-        $from0to60inc5[$i] = $i;
-    }
-
-    $choices0to12 = array();
-    for ($i = 0; $i < 13; $i++) {
-        $choices0to12[$i] = $i;
-    }
-
-    $from100to900 = array();
-    for ($i = 100; $i < 901; $i += 100) {
-        $from100to900[$i] = $i;
-    }
-
-    // Percentages.
-    $from0to2point5percent = array();
-    for ($i = 0; $i < 2.6; $i += 0.1) {
-        $from0to2point5percent[$i . '%'] = $i . '%';
-    }
-
-    $from95to100percent = array(
-        '95%' => '95%',
-        '96%' => '96%',
-        '97%' => '97%',
-        '98%' => '98%',
-        '99%' => '99%',
-        '100%' => '100%',
-    );
-
-    $from35to80percent = array();
-    for ($i = 35; $i < 81; $i++) {
-        $from35to80percent[$i . '%'] = $i . '%';
-    }
-
-    $from35to100percent = array();
-    for ($i = 35; $i < 101; $i++) {
-        $from35to100percent[$i . '%'] = $i . '%';
-    }
-
-    $from85to110percent = array();
-    for ($i = 85; $i < 111; $i++) {
-        $from85to110percent[$i . '%'] = $i . '%';
-    }
-
-    // Seconds.
-    $from0to1second = array();
-    $floatcount = 0.0;
-    for ($i = 0; $i <= 10; $i++) {
-        $from0to1second[floatval($floatcount) . 's'] = floatval($floatcount) . 's';
-        $floatcount += 0.1;
-    }
-
-    // Texts.
-    $borderstyles = array(
-        'none' => 'none',
-        'solid' => 'solid',
-        'dashed' => 'dashed',
-        'dotted' => 'dotted',
-        'double' => 'double'
-    );
-
-    $htmltarget = array(
-        '_blank' => get_string('targetnewwindow', 'theme_adaptable'),
-        '_self' => get_string('targetsamewindow', 'theme_adaptable')
-    );
-
-    $marketblockstyles = array(
-        '' => get_string('nostyle', 'theme_adaptable'),
-        'internalmarket' => get_string('bcustyle', 'theme_adaptable'),
-        'covtiles' => get_string('coventrystyle', 'theme_adaptable')
-    );
-
-    $sliderstyles = array(
-        'slider1' => get_string('sliderstyle1', 'theme_adaptable'),
-        'slider2' => get_string('sliderstyle2', 'theme_adaptable')
-    );
-
-    $bootstrap12 = array(
-        '0-0-0-0' => get_string('disabled', 'theme_adaptable'),
-        '12-0-0-0' => '1',
-        '6-6-0-0' => '6 + 6',
-        '4-4-4-0' => '4 + 4 + 4',
-        '3-3-3-3' => '3 + 3 + 3 + 3',
-        '6-3-3-0' => '6 + 3 + 3',
-        '3-3-6-0' => '3 + 3 + 6',
-        '3-6-3-0' => '3 + 6 + 3',
-        '4-8-0-0' => '4 + 8',
-        '8-4-0-0' => '8 + 4',
-        '3-9-0-0' => '3 + 9',
-        '9-3-0-0' => '9 + 3',
-        '5-7-0-0' => '5 + 7',
-        '7-5-0-0' => '7 + 5',
-    );
-
-    $bootstrap12defaults = array('3-3-3-3', '4-4-4-0', '3-3-3-3', '0-0-0-0', '0-0-0-0',
-        '0-0-0-0', '0-0-0-0', '0-0-0-0', '0-0-0-0', '0-0-0-0');
-
-    $marketingfooterbuilderdefaults = array('3-3-3-3', '0-0-0-0', '0-0-0-0', '0-0-0-0', '0-0-0-0',
-        '0-0-0-0', '0-0-0-0', '0-0-0-0', '0-0-0-0', '0-0-0-0');
-
-    // Adaptable Tabbed Layout changes. 0 signifies the course content or dashboard main content.
-    $courselabel = get_string('tabbedlayouttablabelcourse', 'theme_adaptable');
-    $tab1label = get_string('tabbedlayouttablabelcourse1', 'theme_adaptable');
-    $tab2label = get_string('tabbedlayouttablabelcourse2', 'theme_adaptable');
-    $tabbedlayoutdefaultscourse = array(
-        '0' => get_string('disabled', 'theme_adaptable'),
-        '0-1' => $courselabel . ' + ' . $tab1label,
-        '1-0' => $tab1label . ' + ' . $courselabel,
-        '0-1-2' => $courselabel . ' + ' . $tab1label . ' + ' . $tab2label,
-        '1-0-2' => $tab1label . ' + ' . $courselabel . ' + ' . $tab2label,
-        '1-2-0' => $tab1label . ' + ' . $tab2label . ' + ' . $courselabel,
-        '0-2-1' => $courselabel . ' + ' . $tab2label . ' + ' . $tab1label,
-    );
-
-    $dashboardlabel = get_string('tabbedlayouttablabeldashboard', 'theme_adaptable');
-    $tab1label = get_string('tabbedlayouttablabeldashboard1', 'theme_adaptable');
-    $tab2label = get_string('tabbedlayouttablabeldashboard2', 'theme_adaptable');
-    $tabbedlayoutdefaultsdashboard = array(
-        '0' => get_string('disabled', 'theme_adaptable'),
-        '0-1' => $dashboardlabel . ' + ' . $tab1label,
-        '1-0' => $tab1label . ' + ' . $dashboardlabel,
-        '0-1-2' => $dashboardlabel . ' + ' . $tab1label . ' + ' . $tab2label,
-        '1-0-2' => $tab1label . ' + ' . $dashboardlabel . ' + ' . $tab2label,
-        '1-2-0' => $tab1label . ' + ' . $tab2label . ' + ' . $dashboardlabel,
-        '0-2-1' => $dashboardlabel . ' + ' . $tab2label . ' + ' . $tab1label,
-    );
-
-    $dashboardblockregionposition = array(
-        'abovecontent' => get_string('dashblocksabovecontent', 'theme_adaptable'),
-        'belowcontent' => get_string('dashblocksbelowcontent', 'theme_adaptable')
-    );
+        'Zilla Slab Highlight' => 'Zilla Slab Highlight',
+    ];
 }

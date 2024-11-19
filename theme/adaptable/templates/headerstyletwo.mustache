@@ -21,56 +21,59 @@
 
     Example context (json):
     {
+        "hasmobileprimarynav": true,
         "headerbg": "",
-        "sitelogo": "",
-        "sitetitle": "Adaptable",
-        "shownavbar": true,
-        "topmenus": "",
+        "langmenu": "",
+        "loginoruser": "",
+        "mobileprimarynavicon": "Markup",
         "navbarsearch": "",
-        "langmenu": false,
-        "loginoruser": ""
+        "pageheaderoriginal": true,
+        "responsiveheader": "d-none d-lg-block",
+        "shownavbar": true,
+        "headerlogo": "",
+        "headertitle": "Adaptable",
+        "topmenus": ""
     }
 }}
-<header id="adaptable-page-header-wrapper" class="stickything"{{{headerbg}}}>
-    <div id="header2" class="container">
-        <div class="row">
-            <div class="d-none d-lg-block col-lg-6">
+<header id="adaptable-page-header-wrapper"{{{headerbg}}}>
+    <div id="header2" class="above-header container">
+        <div class="row{{^pageheaderoriginal}} justify-content-lg-between{{/pageheaderoriginal}}">
+            <div class="d-none d-lg-block{{#pageheaderoriginal}} col-lg-6{{/pageheaderoriginal}}{{^pageheaderoriginal}} col{{/pageheaderoriginal}}">
                 <div class="d-flex justify-content-start align-items-center h-100 bd-highlight">
-                    {{#sitelogo}}{{{sitelogo}}}{{/sitelogo}}
-                    {{#sitetitle}}{{{sitetitle}}}{{/sitetitle}}
+                    {{#headerlogo}}{{{headerlogo}}}{{/headerlogo}}
+                    {{#headertitle}}{{{headertitle}}}{{/headertitle}}
                     <div id="course-header">
                         {{{output.course_header}}}
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-6 p-0 my-auto">
+            <div class="{{#pageheaderoriginal}}col-lg-6 {{/pageheaderoriginal}}{{^pageheaderoriginal}}col-lg-auto {{/pageheaderoriginal}}pr-0 my-auto">
                 <nav class="navbar navbar-expand btco-hover-menu">
-                    {{#shownavbar}}
-                    <div id="adaptable-page-header-nav-drawer" data-region="drawer-toggle" class="d-lg-none mr-3">
-                        <button id="drawer" aria-expanded="false" aria-controls="nav-drawer" type="button" class="nav-link float-sm-left mr-1" data-side="left">
-                            <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
-                            <span class="sr-only">{{#str}}sidepanel{{/str}}</span>
-                        </button>
-                    </div>
-                    {{/shownavbar}}
-
+                    {{#hasmobileprimarynav}}
+                    <button class="navbar-toggler nav-link aabtn d-block d-lg-none px-1 my-1 border-0" data-toggler="drawers" data-action="toggle" data-target="theme_adaptable-drawers-primary">
+                        {{{mobileprimarynavicon}}}
+                        <span class="sr-only">{{#str}}sidepanel, core{{/str}}</span>
+                    </button>
+                    {{/hasmobileprimarynav}}
                     <div class="collapse navbar-collapse">
                         <ul class="navbar-nav ml-auto">
 
+                            {{#pageheaderoriginal}}
                             <li class="nav-item navbarsearchsocial mx-md-1 my-auto">
                                 {{{navbarsearch}}}
                             </li>
+                            {{/pageheaderoriginal}}
 
+                            {{#topmenus}}
                             <li class="my-auto m-1">{{{topmenus}}}</li>
-
-                            <li class="pull-left mr-2 my-auto">
-                                {{{output.user_menu}}}
-                            </li>
+                            {{/topmenus}}
 
                             {{! Remove Messages and Notifications icons when no navbar. }}
                             {{#shownavbar}}
-                            <li id="nav-popover-container" class="my-auto mx-1 d-flex">{{{output.navbar_plugin_output}}}</li>
+                            <li id="nav-popover-container" class="my-auto mx-1 d-flex">
+                                {{{output.navbar_plugin_output}}}
+                            </li>
                             {{/shownavbar}}
 
                             {{#langmenu}}
@@ -78,9 +81,8 @@
                             {{/langmenu}}
 
                             {{{output.page_heading_menu}}}
-                            <li class="nav-item">
-                                {{{loginoruser}}}
-                            </li>
+
+                            {{{loginoruser}}}
                         </ul>
                     </div>
                 </nav>
@@ -93,3 +95,8 @@
     {{/shownavbar}}
 
 </header>
+
+{{#hasmobileprimarynav}}
+{{< theme_adaptable/primary-drawer-mobile }}
+{{/ theme_adaptable/primary-drawer-mobile }}
+{{/hasmobileprimarynav}}

@@ -27,11 +27,10 @@
 /// Hide some elements in Print view.
 @media print {
     // Remove things.
-    #above-header,
+    .above-header,
     .socialbox,
     #navwrap,
     #page-navbar,
-    #showsidebaricon,
     .purgecaches,
     #back-to-top {
         display: none !important;
@@ -53,11 +52,6 @@
 
     // Remove Adaptable block regions.
     #frontblockregion {
-        display: none !important;
-    }
-
-    // Remove progress link.
-    #completionprogressid {
         display: none !important;
     }
 

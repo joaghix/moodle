@@ -15,21 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Layout responsive
  *
  * @package    theme_adaptable
  * @copyright  2015 Jeremy Hopkins (Coventry University)
  * @copyright  2015-2017 Fernando Acedo (3-bits.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 defined('MOODLE_INTERNAL') || die;
 if ($ADMIN->fulltree) {
-    $page = new admin_settingpage('theme_adaptable_mobile', get_string('responsivesettings', 'theme_adaptable'));
+    $page = new \theme_adaptable\admin_settingspage('theme_adaptable_mobile', get_string('responsivesettings', 'theme_adaptable'));
 
-    $page->add(new admin_setting_heading('theme_adaptable_mobile', get_string('responsivesettingsheading', 'theme_adaptable'),
-        format_text(get_string('responsivesettingsdesc', 'theme_adaptable'), FORMAT_MARKDOWN)));
+    $page->add(new admin_setting_heading(
+        'theme_adaptable_mobile',
+        get_string('responsivesettingsheading', 'theme_adaptable'),
+        format_text(get_string(
+            'responsivesettingsdesc',
+            'theme_adaptable',
+            'https://getbootstrap.com/docs/4.6/utilities/display/'
+        ), FORMAT_MARKDOWN)
+    ));
 
     // Hide Full Header.
     $name = 'theme_adaptable/responsiveheader';
@@ -61,8 +67,8 @@ if ($ADMIN->fulltree) {
     $name = 'theme_adaptable/responsivelogo';
     $title = get_string('responsivelogo', 'theme_adaptable');
     $description = get_string('responsivelogodesc', 'theme_adaptable');
-    $default = 'd-none d-lg-block';
-    $choices = $screensizeblock;
+    $default = 'd-none d-lg-inline-block';
+    $choices = $screensizeinlineblock;
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $page->add($setting);
 
@@ -70,8 +76,36 @@ if ($ADMIN->fulltree) {
     $name = 'theme_adaptable/responsivecoursetitle';
     $title = get_string('responsivecoursetitle', 'theme_adaptable');
     $description = get_string('responsivecoursetitledesc', 'theme_adaptable');
-    $default = 'd-none d-lg-block';
-    $choices = $screensizeblock;
+    $default = 'd-none d-lg-inline-block';
+    $choices = $screensizeinlineblock;
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $page->add($setting);
+
+    // Hide header title.
+    $name = 'theme_adaptable/responsiveheadertitle';
+    $title = get_string('responsiveheadertitle', 'theme_adaptable');
+    $description = get_string('responsiveheadertitledesc', 'theme_adaptable');
+    $existing = get_config('theme_adaptable', 'responsivecoursetitle');
+    if (!empty($existing)) {
+        $default = $existing;
+    } else {
+        $default = 'd-none d-lg-inline-block';
+    }
+    $choices = $screensizeinlineblock;
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $page->add($setting);
+
+    // Hide site title.
+    $name = 'theme_adaptable/responsivesitetitle';
+    $title = get_string('responsivesitetitle', 'theme_adaptable');
+    $description = get_string('responsivesitetitledesc', 'theme_adaptable');
+    $existing = get_config('theme_adaptable', 'responsivecoursetitle');
+    if (!empty($existing)) {
+        $default = $existing;
+    } else {
+        $default = 'd-none d-lg-inline-block';
+    }
+    $choices = $screensizeinlineblock;
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $page->add($setting);
 
@@ -79,10 +113,10 @@ if ($ADMIN->fulltree) {
     $name = 'theme_adaptable/responsivesectionnav';
     $title = get_string('responsivesectionnav', 'theme_adaptable');
     $description = get_string('responsivesectionnavdesc', 'theme_adaptable');
-    $radchoices = array(
+    $radchoices = [
         0 => get_string('show', 'theme_adaptable'),
         1 => get_string('hide', 'theme_adaptable'),
-    );
+    ];
     $default = 1;
     $setting = new admin_setting_configselect($name, $title, $description, $default, $radchoices);
     $page->add($setting);
@@ -135,24 +169,6 @@ if ($ADMIN->fulltree) {
     $description = get_string('mobilemenubkcolordesc', 'theme_adaptable');
     $previewconfig = null;
     $setting = new admin_setting_configcolourpicker($name, $title, $description, '#F9F9F9', $previewconfig);
-    $setting->set_updatedcallback('theme_reset_all_caches');
-    $page->add($setting);
-
-    // Mobile sidebar tab background colour.
-    $name = 'theme_adaptable/mobileslidebartabbkcolor';
-    $title = get_string('mobileslidebartabbkcolor', 'theme_adaptable');
-    $description = get_string('mobileslidebartabbkcolordesc', 'theme_adaptable');
-    $previewconfig = null;
-    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#F9F9F9', $previewconfig);
-    $setting->set_updatedcallback('theme_reset_all_caches');
-    $page->add($setting);
-
-    // Mobile sidebar tab icon colour.
-    $name = 'theme_adaptable/mobileslidebartabiconcolor';
-    $title = get_string('mobileslidebartabiconcolor', 'theme_adaptable');
-    $description = get_string('mobileslidebartabiconcolordesc', 'theme_adaptable');
-    $previewconfig = null;
-    $setting = new admin_setting_configcolourpicker($name, $title, $description, '#000000', $previewconfig);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 

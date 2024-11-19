@@ -15,28 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Layout
  *
  * @package    theme_adaptable
  * @copyright  2015 Jeremy Hopkins (Coventry University)
  * @copyright  2015 Fernando Acedo (3-bits.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    $page = new admin_settingpage('theme_adaptable_layout', get_string('layoutsettings', 'theme_adaptable'));
+    $page = new \theme_adaptable\admin_settingspage('theme_adaptable_layout', get_string('layoutsettings', 'theme_adaptable'));
 
-    $page->add(new admin_setting_heading('theme_adaptable_layout', get_string('layoutsettingsheading', 'theme_adaptable'),
-        format_text(get_string('layoutdesc', 'theme_adaptable'), FORMAT_MARKDOWN)));
+    $page->add(new admin_setting_heading(
+        'theme_adaptable_layout',
+        get_string('layoutsettingsheading', 'theme_adaptable'),
+        format_text(get_string('layoutdesc', 'theme_adaptable'), FORMAT_MARKDOWN)
+    ));
 
     // Background Image.
     $name = 'theme_adaptable/homebk';
     $title = get_string('homebk', 'theme_adaptable');
     $description = get_string('homebkdesc', 'theme_adaptable');
-    $setting = new admin_setting_configstoredfile($name, $title, $description, 'homebk');
+    $setting = new \theme_adaptable\admin_setting_configstoredfiles(
+        $name, $title, $description, 'homebk',
+        ['accepted_types' => '*.jpg,*.jpeg,*.jfif,*.png', 'maxfiles' => 1]
+    );
     $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
@@ -44,11 +49,16 @@ if ($ADMIN->fulltree) {
     $name = 'theme_adaptable/blockside';
     $title = get_string('blockside', 'theme_adaptable');
     $description = get_string('blocksidedesc', 'theme_adaptable');
-    $setting = new admin_setting_configselect($name, $title, $description, 0,
-    array(
+    $setting = new admin_setting_configselect(
+        $name,
+        $title,
+        $description,
+        0,
+        [
             0 => get_string('rightblocks', 'theme_adaptable'),
             1 => get_string('leftblocks', 'theme_adaptable'),
-        ));
+        ]
+    );
     $page->add($setting);
 
     // Fullscreen width.
@@ -63,20 +73,11 @@ if ($ADMIN->fulltree) {
     $name = 'theme_adaptable/standardscreenwidth';
     $title = get_string('standardscreenwidth', 'theme_adaptable');
     $description = get_string('standardscreenwidthdesc', 'theme_adaptable');
-    $choices = array(
+    $choices = [
         'standard' => '1170px',
-        'narrow' => '1000px'
-    );
+        'narrow' => '1000px',
+    ];
     $setting = new admin_setting_configselect($name, $title, $description, 'standard', $choices);
-    $page->add($setting);
-
-    // Show sidebar when not logged.
-    $name = 'theme_adaptable/sidebarnotlogged';
-    $title = get_string('sidebarnotlogged', 'theme_adaptable');
-    $description = get_string('sidebarnotloggeddesc', 'theme_adaptable');
-    $default = true;
-    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
-    $setting->set_updatedcallback('theme_reset_all_caches');
     $page->add($setting);
 
     // Emoticons size.

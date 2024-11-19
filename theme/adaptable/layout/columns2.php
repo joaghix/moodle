@@ -15,72 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Columns two
  *
  * @package    theme_adaptable
  * @copyright  2015-2016 Jeremy Hopkins (Coventry University)
  * @copyright  2015-2016 Fernando Acedo (3-bits.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
+ * @copyright  2019 G J Barnard
+ *               {@link https://moodle.org/user/profile.php?id=442195}
+ *               {@link https://gjbarnard.co.uk}
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-// Include header.
-require_once(dirname(__FILE__) . '/includes/header.php');
-
-
-// If page is Grader report don't show side post.
-if (($PAGE->pagetype == "grade-report-grader-index") ||
-    ($PAGE->bodyid == "page-grade-report-grader-index")) {
-    $left = true;
-    $hassidepost = false;
-} else {
-    $left = $PAGE->theme->settings->blockside;
-    $hassidepost = $PAGE->blocks->region_has_content('side-post', $OUTPUT);
-}
-$regions = theme_adaptable_grid($left, $hassidepost);
-?>
-
-<div class="container outercont">
-    <?php
-        echo $OUTPUT->page_navbar();
-    ?>
-    <div id="page-content" class="row<?php echo $regions['direction'];?>">
-        <section id="region-main" class="<?php echo $regions['content'];?>">
-            <?php
-            echo $OUTPUT->get_course_alerts();
-            echo $OUTPUT->course_content_header();
-            echo $OUTPUT->main_content();
-
-            if ($PAGE->has_set_url()) {
-                $currenturl = $PAGE->url;
-            } else {
-                $currenturl = $_SERVER["REQUEST_URI"];
-            }
-
-            // Display course page block activity bottom region if this is a mod page of type where you're viewing
-            // a section, page or book (chapter).
-            if (!empty($PAGE->theme->settings->coursepageblockactivitybottomenabled)) {
-                if ( stristr ($currenturl, "mod/page/view") ||
-                     stristr ($currenturl, "mod/book/view") ) {
-                    echo $OUTPUT->get_block_regions('customrowsetting', 'course-section-', '12-0-0-0');
-                }
-            }
-
-            echo $OUTPUT->activity_navigation();
-            echo $OUTPUT->course_content_footer();
-            ?>
-        </section>
-
-        <?php
-        if ($hassidepost) {
-            echo $OUTPUT->blocks('side-post', $regions['blocks'].' d-print-none ');
-        }
-        ?>
-    </div>
-</div>
-
-<?php
-// Include footer.
-require_once(dirname(__FILE__) . '/includes/footer.php');
+echo $OUTPUT->columns_two_layout();

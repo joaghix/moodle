@@ -15,12 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 //
 //
-// Adaptable core override styles style sheet
+// Adaptable core styles style sheet
 //
 // @package    theme_adaptable
 // @copyright  2020 G J Barnard - {@link http://moodle.org/user/profile.php?id=442195}
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 //
+
+#region-main,
+.block {
+    padding: .5rem;
+}
+
+#page {
+    clear: both;
+    margin: 0;
+    max-width: inherit;
+    padding: 0;
+}
+
+#page-content {
+    padding: 12px 0 20px;
+    position: relative;
+    width: auto;
+}
 
 // Calendar links on the page.
 a.skip-block,
@@ -33,13 +51,17 @@ a.skip {
         border: none;
         box-shadow: none;
     }
-
-    .btn-icon {
-        padding-top: 0 !important;
-    }
 }
 
 body.h5p-embed #page-content {
     display: block;
     padding: 0;
+}
+
+.theme-card .btn {
+    padding: 0.25rem 0.5rem !important;
+}
+
+.tooltip {
+    font-size: .9rem;
 }
