@@ -1,0 +1,3 @@
+[submodule "local/dedicacion_gfw"]
+	path = local/dedicacion_gfw
+	url = https://github.com/joaghix/dedicacion_gfw.git
