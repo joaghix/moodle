@@ -341,8 +341,8 @@ M.mod_scorm.init = function(Y, nav_display, navposition_left, navposition_top, h
             var newheight = Y.one('body').get('winHeight') - 5
                 - Y.one('#scorm_layout').getY()
                 - window.pageYOffset;
-            if (newheight < 640 || isNaN(newheight)) {
-                newheight = 640;
+            if (newheight < 680 || isNaN(newheight)) {
+                newheight = 680;
             }
             Y.one('#scorm_layout').setStyle('height', newheight);
 
