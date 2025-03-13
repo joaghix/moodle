@@ -138,6 +138,12 @@ With these settings, you can overwrite the Bootstrap colors which are used withi
 
 ##### Navbar
 
+###### Maximal width of logo in navbar
+
+If the logo for the navbar on the top left is too wide or has a special aspect ratio, you can limit the logo's maximum width. Use css definition to limit the max-width.
+
+###### Navbar color
+
 With this setting, you can change the navbar color from the default light navbar to a dark one or a colored one.
 
 #### Tab "Activity Branding"
@@ -224,6 +230,16 @@ With this setting, you can control whether the course image is visible inside th
 ###### Show course completion progress
 
 With this setting, you can control whether the course completion progress is visible inside the course overview block or not.
+
+#### Tab "Category index / Site home"
+
+##### Course listing
+
+In this section, you can modify the look & feel of the course listing on the category index pages and on site home. As an alternative to the way how Moodle core presents them, you can present the course listing as course cards (similar to the course cards on the 'My courses' page) or course list  (similar to the course list on the 'My courses' page). And, of course, you can configure the look of the course cards or rows with multiple dependent settings.
+
+##### Category listing
+
+With this setting, you can modify the look & feel of the category listing on the category index pages and on site home. As an alternative to the way how Moodle core presents them, you can present the category listing as a refreshed list of boxes.
 
 #### Tab "Blocks"
 
@@ -693,6 +709,8 @@ As you have read in the introduction, the main design principle of Boost Union i
   As soon as you click the footer button (questionmark icon) in the bottom right corner of the screen, a popover with several links appears. However, the content of this link list is far from being well-structured and looks more like a garage sale. When implementing the settings to individually suppress each of these popover links, we had to make some code re-arrangements which result in the fact that the popover links are slightly more well-structured even if you do not enable any setting in Boost Union.
 * Suppress footer outputs by plugin / core component:
   Due to the way how the settings `theme_boost_union | footersuppressstandardfooter_*` had to be built, it was not possible to quickly and reliably detect if Boost Union (or a Boost Union child theme) is the active theme. Thus, these settings are also applied if another theme than Boost Union is active. Please make sure to disable these settings if Boost Union is installed but should not be used.
+* Clickable header in the user's menu third level:
+  Due to the way how the smart menu was integrated into the user menu, as soon as at least one smart menu exists on the page, the header of the language menu in the user menu is now fully clickable - compared to Boost core where only the 'back' arrow in the language menu is clickable. This should be a neglectible difference to Boost core.
 
 
 Companion plugin local_navbarplus
@@ -899,6 +917,7 @@ This theme is a collaboration result of multiple organisations.
 Moodle an Hochschulen e.V. would like to thank these main contributors (in alphabetical order of the institutions) for their work:
 
 * Academic Moodle Cooperation (AMC): Ideating, Code
+* Adapta, Daniel Neis Araujo: Code
 * Baden-Württemberg Cooperative State University (DHBW), Katja Neubehler: Code
 * bdecent GmbH, Stefan Scholz: Code, Ideating, Funding
 * Bern University of Applied Sciences (BFH), Luca Bösch: Code, Peer Review, Ideating
@@ -925,6 +944,7 @@ Moodle an Hochschulen e.V. would like to thank these main contributors (in alpha
 * ssystems GmbH, Alexander Bias: Code, Peer Review, Ideating, Funding
 * Technische Universität Berlin, Lars Bonczek: Code
 * University of Bayreuth, Nikolai Jahreis: Code
+* University of California, San Francisco, Stefan Topfstedt: Code
 * University of Graz, André Menrath: Code
 * University of Lübeck, Christian Wolters: Code, Peer Review, Ideating
 * Zurich University of Applied Sciences (ZHAW): Code, Funding, Ideating
