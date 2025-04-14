@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Defines metadata for the Message My Teacher block
  *
@@ -25,8 +24,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022080501;
-$plugin->requires = 2021051700; // Moodle 3.11
+$plugin->version = 2025041100;
+$plugin->requires = 2022041900; // Moodle 4.0.
 $plugin->component = 'block_messageteacher';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.6.1';
+$plugin->release = '2.6.2';
+$plugin->supported = [400, 405];

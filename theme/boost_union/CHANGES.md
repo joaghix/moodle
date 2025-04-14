@@ -4,6 +4,19 @@ moodle-theme_boost_union
 Changes
 -------
 
+### v4.5-r13
+
+* 2025-04-06 - Bugfix: Enrol page used modified course listing renderer from category index / site home as well, resolves #895.
+* 2025-04-01 - Feature: Add moodle documentation smartmenu item type, resolves #657.
+
+### v4.5-r12
+
+* 2025-03-29 - Bugfix: Remove assumption that syscontext->id = 1, resolves #627
+* 2025-03-28 - Improvement: Add resizing to flavour logo and compact logo, resolves #212.
+* 2025-03-27 - Improvement: Add admin main navigation to smart menu items page as well, resolves #882.
+* 2025-03-27 - Improvement: Add tertiary navigation to Boost Union admin settings pages to allow jumping from one settings page to another, resolves #876.
+               Child theme support: If you are running a Boost Union Child theme, please make sure to adapt your child theme to our latest boilerplate.
+
 ### v4.5-r11
 
 * 2025-03-26 - Bugfix: Footer button got pushed upwards even though no bottom menu bar was present, resolves #784.
