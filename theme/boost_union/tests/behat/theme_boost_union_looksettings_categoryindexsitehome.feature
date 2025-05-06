@@ -860,3 +860,22 @@ Feature: Configuring the theme_boost_union plugin for the "Category index / site
       | list         | nochange      | should not           | should not         |
       | cards        | boxlist       | should not           | should             |
       | list         | boxlist       | should not           | should             |
+
+  @javascript
+  Scenario: Setting: Course listing presentation / Category listing presentation: Verify multilang capability of the sticky category headers
+    Given the following config values are set as admin:
+      | config                      | value   | plugin            |
+      | courselistingpresentation   | cards   | theme_boost_union |
+      | categorylistingpresentation | boxlist | theme_boost_union |
+    And the following "categories" exist:
+      | name                                                                                                    | category | idnumber |
+      | <span lang="en" class="multilang">Category C</span><span lang="de" class="multilang">Kategorie C</span> | 0        | CATC     |
+    And the following "courses" exist:
+      | fullname | shortname | category |
+      | Course 4 | C4        | CATC     |
+    And the "multilang" filter is "on"
+    And the "multilang" filter applies to "content and headings"
+    When I log in as "student1"
+    And I am on site homepage
+    Then I should see "Category C"
+    And I should not see "Kategorie C"
