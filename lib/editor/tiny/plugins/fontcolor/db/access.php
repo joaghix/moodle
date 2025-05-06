@@ -15,15 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'atto_fullscreen', language 'en'.
+ * Capabilities for the tiny_fontcolor plugin.
  *
- * @package    atto_fullscreen
- * @copyright  2014 onward Daniel Thies <dethies@gmail.com>
+ * @package    tiny_fontcolor
+ * @copyright  2025 Stephan Robotta <stephan.robotta@bfh.ch>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Toggle full screen';
-$string['privacy:metadata'] = 'The Atto Toggle full screen plugin does not store any personal data.';
-$string['requireedit'] = 'Require editing';
-$string['requireedit_desc'] = 'Require capability to manage activities before showing fullscreen button';
-$string['settings'] = 'Full screen settings';
+defined('MOODLE_INTERNAL') || die();
+
+$capabilities = [
+    'tiny/fontcolor:use' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_USER,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+        ],
+    ],
+ ];
