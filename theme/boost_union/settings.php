@@ -1671,6 +1671,20 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $setting->set_updatedcallback('theme_reset_all_caches');
         $tab->add($setting);
 
+        // Setting: Starred courses popover cog icon link target.
+        $name = 'theme_boost_union/starredcourseslinktarget';
+        $title = get_string('starredcourseslinktargetsetting', 'theme_boost_union', null, true);
+        $description = get_string('starredcourseslinktargetsetting_desc', 'theme_boost_union', null, true);
+        $starredcourseslinktargetoptions = [
+                THEME_BOOST_UNION_SETTING_STARREDCOURSES_LINKTARGET_MYCOURSES => get_string('mycourses', 'core', null, false),
+                THEME_BOOST_UNION_SETTING_STARREDCOURSES_LINKTARGET_DASHBOARD => get_string('myhome', 'core', null, false),
+        ];
+        $setting = new admin_setting_configselect($name, $title, $description,
+                THEME_BOOST_UNION_SETTING_STARREDCOURSES_LINKTARGET_MYCOURSES, $starredcourseslinktargetoptions);
+        $tab->add($setting);
+        $page->hide_if('theme_boost_union/starredcourseslinktarget', 'theme_boost_union/shownavbarstarredcourses', 'neq',
+                THEME_BOOST_UNION_SETTING_SELECT_YES);
+
         // Create breadcrumbs heading.
         $name = 'theme_boost_union/breadcrumbsheading';
         $title = get_string('breadcrumbsheading', 'theme_boost_union', null, true);
@@ -1745,8 +1759,18 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         // Create block regions heading.
         $name = 'theme_boost_union/blockregionsheading';
         $title = get_string('blockregionsheading', 'theme_boost_union', null, true);
-        $description = get_string('blockregionsheading_desc', 'theme_boost_union', null, true);
+        $description = '';
         $setting = new admin_setting_heading($name, $title, $description);
+        $tab->add($setting);
+
+        // Show block regions intro.
+        $name = 'theme_boost_union/blockregionsintro';
+        $blockregionsintro = new \core\output\notification(
+                get_string('blockregionsheading_desc', 'theme_boost_union'), \core\output\notification::NOTIFY_INFO);
+        $blockregionsintro->set_show_closebutton(false);
+        $blockregionsintro->set_extra_classes(['alert-dark']);
+        $description = $OUTPUT->render($blockregionsintro);
+        $setting = new admin_setting_heading($name, '', $description);
         $tab->add($setting);
 
         // Add experimental warning.
@@ -2933,9 +2957,9 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $tab = new admin_settingpage('theme_boost_union_functionality_courses',
                 get_string('coursestab', 'theme_boost_union', null, true));
 
-        // Create course related hints heading.
-        $name = 'theme_boost_union/courserelatedhintsheading';
-        $title = get_string('courserelatedhintsheading', 'theme_boost_union', null, true);
+        // Create course related hints for teachers heading.
+        $name = 'theme_boost_union/courserelatedhintsforteachersheading';
+        $title = get_string('courserelatedhintsforteachersheading', 'theme_boost_union', null, true);
         $setting = new admin_setting_heading($name, $title, null);
         $tab->add($setting);
 
@@ -2963,17 +2987,31 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $page->hide_if('theme_boost_union/showhintforumnotifications', 'theme_boost_union/showhintcoursehidden', 'neq',
                 THEME_BOOST_UNION_SETTING_SELECT_YES);
 
-        // Setting: Show hint guest for access.
-        $name = 'theme_boost_union/showhintcourseguestaccess';
-        $title = get_string('showhintcoursguestaccesssetting', 'theme_boost_union', null, true);
-        $description = get_string('showhintcourseguestaccesssetting_desc', 'theme_boost_union', null, true);
-        $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
-        $tab->add($setting);
-
         // Setting: Show hint for self enrolment without enrolment key.
         $name = 'theme_boost_union/showhintcourseselfenrol';
         $title = get_string('showhintcourseselfenrolsetting', 'theme_boost_union', null, true);
         $description = get_string('showhintcourseselfenrolsetting_desc', 'theme_boost_union', null, true);
+        $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
+        $tab->add($setting);
+
+        // Setting: Show hint for guest enrolment without guest password.
+        $name = 'theme_boost_union/showhintcourseguestenrol';
+        $title = get_string('showhintcourseguestenrolsetting', 'theme_boost_union', null, true);
+        $description = get_string('showhintcourseguestenrolsetting_desc', 'theme_boost_union', null, true).'<br />'.
+                get_string('showhintcourseguestenrolsetting_note', 'theme_boost_union', null, true);
+        $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
+        $tab->add($setting);
+
+        // Create course related hints for students heading.
+        $name = 'theme_boost_union/courserelatedhintsforstudentsheading';
+        $title = get_string('courserelatedhintsforstudentsheading', 'theme_boost_union', null, true);
+        $setting = new admin_setting_heading($name, $title, null);
+        $tab->add($setting);
+
+        // Setting: Show hint guest for access.
+        $name = 'theme_boost_union/showhintcourseguestaccess';
+        $title = get_string('showhintcoursguestaccesssetting', 'theme_boost_union', null, true);
+        $description = get_string('showhintcourseguestaccesssetting_desc', 'theme_boost_union', null, true);
         $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
         $tab->add($setting);
 

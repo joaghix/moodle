@@ -4,6 +4,38 @@ moodle-theme_boost_union
 Changes
 -------
 
+### v4.5-r19
+
+* 2025-05-30 - Improvement: Smart menus now display hidden courses to users with the appropriate capability, resolves #407.
+               Please note: With this change, existing dynamic courses smart menu items will start to show hidden courses as this is what most users expect. If you do not want to show hidden courses, please change the newly introduced 'Show hidden courses' setting in your existing menu items after the theme update.
+* 2025-05-30 - Improvement: Transform the plain paragraphs on some settings pages into Bootstrap alerts for a nicer look.
+* 2025-05-27 - Bugfix: The page scrolled to the top when a dynamic courses submenu got clicked, resolves #962.
+
+### v4.5-r18
+
+* 2025-05-26 - Improvement: Enhance course related hint for guest access for teachers by a possibility to build own guest access link, resolves #960.
+* 2025-05-23 - Feature: Add course related hint for guest access for teachers as well, resolves #960.
+* 2025-05-23 - Improvement: Re-sort the settings for the course related hints.
+
+### v4.5-r17
+
+* 2025-05-21 - Bugfix: Smart menu "Visibility by language" restriction was not applied correctly after changes of the current language, resolves #697.
+* 2025-05-20 - Release: Set the Boost Union logo and tagline as screenshot for the theme overview page, resolves #925
+
+### v4.5-r16
+
+* 2025-05-08 - Feature: Allow the admin to configure the link target of the cog icon in the starred courses popover, resolves #939
+* 2025-05-08 - Bugfix: Smart menu item icon was not black when hovered on a black navbar, resolves #936
+
+### v4.5-r15
+
+* 2025-05-06 - Tests: The fine-grained personal access token (theme-boost_union-extscsstest.behat) had expired, resolves #932
+* 2025-05-06 - Regression: Course search page did not use the improved course listings anymore, resolves #930
+* 2025-05-02 - Bugfix: On mobile devices, the course listing combo box produced horizontal scroll bars, resolves #926.
+* 2025-04-30 - Bugfix: Modified smart menu transition time had an impact on the slider, resolves #922.
+* 2025-04-30 - Bugfix: Fix a HTML nesting glitch for the course lists on site home, resolves #919.
+* 2025-04-28 - Improvement: Remove a surplus CSS statement regarding the back-to-top button.
+
 ### v4.5-r14
 
 * 2025-04-25 - Improvement: Fix a small glitch in the slider's language strings

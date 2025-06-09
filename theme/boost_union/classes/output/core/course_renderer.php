@@ -159,7 +159,9 @@ class course_renderer extends \core_course_renderer {
         // If course cards are enabled.
         if ($courselistingpresentation == THEME_BOOST_UNION_SETTING_COURSELISTPRES_CARDS) {
             // Start the course listing as card grid.
-            // And add the theme_boost_union-courselisting class to be used in the CSS.
+            // And add the theme_boost_union-courselisting-wrapper and theme_boost_union-courselisting
+            // classes to be used in the CSS.
+            $content .= html_writer::start_tag('div', ['class' => 'theme_boost_union-courselisting-wrapper']);
             $content .= html_writer::start_tag('div',
                     [
                         'class' => 'row no-gutters theme_boost_union-courselisting theme_boost_union-courselisting-card',
@@ -235,11 +237,14 @@ class course_renderer extends \core_course_renderer {
             // End the course listing.
             $content .= html_writer::end_tag('div');
             $content .= html_writer::end_tag('div');
+            $content .= html_writer::end_tag('div');
 
             // Or if the course list is enabled.
         } else if ($courselistingpresentation == THEME_BOOST_UNION_SETTING_COURSELISTPRES_LIST) {
             // Start the course listing as course list.
-            // And add the theme_boost_union-courselisting class to be used in the CSS.
+            // And add the theme_boost_union-courselisting-wrapper and theme_boost_union-courselisting
+            // classes to be used in the CSS.
+            $content .= html_writer::start_tag('div', ['class' => 'theme_boost_union-courselisting-wrapper']);
             $content .= html_writer::start_tag('div',
                     [
                         'class' => 'theme_boost_union-courselisting theme_boost_union-courselisting-list',
@@ -265,11 +270,11 @@ class course_renderer extends \core_course_renderer {
                     // Get the category.
                     $cat = \core_course_category::get($course->category, IGNORE_MISSING);
 
-                    // Start the category list.
-                    $content .= html_writer::start_div('row no-gutters categorylist');
-
                     // Show the category heading as sticky header, if necessary.
                     if ($showstickyheaders == true) {
+                        // Start the category list.
+                        $content .= html_writer::start_div('row no-gutters categorylist');
+
                         $content .= html_writer::start_tag('div',
                                 ['class' =>
                                         'theme_boost_union-stickycategory col-12 bg-white rounded-bottom mb-3 pt-3 sticky-top']);
@@ -288,11 +293,12 @@ class course_renderer extends \core_course_renderer {
             }
 
             // End the category list, if there were any courses.
-            if (count($courses) > 0) {
+            if ($showstickyheaders == true && count($courses) > 0) {
                 $content .= html_writer::end_tag('div');
             }
 
             // End the course listing.
+            $content .= html_writer::end_tag('div');
             $content .= html_writer::end_tag('div');
         }
 
@@ -859,6 +865,7 @@ class course_renderer extends \core_course_renderer {
         // List of other page URLs where the modification is allowed.
         $pageswithboostunionmodification = [
               '/course/index.php',
+              '/course/search.php',
         ];
 
         // Iterate over these pages.
