@@ -1,6 +1,63 @@
 History
 =============
 
+Version 405.1.0 - 02/06/2025
+----------------------------
+1. Remove 'gnumsections' from database if any exist and update Behat tests to use initial 'numsections'.
+2. Add sub-subsection completion with the ability to show / hide at both the section and sub-section level.
+3. Adjust completion percentage font size when 100%.
+
+Version 405.0.3 - 19/03/2025
+----------------------------
+1. Fix 'Issue with Expanding/Collapsing Sections in Edit Mode' - #232.
+2. Take into account sub-sections when calculating completion.
+3. Add 'defaultcompletionlowpercentagevalue' and 'defaultcompletionmediumpercentagevalue' settings to set
+   a site level the percentage value should be below in order to be that colour.  You can set the colours
+   in CSS, the values as supplied are:
+
+        .format-grid .grid-completion.grid-completion-colour-low {
+            background-color: magenta;
+            color: white;
+        }
+
+        .format-grid .grid-completion.grid-completion-colour-middle {
+            background-color: yellow;
+            color: black;
+        }
+
+        .format-grid .grid-completion.grid-completion-colour-high{
+            background-color: green;
+            color: white;
+        }
+
+        .format-grid .grid-completion.grid-completion-percentagequarter-1 {
+            border-right-color: lightgreen;
+        }
+
+        .format-grid .grid-completion.grid-completion-percentagequarter-2 {
+            border-bottom-color: lightgreen;
+            border-right-color: lightgreen;
+        }
+
+        .format-grid .grid-completion.grid-completion-percentagequarter-3 {
+            border-bottom-color: lightgreen;
+            border-left-color: lightgreen;
+            border-right-color: lightgreen;
+        }
+
+        .format-grid .grid-completion.grid-completion-percentagequarter-4 {
+            border-color: lightgreen;
+        }
+
+4. Fix 'Hidden sections are shown as not available' are not shown at all to student.
+5. Fix 'allow_stealth_module_visibility' still using 'gnumsections'.
+
+Version 405.0.2 - 14/03/2025
+----------------------------
+1. Fix 'Decrease of section title font size' - #226.
+2. Fix 'Issue with Subsections in Grid Format Displayed as 'Orphaned Activities' in Moodle 4.5+' - #230.
+3. Improvements to subsection support.
+
 Version 405.0.1 - 24/10/2024
 ----------------------------
 1. Release candidate version for Moodle 4.5.
