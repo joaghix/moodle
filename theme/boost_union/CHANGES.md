@@ -4,6 +4,15 @@ moodle-theme_boost_union
 Changes
 -------
 
+### v4.5-r20
+
+* 2025-06-09 - Tests: Fix a failing Behat test on the 'Allow admins to use the tertiary navigation' scenario, resolves #973
+* 2025-06-06 - Upstream change: Adopt changes from MDL-85323 to locallogin.php
+* 2025-06-06 - Upstream change: Adopt changes from MDL-85450 to upcoming-mini.mustache
+* 2025-06-06 - Upstream change: Adopt changes from MDL-85220 to view-chards.mustache
+* 2025-06-04 - Bugfix: Enabling the footersuppresslogininfo setting prevented the reset of the failed login attempts counter, resolves #658
+* 2025-06-04 - Bugfix: Prevent debug message regarding newly introduced "displayhiddencourses" and "hiddencoursesort" option in dynamic courses items, resolves #970
+
 ### v4.5-r19
 
 * 2025-05-30 - Improvement: Smart menus now display hidden courses to users with the appropriate capability, resolves #407.
