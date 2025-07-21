@@ -144,6 +144,12 @@ define('THEME_BOOST_UNION_SETTING_CATLISTPRES_BOXLIST', 'boxlist');
 define('THEME_BOOST_UNION_SETTING_STARREDCOURSES_LINKTARGET_MYCOURSES', 'mycourses');
 define('THEME_BOOST_UNION_SETTING_STARREDCOURSES_LINKTARGET_DASHBOARD', 'dashboard');
 
+define('THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_WITHOUTPASSWORD', 'withoutpassword');
+define('THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_ALWAYS', 'always');
+
+define('THEME_BOOST_UNION_SETTING_COURSEPROGRESSSTYLE_PERCENTAGE', 'percentage');
+define('THEME_BOOST_UNION_SETTING_COURSEPROGRESSSTYLE_BAR', 'bar');
+
 /**
  * Returns the main SCSS content.
  *
@@ -239,6 +245,19 @@ function theme_boost_union_get_pre_scss($theme) {
         'bootstrapcolorinfo' => ['info'],
         'bootstrapcolorwarning' => ['warning'],
         'bootstrapcolordanger' => ['danger'],
+        'calendareventcolormaincategory' => ['calendarEventCategoryColor'],
+        'calendareventcolorbordercategory' => ['calendarEventCategoryBorderColor'],
+        'calendareventcolormaincourse' => ['calendarEventCourseColor'],
+        'calendareventcolorbordercourse' => ['calendarEventCourseBorderColor'],
+        'calendareventcolormaingroup' => ['calendarEventGroupColor'],
+        'calendareventcolorbordergroup' => ['calendarEventGroupBorderColor'],
+        'calendareventcolormainsite' => ['calendarEventGlobalColor'],
+        'calendareventcolorbordersite' => ['calendarEventGlobalBorderColor'],
+        'calendareventcolormainuser' => ['calendarEventUserColor'],
+        'calendareventcolorborderuser' => ['calendarEventUserBorderColor'],
+        'calendareventcolormainother' => ['calendarEventOtherColor'],
+        'calendareventcolorborderother' => ['calendarEventOtherBorderColor'],
+        'calendariconscolor' => ['calendarEventColor'],
     ];
 
     // Define the configurables which can be overridden by flavours.
@@ -649,9 +668,43 @@ function theme_boost_union_pluginfile($course, $cm, $context, $filearea, $args, 
         }
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
 
-        // Serve the files from the theme flavours.
-    } else if ($filearea === 'flavours_look_logocompact' || $filearea === 'flavours_look_logo' ||
-            $filearea === 'flavours_look_favicon' || $filearea === 'flavours_look_backgroundimage') {
+        // Serve the background files from the theme flavours.
+        // This code is copied and modified from the best practices in lib/filelib.php.
+    } else if ($filearea === 'flavours_look_backgroundimage') {
+        // Flavour files should not be top secret.
+        // Even if they apply to particular contexts or cohorts, we do not do any hard checks if a user should be
+        // allowed to request a file.
+        // We just make sure that the forcelogin setting is respected. This is ok as there isn't any possibility
+        // to apply a flavour to the login page / for non-logged-in users at the moment.
+        if ($CFG->forcelogin) {
+            require_login();
+            $serveoptions = ['cacheability' => 'private'];
+        } else {
+            $serveoptions = ['cacheability' => 'public'];
+        }
+
+        // Get file storage.
+        $fs = get_file_storage();
+
+        // Get the file from the filestorage.
+        $filename = clean_param(array_pop($args), PARAM_FILE);
+        array_pop($args); // This is the themerev number in the $args array which is used for browser caching, here we ignore it.
+        $itemid = clean_param(array_pop($args), PARAM_INT);
+        if ((!$file = $fs->get_file($context->id, 'theme_boost_union', $filearea, $itemid, '/', $filename)) ||
+                $file->is_directory()) {
+            send_file_not_found();
+        }
+
+        // Unlock session during file serving.
+        \core\session\manager::write_close();
+
+        // Send stored file (and cache it for 90 days, similar to other static assets within Moodle).
+        send_stored_file($file, DAYSECS * 90, 0, $forcedownload, $serveoptions);
+
+        // Serve the favicon and logo files from the theme flavours.
+        // This code is copied and modified from core_admin_pluginfile() in admin/lib.php.
+    } else if ($filearea === 'flavours_look_favicon' ||
+            $filearea === 'flavours_look_logocompact' || $filearea === 'flavours_look_logo') {
         // Flavour files should not be top secret.
         // Even if they apply to particular contexts or cohorts, we do not do any hard checks if a user should be
         // allowed to request a file.

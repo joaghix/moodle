@@ -4,6 +4,17 @@ moodle-theme_boost_union
 Changes
 -------
 
+### v4.5-r21
+
+* 2025-07-05 - Chore: Rename the setting 'courselistinghowfields' to 'courselistingshowfields' to fix a typo
+* 2025-07-05 - Improvement: Allow the admin to select the custom course fields on the course cards, resolves #846
+* 2025-07-04 - Feature: Show course progress as progress bar on the course cards, resolves #844
+* 2025-07-03 - Improvement: Show the login link in the navbar as button, resolves #979.
+* 2025-06-06 - Feature: Add color picker settings for calendar branding, resolves #434.
+* 2025-06-30 - Regression: Flavour favicon images were not working, resolves #942
+* 2025-06-30 - Regression: Flavour background images were not working, resolves #942
+* 2025-06-30 - Improvement: Allow the "guest access" hint for teachers to be shown as well if a guest password is set, resolves #984
+
 ### v4.5-r20
 
 * 2025-06-09 - Tests: Fix a failing Behat test on the 'Allow admins to use the tertiary navigation' scenario, resolves #973

@@ -702,6 +702,60 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $page->add($tab);
 
 
+        // Create calendar branding tab.
+        $tab = new admin_settingpage('theme_boost_union_look_calendarbranding',
+            get_string('calendarbrandingtab', 'theme_boost_union', null, true));
+
+        // Define supported calendar event types.
+        $calendareventtypes = ['category', 'course', 'group', 'user', 'site', 'other'];
+        // Iterate over all event types.
+        foreach ($calendareventtypes as $type) {
+            // Create Calendar event type heading.
+            $name = 'theme_boost_union/calendareventcolorsheading'.$type;
+            $title = get_string('calendareventcolorsheading', 'theme_boost_union',
+                    get_string('calendareventtype'.$type, 'theme_boost_union', null, true), true);
+            $setting = new admin_setting_heading($name, $title, null);
+            $tab->add($setting);
+
+            // Setting: Main color of the calendar event type.
+            $name = 'theme_boost_union/calendareventcolormain'.$type;
+            $title = get_string('calendareventcolormainsetting', 'theme_boost_union',
+                    get_string('calendareventtype'.$type, 'theme_boost_union', null, true), true);
+            $description = get_string('calendareventcolormainsetting_desc', 'theme_boost_union',
+                    get_string('calendareventtype'.$type, 'theme_boost_union', null, true), true);
+            $setting = new admin_setting_configcolourpicker($name, $title, $description, '');
+            $setting->set_updatedcallback('theme_reset_all_caches');
+            $tab->add($setting);
+
+            // Setting: Border color of the calendar event type.
+            $name = 'theme_boost_union/calendareventcolorborder'.$type;
+            $title = get_string('calendareventcolorbordersetting', 'theme_boost_union',
+                    get_string('calendareventtype'.$type, 'theme_boost_union', null, true), true);
+            $description = get_string('calendareventcolorbordersetting_desc', 'theme_boost_union',
+                    get_string('calendareventtype'.$type, 'theme_boost_union', null, true), true);
+            $setting = new admin_setting_configcolourpicker($name, $title, $description, '');
+            $setting->set_updatedcallback('theme_reset_all_caches');
+            $tab->add($setting);
+        }
+
+        // Create calendarbrandingheading heading.
+        $name = 'theme_boost_union/calendarbrandingheading';
+        $title = get_string('calendarbrandingheading', 'theme_boost_union', null, true);
+        $setting = new admin_setting_heading($name, $title, null);
+        $tab->add($setting);
+
+        // Setting: Calendar icon colors.
+        $name = 'theme_boost_union/calendariconscolor';
+        $title = get_string('calendariconscolorsetting', 'theme_boost_union', null, true);
+        $description = get_string('calendariconscolorsetting_desc', 'theme_boost_union', null, true);
+        $setting = new admin_setting_configcolourpicker($name, $title, $description, '');
+        $setting->set_updatedcallback('theme_reset_all_caches');
+        $tab->add($setting);
+
+        // Add tab to settings page.
+        $page->add($tab);
+
+
         // Create login page tab.
         $tab = new admin_settingpage('theme_boost_union_look_loginpage',
                 get_string('loginpagetab', 'theme_boost_union', null, true));
@@ -995,6 +1049,22 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $page->hide_if('theme_boost_union/courselistinghowprogress', 'theme_boost_union/courselistingpresentation', 'eq',
                 THEME_BOOST_UNION_SETTING_COURSELISTPRES_NOCHANGE);
 
+        // Setting: Course completion progress style.
+        $name = 'theme_boost_union/courselistingprogressstyle';
+        $title = get_string('courseistingprogressstyle', 'theme_boost_union', null, true);
+        $description = get_string('courseistingprogressstyle_desc', 'theme_boost_union', null, true);
+        $courseprogressstyleoptions = [
+                THEME_BOOST_UNION_SETTING_COURSEPROGRESSSTYLE_PERCENTAGE =>
+                        get_string('courseistingprogressstyle_percentage', 'theme_boost_union'),
+                THEME_BOOST_UNION_SETTING_COURSEPROGRESSSTYLE_BAR =>
+                        get_string('courseistingprogressstyle_bar', 'theme_boost_union'),
+        ];
+        $setting = new admin_setting_configselect($name, $title, $description,
+                THEME_BOOST_UNION_SETTING_COURSEPROGRESSSTYLE_PERCENTAGE, $courseprogressstyleoptions);
+        $tab->add($setting);
+        $page->hide_if('theme_boost_union/courselistingprogressstyle', 'theme_boost_union/courselistinghowprogress', 'neq',
+                THEME_BOOST_UNION_SETTING_SELECT_YES);
+
         // Setting: Show course enrolment icons in the course listing.
         $name = 'theme_boost_union/courselistinghowenrolicons';
         $title = get_string('courselistinghowenrolicons', 'theme_boost_union');
@@ -1005,13 +1075,56 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
                 THEME_BOOST_UNION_SETTING_COURSELISTPRES_NOCHANGE);
 
         // Setting: Show course fields in the course listing.
-        $name = 'theme_boost_union/courselistinghowfields';
-        $title = get_string('courselistinghowfields', 'theme_boost_union');
-        $description = get_string('courselistinghowfields_desc', 'theme_boost_union');
+        $name = 'theme_boost_union/courselistingshowfields';
+        $title = get_string('courselistingshowfields', 'theme_boost_union');
+        $description = get_string('courselistingshowfields_desc', 'theme_boost_union');
         $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
         $tab->add($setting);
-        $page->hide_if('theme_boost_union/courselistinghowfields', 'theme_boost_union/courselistingpresentation', 'eq',
+        $page->hide_if('theme_boost_union/courselistingshowfields', 'theme_boost_union/courselistingpresentation', 'eq',
                 THEME_BOOST_UNION_SETTING_COURSELISTPRES_NOCHANGE);
+
+        // Setting: Select course fields to be shown in the course listing.
+        // Prepare course fields options.
+        $coursehandler = \core_course\customfield\course_handler::create();
+        $coursefields = $coursehandler->get_fields();
+        // If there are existing fields.
+        if (count($coursefields) > 0) {
+            // Get all field details.
+            $fieldsarray = [];
+            $fieldsdefault = [];
+            foreach ($coursefields as $field) {
+                $fieldid = $field->get('id');
+                $fieldsarray[$fieldid] = $field->get('name');
+                $fieldsdefault[$fieldid] = 1; // By default, all fields are selected.
+            }
+            // Build the setting.
+            $name = 'theme_boost_union/courselistingselectfields';
+            $title = get_string('courselistingselectfields', 'theme_boost_union', null, true);
+            $description = get_string('courselistingselectfields_desc', 'theme_boost_union', null, true);
+            $setting = new admin_setting_configmulticheckbox($name, $title, $description, $fieldsdefault, $fieldsarray);
+            $tab->add($setting);
+            $page->hide_if('theme_boost_union/courselistingselectfields', 'theme_boost_union/courselistingpresentation', 'eq',
+                    THEME_BOOST_UNION_SETTING_COURSELISTPRES_NOCHANGE);
+            $page->hide_if('theme_boost_union/courselistingselectfields', 'theme_boost_union/courselistingshowfields', 'neq',
+                    THEME_BOOST_UNION_SETTING_SELECT_YES);
+
+            // Otherwise.
+        } else {
+            // Build an empty setting.
+            $customfieldurl = new \core\url('/course/customfield.php');
+            $customfieldlink = ['url' => $customfieldurl->out(),
+                    'linktitle' => get_string('course_customfield', 'admin', null, true),
+            ];
+            $name = 'theme_boost_union/courselistingselectfields';
+            $title = get_string('courselistingselectfields', 'theme_boost_union', null, true);
+            $description = get_string('courselistingselectfields_nofield', 'theme_boost_union', $customfieldlink, true);
+            $setting = new admin_setting_configempty($name, $title, $description);
+            $tab->add($setting);
+            $page->hide_if('theme_boost_union/courselistingselectfields', 'theme_boost_union/courselistingpresentation', 'eq',
+                    THEME_BOOST_UNION_SETTING_COURSELISTPRES_NOCHANGE);
+            $page->hide_if('theme_boost_union/courselistingselectfields', 'theme_boost_union/courselistingshowfields', 'neq',
+                    THEME_BOOST_UNION_SETTING_SELECT_YES);
+        }
 
         // Setting: Show goto button in the course listing.
         $name = 'theme_boost_union/courselistinghowgoto';
@@ -1661,6 +1774,13 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $name = 'theme_boost_union/navbarheading';
         $title = get_string('navbarheading', 'theme_boost_union', null, true);
         $setting = new admin_setting_heading($name, $title, null);
+        $tab->add($setting);
+
+        // Setting: Display login link as button.
+        $name = 'theme_boost_union/loginlinkbuttonenabled';
+        $title = get_string('loginlinkbuttonenabled', 'theme_boost_union', null, true);
+        $description = get_string('loginlinkbuttonenabled_desc', 'theme_boost_union', null, true);
+        $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
         $tab->add($setting);
 
         // Setting: Show starred courses popover in the navbar.
@@ -2994,12 +3114,21 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
         $tab->add($setting);
 
-        // Setting: Show hint for guest enrolment without guest password.
+        // Setting: Show hint for guest enrolment.
         $name = 'theme_boost_union/showhintcourseguestenrol';
         $title = get_string('showhintcourseguestenrolsetting', 'theme_boost_union', null, true);
         $description = get_string('showhintcourseguestenrolsetting_desc', 'theme_boost_union', null, true).'<br />'.
                 get_string('showhintcourseguestenrolsetting_note', 'theme_boost_union', null, true);
-        $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO, $yesnooption);
+        $guestaccessoptions = [
+                THEME_BOOST_UNION_SETTING_SELECT_NO =>
+                        get_string('no'),
+                THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_WITHOUTPASSWORD =>
+                        get_string('showhintcourseguestenrolsetting_withoutpassword', 'theme_boost_union', null, true),
+                THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_ALWAYS =>
+                        get_string('showhintcourseguestenrolsetting_always', 'theme_boost_union', null, true),
+        ];
+        $setting = new admin_setting_configselect($name, $title, $description, THEME_BOOST_UNION_SETTING_SELECT_NO,
+                $guestaccessoptions);
         $tab->add($setting);
 
         // Create course related hints for students heading.

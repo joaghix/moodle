@@ -164,6 +164,16 @@ With these settings, you can override the activity icon background color which i
 
 With this setting, you can modify the icons for activities and resources which are used by Moodle on the course pages and in the activity chooser. You can upload custom icons for all or only some activity modules installed in this Moodle instance.
 
+#### Tab "Calendar Branding"
+
+##### Calendar event types
+
+With these settings, you can override the main colors and border colors of individual calendar entry types.
+
+##### General calendar branding
+
+With these settings, you can set additional colors for the calendar views.
+
 #### Tab "Login page"
 
 ##### Login page background images
@@ -374,6 +384,10 @@ With this setting, you can show the logged-in user's full name at the top of the
 With this setting, you can add a 'Set preferred language' setting to the language menu within the user menu. Understandably, this setting is only processed if the language menu is enabled at all.
 
 ##### Navbar
+
+###### Display "Log in" link as button
+
+With this setting, you can have the "Log in" link in the top of the page shown as button. This can help your users to recognize the fact they they are not logged in already.
 
 ###### Show starred courses popover in the navbar
 
@@ -629,9 +643,9 @@ With this setting a hint will appear in the course header as long as the visibil
 
 With this setting a hint will appear in the course header if the course is visible and an enrolment without enrolment key is currently possible.
 
-###### Show hint for guest access without guest password
+###### Show hint for guest enrolment
 
-With this setting a hint will appear in the course header if the course is visible and guest access without guest password is currently possible.
+With this setting a hint will appear in the course header if the course is visible and guest enrolment is currently possible.
 
 ##### Course related hints for students
 

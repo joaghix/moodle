@@ -261,6 +261,29 @@ $string['modiconversion'] = 'Icon version';
 $string['modicongtmoodle4'] = 'Moodle 4 icon';
 $string['modiconltmoodle311'] = 'Moodle 3 legacy icon';
 
+// Settings: Calendar branding tab.
+$string['calendarbrandingtab'] = 'Calendar branding';
+// Placeholders: Calendar event types.
+$string['calendareventtypecategory'] = 'Category';
+$string['calendareventtypecourse'] = 'Course';
+$string['calendareventtypegroup'] = 'Group';
+$string['calendareventtypeother'] = 'Other';
+$string['calendareventtypesite'] = 'Site';
+$string['calendareventtypeuser'] = 'User';
+// ... Section: Event types.
+$string['calendareventcolorsheading'] = 'Calendar event type: {$a}';
+// ... ... Setting: Main color of the calendar event.
+$string['calendareventcolormainsetting'] = 'Main color of the calendar event type "{$a}"';
+$string['calendareventcolormainsetting_desc'] = 'The main color of the calendar event type "{$a}" which is used for icons and backgrounds.';
+// ... ... Setting: Border color of the calendar event.
+$string['calendareventcolorbordersetting'] = 'Border color of the calendar event type "{$a}"';
+$string['calendareventcolorbordersetting_desc'] = 'The color of the calendar event type "{$a}" which is used for borders.';
+// ... Section: General calendar branding.
+$string['calendarbrandingheading'] = 'General calendar branding';
+// ... ... Setting: Calendar icon colors.
+$string['calendariconscolorsetting'] = 'Calendar icon colors';
+$string['calendariconscolorsetting_desc'] = 'The color of some icons which are used in the calendar views. The default color is blue, but this might clash with the calendar branding colors which you might set above.';
+
 // Settings: Login page tab.
 $string['loginpagetab'] = 'Login page';
 // ... Section: Login page background images.
@@ -361,12 +384,21 @@ $string['courselistinghowcategory_desc'] = 'With this setting, you control if th
 // ... ... Setting: Show course completion progress in the course listing.
 $string['courselistinghowprogress'] = 'Show course completion progress in the course listing';
 $string['courselistinghowprogress_desc'] = 'With this setting, you control if the course completion progress are shown in the course listing or not.';
+// ... ... Setting: Course completion progress style.
+$string['courseistingprogressstyle'] = 'Course completion progress style';
+$string['courseistingprogressstyle_desc'] = 'With this setting, you control how the course completion progress is displayed. You can choose between a simple percentage text or a progress bar.';
+$string['courseistingprogressstyle_percentage'] = 'Percentage text';
+$string['courseistingprogressstyle_bar'] = 'Progress bar';
 // ... ... Setting: Show course enrolment icons in the course listing.
 $string['courselistinghowenrolicons'] = 'Show course enrolment icons in the course listing';
 $string['courselistinghowenrolicons_desc'] = 'With this setting, you control if the course enrolment icons are shown in the course listing or not.';
 // ... ... Setting: Show course fields in the course listing.
-$string['courselistinghowfields'] = 'Show course fields in the course listing';
-$string['courselistinghowfields_desc'] = 'With this setting, you control if the custom course fields are shown in the course listing or not.';
+$string['courselistingshowfields'] = 'Show course fields in the course listing';
+$string['courselistingshowfields_desc'] = 'With this setting, you control if the custom course fields are shown in the course listing or not.';
+// ... ... Setting: Select course fields to be shown in the course listing.
+$string['courselistingselectfields'] = 'Select course fields to be shown in the course listing';
+$string['courselistingselectfields_desc'] = 'With this setting, you can select which specific custom course fields are shown in the course listing. If none are selected, no fields will be shown.';
+$string['courselistingselectfields_nofield'] = 'With this setting, you can select which specific custom course fields are shown in the course listing. There isn\'t any usable custom course field yet. Please go the <a href="{$a->url}">{$a->linktitle}</a> and create a custom course field first.';
 // ... ... Setting: Show goto button in the course listing.
 $string['courselistinghowgoto'] = 'Show goto button in the course listing';
 $string['courselistinghowgoto_desc'] = 'With this setting, you control if a \'Go to course\' button is shown in the course listing or not. If this setting is disabled, the user is still able to go to the course by clicking on the course title or course image.';
@@ -577,6 +609,9 @@ $string['addpreferredlangsetting_desc'] = 'With this setting, you can add a \'Se
 $string['setpreferredlanglink'] = 'Set preferred language';
 // ... Section: Navbar heading.
 $string['navbarheading'] = 'Navbar';
+// Setting: Display login link as button.
+$string['loginlinkbuttonenabled'] = 'Display "Log in" link as button';
+$string['loginlinkbuttonenabled_desc'] = 'With this setting, you can have the "Log in" link in the top of the page shown as button. This can help your users to recognize the fact they they are not logged in already.';
 // ... ... Setting: Show starred courses popover in the navbar.
 $string['shownavbarstarredcoursessetting'] = 'Show starred courses popover in the navbar';
 $string['shownavbarstarredcoursessetting_desc'] = 'With this setting, you can show a popover menu with links to starred courses next to the messages and notifications menus.';
@@ -1125,14 +1160,20 @@ $string['showhintcourseselfenrolsince'] = 'The <strong>{$a->name}</strong> enrol
 $string['showhintcourseselfenrolfromuntil'] = 'The <strong>{$a->name}</strong> enrolment instance allows unrestricted self enrolment from {$a->from} until {$a->until}.';
 $string['showhintcourseselfenrolsinceuntil'] = 'The <strong>{$a->name}</strong> enrolment instance allows unrestricted self enrolment until {$a->until}.';
 $string['showhintcourseselfenrolinstancecallforaction'] = 'If you don\'t want any Moodle user to have access to this course freely, please restrict the self enrolment settings.';
-// ... ... Setting: Show hint for unrestricted guest enrolment.
-$string['showhintcourseguestenrolsetting'] = 'Show hint for guest access without guest password';
-$string['showhintcourseguestenrolsetting_desc'] = 'With this setting a hint will appear in the course header if the course is visible and guest access without a guest password is currently possible.';
+// ... ... Setting: Show hint for guest enrolment.
+$string['showhintcourseguestenrolsetting'] = 'Show hint for guest enrolment';
+$string['showhintcourseguestenrolsetting_desc'] = 'With this setting a hint will appear in the course header if the course is visible and guest enrolment is currently possible.';
 $string['showhintcourseguestenrolsetting_note'] = 'Note: If you want to enhance the hint with a link to the course of any kind, you have the {&dollar;a->courseid} placeholder available which can be used in the language customization.';
+$string['showhintcourseguestenrolsetting_withoutpassword'] = 'Yes, but only if no guest access password is set';
+$string['showhintcourseguestenrolsetting_always'] = 'Yes, even if a guest access password is set';
 $string['showhintcourseguestenrolhint'] = 'This course is currently visible to everyone and <strong>guest access without a guest password</strong> is possible.';
+$string['showhintcourseguestenrolhintalways'] = 'This course is currently visible to everyone and guest access with a password is possible.';
 $string['showhintcourseguestenrolauthonly'] = 'All logged-in Moodle users can access the content of this course freely without enrolling into the course.';
+$string['showhintcourseguestenrolauthonlyalways'] = 'All logged-in Moodle users can access the content of this course without enrolling into the course if they know the guest access password.';
 $string['showhintcourseguestenroleveryone'] = 'All Moodle users and even users without a Moodle account can access the content of this course freely without enrolling into the course.';
+$string['showhintcourseguestenroleveryonealways'] = 'All Moodle users and even users without a Moodle account can access the content of this course without enrolling into the course if they know the guest access password.';
 $string['showhintcourseguestenrolcallforaction'] = 'If you don\'t want to grant free access to this course, please disable guest access or set a guest password in the <a href="{$a->url}">course settings</a>.';
+$string['showhintcourseguestenrolcallforactionalways'] = 'If you don\'t want to grant guest access to this course, please disable guest access in the <a href="{$a->url}">course settings</a>.';
 // ... Section: Course related hints for students.
 $string['courserelatedhintsforstudentsheading'] = 'Course related hints for students';
 // ... ... Setting: Show hint for guest access.
@@ -1514,7 +1555,7 @@ $string['privacy:metadata'] = 'The Boost Union theme does not store any personal
 
 // Capabilities.
 $string['boost_union:configure'] = 'To be able to configure the theme as non-admin';
-$string['boost_union:viewhintcourseguestenrol'] = 'To be able to see a hint for unrestricted guest enrolment in a visible course.';
+$string['boost_union:viewhintcourseguestenrol'] = 'To be able to see a hint for guest enrolment in a visible course.';
 $string['boost_union:viewhintcourseselfenrol'] = 'To be able to see a hint for unrestricted self enrolment in a visible course.';
 $string['boost_union:viewhintinhiddencourse'] = 'To be able to see a hint in a hidden course.';
 $string['boost_union:viewregionheader'] = 'To be able to see the Header block region';
@@ -1560,3 +1601,5 @@ $string['upgradenotice_2022080922_logo'] = 'logo';
 $string['upgradenotice_2022080922_logocompact'] = 'compact logo';
 $string['upgradenotice_2022080922_copied'] = 'The existing <strong>{$a}</strong> from the Moodle core settings has been copied to the Boost Union {$a} setting during this upgrade. Please double-check the result.';
 $string['upgradenotice_2022080922_notcopied'] = 'The <strong>{$a}</strong> setting within Boost Union is empty now. If you want to use a {$a} within Boost Union from now on, just upload it into the Boost Union {$a} setting later.';
+$string['upgradenotice_2025041410'] = 'The setting "Show hint for guest access" has been updated to support more options. Your existing configuration (which was set to "Yes") has been migrated to the new option "Yes, but only if no guest access password is set".';
+$string['upgradenotice_2025041413'] = 'The setting "courselistinghowfields" has been renamed to "courselistingshowfields" to fix a typo. Your existing configuration has been migrated to the new setting name.';
