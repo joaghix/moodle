@@ -4,6 +4,18 @@ moodle-theme_boost_union
 Changes
 -------
 
+### v4.5-r22
+
+* 2025-07-18 - Improvement: Allow all (solid and brands) FontAwesome icons for smart menu items, resolves #493
+               Please note: Smart menu item icons are now distinguished if they come from Moodle core or from FontAwesome. Please have a look at the help icon for smart menu item icons if you are interested in the details.
+* 2025-07-18 - Improvement: Improve the smart menu items icon list by replacing the custom icon picker with a Moodle autocomplete widget, by adding the icon names to the list and by sorting the list, helps to resolve #493
+* 2025-07-18 - Tests: Fix failing Behat test with the tertiary navigation, resolves #1009
+* 2025-07-16 - Tests: Fix / Improve Behat tests which deal with viewport sizes, resolves #1004 and #952.
+* 2025-07-08 - Feature: Add a dedicated divider menu item type for smart menus, resolves #453.
+               Please note: Existing dividers created using heading type with hash signs will be automatically converted to the new divider type during this version update.
+* 2025-07-07 - Bugfix: SCSS Snippets overview page did not show previews of uploaded snippets, resolves #993
+* 2025-07-06 - Feature: Add first version of CSS snippets feature, credits go to all members of the MoodleMootDACH 2024 dev camp team no. 22, resolves #988
+
 ### v4.5-r21
 
 * 2025-07-05 - Chore: Rename the setting 'courselistinghowfields' to 'courselistingshowfields' to fix a typo

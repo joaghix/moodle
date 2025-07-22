@@ -57,6 +57,7 @@ $string['settingsoverview_content_desc'] = 'Settings for the global content of y
 $string['settingsoverview_functionality_desc'] = 'Settings for additional useful global or course-related functionality on your Moodle site are located here.';
 $string['settingsoverview_accessibility_desc'] = 'Settings for accessibility-related functionality on your Moodle site are located here.';
 $string['settingsoverview_flavours_desc'] = 'With flavours, you can diversify the look of your Moodle site between cohorts and / or course categories.';
+$string['settingsoverview_snippets_desc'] = 'With SCSS snippets, you can enable additional eye candy or visual fixes on your Moodle site.';
 $string['settingsoverview_smartmenus_desc'] = 'With smart menus, you can extend the navigation items of your Moodle site in the main menu and the user menus well as introduce a bottom menu or a top menu.';
 $string['settingsoverview_all'] = 'All settings on one page';
 $string['settingsoverview_all_desc'] = 'Here, you can open the standard Moodle category settings page for Boost Union that shows all settings on one page. But beware, it is really packed.';
@@ -1354,6 +1355,63 @@ $string['flavourspreviewblindtext'] = 'Lorem ipsum dolor sit amet, consectetur a
 $string['flavourstitle'] = 'Title';
 $string['flavourstitle_help'] = 'The flavour\'s title is just used internally to allow you to document a particular flavour in the list of flavours.';
 
+// Settings: SCSS snippets page.
+$string['configtitlesnippets'] = 'SCSS snippets';
+
+// Settings: Overview tab.
+$string['snippetsshowthecode'] = 'Show the SCSS code';
+$string['snippetscreator'] = 'Creator';
+$string['snippetsdescription'] = 'Description';
+$string['snippetsdetails'] = 'Details';
+$string['snippetsdetailspreview'] = 'Preview';
+$string['snippetsdisable'] = 'Disable';
+$string['snippetsenable'] = 'Enable';
+$string['snippetsgoal'] = 'Goal';
+$string['snippetsgoalaccessibility'] = 'Accessibility';
+$string['snippetsgoalbugfix'] = 'Bugfix';
+$string['snippetsgoaldevsonly'] = 'For developers only';
+$string['snippetsgoaleaseofuse'] = 'Ease of use';
+$string['snippetsgoaleyecandy'] = 'Eye candy';
+$string['snippetsnothingtodisplay'] = 'There aren\'t any SCSS snippets which can be used. Please go to the settings tab and enable the built-in SCSS snippets or upload your own SCSS snippets.';
+$string['snippetsoverview'] = 'Overview';
+$string['snippetsoverview_desc'] = 'Boost Union\'s SCSS snippets offer a possibility to add small (or slightly larger) amounts of SCSS to the Moodle site. This can be particularly handy for fixing small visual glitches in Moodle core or for adding eye candy to your Moodle site.';
+$string['snippetsoverview_notes'] = 'To allow you to use SCSS snippets, please read these basic intructions:';
+$string['snippetsoverview_notes1'] = 'SCSS snippets can come from multiple sources. You enable and configure each source on the \'Settings\' tab. As soon as you have enabled at least one source, you will see the snippets list here.';
+$string['snippetsoverview_notes2'] = 'SCSS snippets are added to the SCSS stack one after another. Thus, the order of the snippets on this page is key.';
+$string['snippetsoverview_notes3'] = 'After each change which you make on this page, the theme cache is purged. This is necessary to make sure that the compiled SCSS code which is shipped to the browser is up-to-date and might take some seconds.';
+$string['snippetsscope'] = 'Scope';
+$string['snippetsscopecourse'] = 'Course';
+$string['snippetsscopedashboard'] = 'Dashboard';
+$string['snippetsscopesitehome'] = 'Site home';
+$string['snippetsscopeglobal'] = 'Global';
+$string['snippetsshowdetails'] = 'Show details';
+$string['snippetssnippets'] = 'SCSS snippets';
+$string['snippetssource'] = 'Source';
+$string['snippetssourcetheme_boost_union'] = 'Boost Union built-in';
+$string['snippetssourceuploaded'] = 'Upload';
+$string['snippetstestedon'] = 'Tested on';
+$string['snippetstitle'] = 'Title';
+$string['snippetstrackerissue'] = 'Tracker issue';
+$string['snippetsusagenote'] = 'Usage note';
+
+// Settings: Settings tab.
+$string['snippetssettings'] = 'Settings';
+// ... Section: Built-in snippets.
+$string['snippetsbuiltinsnippetsheading'] = 'Built-in snippets';
+// ... ... Setting: Enable built-in snippets.
+$string['enablebuiltinsnippets'] = 'Enable built-in snippets';
+$string['enablebuiltinsnippets_desc'] = 'With this setting, you can enable or disable the built-in SCSS snippets which are shipped with the Boost Union codebase. If you disable this setting, all built-in SCSS snippets are ignored and never added to the SCSS stack.';
+// ... Section: Uploaded snippets.
+$string['snippetsuploadedsnippetsheading'] = 'Uploaded snippets';
+$string['snippetsuploadedsnippetsheading_desc'] = 'In addition to the built-in SCSS snippets which are officially maintained by the Boost Union team, there is the <a href="{$a}" target="_blank">SCSS snippets repository on Github</a> which is meant as a community hub for Boost Union SCSS snippets. Please find the instructions for using community SCSS snippets as well as the boilerplate to create your own local SCSS snippets in that repository.';
+// ... ... Setting: Enable uploaded snippets.
+$string['enableuploadedsnippets'] = 'Enable uploaded snippets';
+$string['enableuploadedsnippets_desc'] = 'With this setting, you can enable or disable uploading of SCSS snippets here within the Boost Union settings. If you disable this setting, uploading SCSS snippets is not possible and all previously uploaded SCSS snippets are ignored and never added to the SCSS stack.';
+// ... ... Setting: Upload snippets.
+$string['uploadedsnippets'] = 'Upload snippets';
+$string['uploadedsnippets_desc'] = 'You can either upload individual SCSS snippet files or a ZIP archive containing multiple SCSS snippet files – the ZIP file will be automatically extracted and the contained SCSS snippets will then be avaiable in this file area as individual files.';
+$string['uploadedsnippets_note'] = 'You can find the structure and syntax of Boost Union SCSS snippets in our <a href="{$a->url}" target="_blank">SCSS snippets repository</a>. There, you also find instructions how to use existing community snippets and contribute snippets to the community.';
+
 // Settings: Smart menus page.
 $string['smartmenus'] = 'Smart menus';
 $string['error:smartmenusmenuitemnotfound'] = 'Smart menu item not found';
@@ -1470,7 +1528,14 @@ $string['smartmenusmenuitemduplicatesuccess'] = 'Menu item duplicated successful
 $string['smartmenusmenuitemedit'] = 'Edit menu item';
 $string['smartmenusmenuitemeditsuccess'] = 'Smart menu item updated successfully';
 $string['smartmenusmenuitemicon'] = 'Icon';
-$string['smartmenusmenuitemicon_help'] = 'The icon to display next to the menu item title.';
+$string['smartmenusmenuitemicon_help'] = 'The icon to display next to the menu item title.<br /><br />You can either select an icon from the Moodle core icon library, or use a FontAwesome icon. This is an important difference:<ul><li>Moodle core icons:<br />Moodle core defines its icons as "pix icons" and maps FontAwesome icons to these pix icons. The particular FontAwesome icon which is mapped is not guaranteed to be stable forever and might change in future Moodle core versions. Additionally, there are Moodle core pix icons which come with an additional Bootstrap color added to the icon.</li><li>FontAwesome icons:<br />FontAwesome icons are used as-is and their presentation will remain stable in future Moodle releases. It may just happen that the FontAwesome glyph may change if Moodle core upgrades to a future FontAwesome release.</li></ul>If you are in doubt and do not need to stick to a particular Moodle core pix icon, you should prefer to use a FontAwesome icon here.';
+$string['smartmenusmenuitemicon_placeholder'] = 'Pick icon';
+$string['smartmenusmenuitemicon_noicon'] = 'No icon selected';
+$string['smartmenusmenuitemicon_sourcecore'] = 'Moodle core';
+$string['smartmenusmenuitemicon_sourcefablank'] = 'FontAwesome Blank icon';
+$string['smartmenusmenuitemicon_sourcefasolid'] = 'FontAwesome Solid';
+$string['smartmenusmenuitemicon_sourcefabrand'] = 'FontAwesome Brands';
+$string['smartmenusmenuitemicon_ajaxtoomanyicons'] = 'Too many icons ({$a}) to display. Please narrow your search.';
 $string['smartmenusmenuitemlinktarget'] = 'Link target';
 $string['smartmenusmenuitemlinktarget_help'] = 'The target for the link of the menu item. The menu item link will open in this target when clicked (i.e. in the same window or in a new tab).';
 $string['smartmenusmenuitemlinktargetnewtab'] = 'New tab';
@@ -1497,14 +1562,15 @@ $string['smartmenusmenuitemtextpositionbelowimage'] = 'Below image';
 $string['smartmenusmenuitemtextpositionoverlaybottom'] = 'Bottom overlay';
 $string['smartmenusmenuitemtextpositionoverlaytop'] = 'Top overlay';
 $string['smartmenusmenuitemtitle'] = 'Title';
-$string['smartmenusmenuitemtitle_help'] = 'The title of the menu. This will be used as the label of this menu item. If you want to display a separator in the menu, choose Heading as type and use hash signs (###) as title.';
+$string['smartmenusmenuitemtitle_help'] = 'The title of the menu. This will be used as the label of this menu item.';
 $string['smartmenusmenuitemtooltip'] = 'Tooltip';
 $string['smartmenusmenuitemtooltip_help'] = 'The tooltip which will be displayed when the user hovers over the menu item.';
 $string['smartmenusmenuitemtype'] = 'Menu item type';
-$string['smartmenusmenuitemtype_help'] = '<p>Select the type of menu item you want to create, choosing between static, heading, moodle documentation and dynamic courses.</p><ul><li>Static: A static menu item is simply a link to a fixed URL that does not change.</li><li>Heading: A heading menu item is used to group related menu items together under a common heading. It does not have a link and is not clickable.</li><li>Moodle documentation: A moodle documenation menu item is used to link to the corresponding MoodleDocs article, similar to the MoodleDocs link which is located in the Moodle footer (questionmark icon).</li><li>Dynamic courses: A dynamic courses menu item is used to display a list of courses based on certain criteria, such as course category, course enrolment role, course completion status or date range. The content displayed in a dynamic courses menu item will update automatically as the criteria changes.</li></ul>';
+$string['smartmenusmenuitemtype_help'] = '<p>Select the type of menu item you want to create, choosing between static, heading, moodle documentation, dynamic courses, and divider.</p><ul><li>Static: A static menu item is simply a link to a fixed URL that does not change.</li><li>Heading: A heading menu item is used to group related menu items together under a common heading. It does not have a link and is not clickable.</li><li>Separator: A dividerenu item displays a horizontal line in the menu to visually separate groups of menu items.</li><li>Moodle documentation: A moodle documenation menu item is used to link to the corresponding MoodleDocs article, similar to the MoodleDocs link which is located in the Moodle footer (questionmark icon).</li><li>Dynamic courses: A dynamic courses menu item is used to display a list of courses based on certain criteria, such as course category, course enrolment role, course completion status or date range. The content displayed in a dynamic courses menu item will update automatically as the criteria changes.</li></ul>';
 $string['smartmenusmenuitemtypedocs'] = 'Moodle documentation';
 $string['smartmenusmenuitemtypedynamiccourses'] = 'Dynamic courses';
 $string['smartmenusmenuitemtypeheading'] = 'Heading';
+$string['smartmenusmenuitemtypedivider'] = 'Divider';
 $string['smartmenusmenuitemtypestatic'] = 'Static';
 $string['smartmenusmenuitemurl'] = 'Menu item URL';
 $string['smartmenusmenuitemurl_help'] = 'The static URL for the menu item. This is the link that will be followed when the menu item is clicked.';
@@ -1591,6 +1657,7 @@ $string['cachedef_smartmenus'] = 'Smart menus';
 $string['cachedef_smartmenu_items'] = 'Smart menu items';
 $string['cachedef_touchiconsios'] = 'Touch icon files for iOS';
 $string['cachedef_hookoverrides'] = 'Hook overrides';
+$string['cachedef_fontawesomeicons'] = 'FontAwesome icon map';
 
 // Scheduled tasks.
 $string['task_purgecache'] = 'Purge theme cache';
@@ -1603,3 +1670,4 @@ $string['upgradenotice_2022080922_copied'] = 'The existing <strong>{$a}</strong>
 $string['upgradenotice_2022080922_notcopied'] = 'The <strong>{$a}</strong> setting within Boost Union is empty now. If you want to use a {$a} within Boost Union from now on, just upload it into the Boost Union {$a} setting later.';
 $string['upgradenotice_2025041410'] = 'The setting "Show hint for guest access" has been updated to support more options. Your existing configuration (which was set to "Yes") has been migrated to the new option "Yes, but only if no guest access password is set".';
 $string['upgradenotice_2025041413'] = 'The setting "courselistinghowfields" has been renamed to "courselistingshowfields" to fix a typo. Your existing configuration has been migrated to the new setting name.';
+$string['upgradenotice_2025041416'] = 'Smart menu dividers are now available as a dedicated menu item type. Existing dividers (created using heading type with hash signs) have been automatically converted to the new divider type.';

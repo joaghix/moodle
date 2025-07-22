@@ -150,6 +150,8 @@ define('THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_ALWAYS', 'always');
 define('THEME_BOOST_UNION_SETTING_COURSEPROGRESSSTYLE_PERCENTAGE', 'percentage');
 define('THEME_BOOST_UNION_SETTING_COURSEPROGRESSSTYLE_BAR', 'bar');
 
+use theme_boost_union\snippets;
+
 /**
  * Returns the main SCSS content.
  *
@@ -178,6 +180,9 @@ function theme_boost_union_get_main_scss_content($theme) {
     // would end of _after_ the code from theme_boost_get_extra_scss() and not _before_.
     // Thus, we sadly have to get and include the external Post SCSS here already.
     $scss .= theme_boost_union_get_external_scss('post');
+
+    // Get and include the SCSS of the enabled SCSS snippets.
+    $scss .= snippets::get_enabled_snippet_scss();
 
     return $scss;
 }
@@ -437,7 +442,7 @@ function theme_boost_union_get_extra_scss($theme) {
     // However, due to the way how the theme_*_get_extra_scss callback functions are searched and called within Boost child theme
     // hierarchy Boost Union not only gets the extra SCSS from this function here but only from theme_boost_get_extra_scss as well.
     //
-    // There, the CSS snippets for the background image and the login background images are added already to the SCSS codebase.
+    // There, the SCSS snippets for the background image and the login background images are added already to the SCSS codebase.
     // Additionally, the custom SCSS from $theme->settings->scss (which hits the SCSS settings from theme_boost_union even though
     // the code is within theme_boost) is already added to the SCSS codebase as well.
     //
@@ -658,7 +663,7 @@ function theme_boost_union_pluginfile($course, $cm, $context, $filearea, $args, 
     } else if ($context->contextlevel == CONTEXT_SYSTEM && ($filearea === 'backgroundimage' ||
         $filearea === 'loginbackgroundimage' || $filearea === 'additionalresources' ||
                 $filearea === 'customfonts' || $filearea === 'courseheaderimagefallback' ||
-                $filearea === 'touchiconsios' ||
+                $filearea === 'touchiconsios' || $filearea === 'uploadedsnippets' ||
                 preg_match("/tilebackgroundimage[2-9]|1[0-2]?/", $filearea) ||
                 preg_match("/slidebackgroundimage[2-9]|1[0-2]?/", $filearea))) {
         $theme = \core\output\theme_config::load('boost_union');
@@ -782,7 +787,7 @@ function theme_boost_union_pluginfile($course, $cm, $context, $filearea, $args, 
         send_file($candidate, $filename, $lifetime, 0, false, false, '', false, $serveoptions);
 
         // Serve the files from the smart menu card images.
-    } else if ($filearea === 'smartmenus_itemimage' && $context->contextlevel === CONTEXT_SYSTEM) {
+    } else if (in_array($filearea, ['smartmenus_itemimage', 'snippets']) && $context->contextlevel === CONTEXT_SYSTEM) {
         // Get file storage.
         $fs = get_file_storage();
 
@@ -797,57 +802,6 @@ function theme_boost_union_pluginfile($course, $cm, $context, $filearea, $args, 
 
     } else {
         send_file_not_found();
-    }
-}
-
-/**
- * Fetches the list of icons and creates an icon suggestion list to be sent to a fragment.
- *
- * @param array $args An array of arguments.
- * @return string The rendered HTML of the icon suggestion list.
- */
-function theme_boost_union_output_fragment_icons_list($args) {
-    global $OUTPUT, $PAGE;
-
-    // Proceed only if a context was given as argument.
-    if ($args['context']) {
-        // Initialize rendered icon list.
-        $icons = [];
-
-        // Load the theme config.
-        $theme = \core\output\theme_config::load($PAGE->theme->name);
-
-        // Get the FA system.
-        $faiconsystem = \core\output\icon_system_fontawesome::instance($theme->get_icon_system());
-
-        // Get the icon list.
-        $iconlist = $faiconsystem->get_core_icon_map();
-
-        // Add an empty element to the beginning of the icon list.
-        array_unshift($iconlist, '');
-
-        // Iterate over the icons.
-        foreach ($iconlist as $iconkey => $icontxt) {
-            // Split the component from the icon key.
-            $icon = explode(':', $iconkey);
-
-            // Pick the icon key.
-            $iconstr = isset($icon[1]) ? $icon[1] : 'moodle';
-
-            // Pick the component.
-            $component = isset($icon[0]) ? $icon[0] : '';
-
-            // Render the pix icon.
-            $icon = new \core\output\pix_icon($iconstr,  "", $component);
-            $icons[] = [
-                'icon' => $faiconsystem->render_pix_icon($OUTPUT, $icon),
-                'value' => $iconkey,
-                'label' => $icontxt,
-            ];
-        }
-
-        // Return the rendered icon list.
-        return $OUTPUT->render_from_template('theme_boost_union/fontawesome-iconpicker-popover', ['options' => $icons]);
     }
 }
 
@@ -958,4 +912,69 @@ function theme_boost_union_alter_css_urls(&$urls) {
             }
         }
     }
+}
+
+/**
+ * Callback to refresh uploaded SCSS snippets when the theme_boost_union/uploadedsnippets config setting changes.
+ *
+ * @return void
+ */
+function theme_boost_union_parse_uploaded_sippets() {
+    snippets::parse_uploaded_snippets();
+    snippets::cleanup_snippets();
+    theme_reset_all_caches();
+}
+
+/**
+ * Map icons for font-awesome themes.
+ * This function is only processed when the Moodle cache is cleared and not on every page load.
+ * That's why we created the theme_boost_union_reset_fontawesome_icon_map function and call it everytime a smart menu item
+ * is saved with an icon.
+ */
+function theme_boost_union_get_fontawesome_icon_map() {
+    // Init icon mapping with icons which are included in any case.
+    $iconmapping = [
+        'theme_boost_union:info' => 'fa-info-circle',
+    ];
+
+    // Get the FontAwesome icons which are used by smart menus currently.
+    $faicons = \theme_boost_union\smartmenu_item::get_all_fa_icons();
+
+    // Get the list of all Font Awesome icons.
+    $allicons = theme_boost_union_build_fa_icon_map();
+
+    // Process the icons one by one.
+    foreach ($faicons as $i) {
+
+        // Determine the fa class.
+        $faclass = str_replace('theme_boost_union:', '', $i);
+
+        // Append known icon source.
+        if ($allicons[$i]['source'] == 'fasolid') {
+            $faclass .= ' fas';
+        } else if ($allicons[$i]['source'] == 'fabrand') {
+            $faclass .= ' fab';
+        }
+
+        // Add the icon to the mapping.
+        $iconmapping[$i] = $faclass;
+    }
+
+    // Return.
+    return $iconmapping;
+}
+
+/**
+ * Helper function to reset the icon system used as callback function when saving a smart menu item with an icon.
+ */
+function theme_boost_union_reset_fontawesome_icon_map() {
+    // Reset the icon system cache.
+    // There is the function \core\output\icon_system::reset_caches() which does seem to be only usable in unit tests.
+    // Thus, we clear the icon system cache brutally.
+    $instance = \core\output\icon_system::instance(\core\output\icon_system::FONTAWESOME);
+    $cache = \cache::make('core', 'fontawesomeiconmapping');
+    $mapkey = 'mapping_'.preg_replace('/[^a-zA-Z0-9_]/', '_', get_class($instance));
+    $cache->delete($mapkey);
+    // And rebuild it brutally.
+    $instance->get_icon_name_map();
 }
