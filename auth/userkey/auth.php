@@ -97,8 +97,16 @@ class auth_plugin_userkey extends auth_plugin_base {
      * It redirects a user if required or return true.
      */
     public function loginpage_hook() {
-        if ($this->should_login_redirect()) {
-            $this->redirect($this->config->ssourl);
+	global $SESSION;
+
+	if ($this->should_login_redirect()) {
+
+	    if (empty($SESSION->wantsurl)) {
+		$this->redirect($this->config->ssourl);
+	    }
+	    else {
+		$this->redirect($this->config->ssourl . urlencode("?wantsurl=" . $SESSION->wantsurl));
+	    }
         }
 
         return true;
