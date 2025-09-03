@@ -4,6 +4,20 @@ moodle-theme_boost_union
 Changes
 -------
 
+### v4.5-r24
+
+* 2025-07-31 - Bugfix: Uninitialized $overflow might have caused the smart menu item icon picker to fail, resolves #1035
+* 2025-07-28 - Bugfix: Reposition Boost Union footer buttons correctly if sticky footer is shown, resolves #1033
+* 2025-07-28 - Improvement: Query SCSS snippets table during theme refresh only if the table exists, resolves #1024
+* 2025-07-25 - Improvement: Introduce SCSS variable for smart menu menubar and bottom bar height, resolves #1023
+
+### v4.5-r23
+
+* 2025-07-22 - SCSS Snippet: Tertiary navigation button, resolves #1017
+* 2025-07-22 - Improvement: Add CLI script to re-populate the list of built-in SCSS snippets, resolves #1019
+* 2025-07-22 - Tests: Fix failing Behat test with the tertiary navigation, resolves #1009
+* 2025-07-22 - Tests: Fix broken PHPUnit tests for SCSS snippets, resolves #1015
+
 ### v4.5-r22
 
 * 2025-07-18 - Improvement: Allow all (solid and brands) FontAwesome icons for smart menu items, resolves #493
