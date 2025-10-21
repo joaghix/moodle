@@ -4,6 +4,16 @@ moodle-theme_boost_union
 Changes
 -------
 
+### v4.5-r26
+
+* 2025-10-07 - Upstream change: Adopt changes from MDL-81702 to remove site home link from drawers, resolves #1065
+* 2025-10-07 - Upstream change: Adopt changes from MDL-81455 to fix the welcome message heading on the dashboard, resolves #1066
+
+### v4.5-r25
+
+* 2025-10-06 - Bugfix: Block titles were missing after changes in Moodle core in MDL-86541, resolves #1061.
+* 2025-08-01 - Bugfix: Smart menu: menu bar was displayed although there were no items to display, resolves #849.
+
 ### v4.5-r24
 
 * 2025-07-31 - Bugfix: Uninitialized $overflow might have caused the smart menu item icon picker to fail, resolves #1035
