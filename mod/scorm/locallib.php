@@ -1983,7 +1983,7 @@ function scorm_get_toc($user, $scorm, $cmid, $toclink=TOCJSLINK, $currentorg='',
         $organizationsco = $DB->get_record('scorm_scoes', array('scorm' => $scorm->id, 'identifier' => $currentorg));
         if (!empty($organizationsco->title)) {
             if ($play) {
-                $result->toctitle = $organizationsco->title;
+                $result->toctitle = format_string($organizationsco->title);
             }
         }
     }
