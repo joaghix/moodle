@@ -43,7 +43,6 @@ use theme_boost_union\smartmenu;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class primary extends \core\navigation\output\primary {
-
     /** @var \moodle_page $page the moodle page that the navigation belongs to */
     private $page = null;
 
@@ -54,6 +53,31 @@ class primary extends \core\navigation\output\primary {
     public function __construct($page) {
         $this->page = $page;
         parent::__construct($page);
+    }
+
+    /**
+     * Get the primary nav object and standardize the output.
+     *
+     * Moodle core adds the guest calendar node without checking
+     * the theme's removed primary navigation items. We handle that case here.
+     *
+     * @param \navigation_node|null $parent used for nested nodes, by default the primarynav node
+     * @return array
+     */
+    protected function get_primary_nav($parent = null): array {
+        // Fetch the configured list of node keys to hide.
+        $removed = $this->page->theme->removedprimarynavitems ?? [];
+
+        // Core adds the guest calendar node without checking the removed list, so remove it explicitly.
+        if (in_array(THEME_BOOST_UNION_SETTING_HIDENODESPRIMARYNAVIGATION_CALENDAR, $removed)) {
+            $calendarnode = $this->page->primarynav->find('calendar', \navigation_node::TYPE_ROOTNODE);
+            if ($calendarnode) {
+                $calendarnode->remove();
+            }
+        }
+
+        // Continue to handle the primary navigation tree with the parent function.
+        return parent::get_primary_nav($parent);
     }
 
     /**
@@ -122,7 +146,6 @@ class primary extends \core\navigation\output\primary {
         // Convert the children menu items into submenus.
         // Removed the menu nodes from menubar, each item will be displayed as menu in menubar.
         if (!empty($locationmenubarmenu)) {
-
             // Set the visibility of the menu bar for mobile, tablet, and desktop based on its child items.
             $hidedesktop = $hidemobile = $hidetablet = 1;
             foreach ($locationmenubarmenu as $key => $menu) {
@@ -141,8 +164,11 @@ class primary extends \core\navigation\output\primary {
             }
 
             $locationmenubarmenuconverted = $this->convert_submenus($locationmenubarmenu);
-            $menubarmoremenu = new \core\navigation\output\more_menu((object) $locationmenubarmenuconverted,
-                    'navbar-nav-menu-bar', false);
+            $menubarmoremenu = new \core\navigation\output\more_menu(
+                (object) $locationmenubarmenuconverted,
+                'navbar-nav-menu-bar',
+                false
+            );
             $menubartemplatedata = $menubarmoremenu->export_for_template($output);
 
             // Define the visibility classes for the menubar.
@@ -150,7 +176,6 @@ class primary extends \core\navigation\output\primary {
             $menubarclasses[] = $hidetablet ? 'd-md-none' : 'd-md-flex';
             $menubarclasses[] = $hidemobile ? 'd-none' : 'd-flex';
             $menubartemplatedata['classes'] = implode(' ', $menubarclasses);
-
         }
 
         // Bottom bar.
@@ -159,9 +184,15 @@ class primary extends \core\navigation\output\primary {
         $locationbottommenuscustommerged = array_merge($this->get_custom_menu($output), $locationbottommenu);
         $mobileprimarynav = (!empty($locationbottommenu))
             ? $this->merge_primary_and_custom(
-                $this->get_primary_nav(), $locationbottommenuscustommerged, true)
+                $this->get_primary_nav(),
+                $locationbottommenuscustommerged,
+                true
+            )
             : $this->merge_primary_and_custom(
-                $this->get_primary_nav(), $locationmainmenucustommerged, true);
+                $this->get_primary_nav(),
+                $locationmainmenucustommerged,
+                true
+            );
 
         if (!empty($mobileprimarynav)) {
             // Merge the bottom menu with main menu if there is any bottom menu available. otherwise use the main menu.
@@ -171,8 +202,11 @@ class primary extends \core\navigation\output\primary {
                 : $this->merge_primary_and_custom($this->get_primary_nav(), $locationmainmenucustommerged, true);
             $locationbottommenuconverted = $this->convert_submenus($bottomprimarynav);
 
-            $bottombar = new \core\navigation\output\more_menu((object) $locationbottommenuconverted,
-                    'navbar-nav-bottom-bar', false);
+            $bottombar = new \core\navigation\output\more_menu(
+                (object) $locationbottommenuconverted,
+                'navbar-nav-bottom-bar',
+                false
+            );
             $bottombardata = $bottombar->export_for_template($output);
             $bottombardata['drawer'] = (!empty($locationbottommenu)) ? true : false;
         }
@@ -225,8 +259,10 @@ class primary extends \core\navigation\output\primary {
             $parentoutput = parent::get_user_menu($output);
 
             // If addpreferredlangsetting is enabled and if there are submenus in the output.
-            if ($addpreferredlangsetting == THEME_BOOST_UNION_SETTING_SELECT_YES &&
-                    array_key_exists('submenus', $parentoutput)) {
+            if (
+                $addpreferredlangsetting == THEME_BOOST_UNION_SETTING_SELECT_YES &&
+                    array_key_exists('submenus', $parentoutput)
+            ) {
                 // Get the needle.
                 $needle = get_string('languageselector');
 
@@ -315,7 +351,7 @@ class primary extends \core\navigation\output\primary {
                 $lastkey = array_key_last($usermenu['submenus']);
 
                 // Update the dividers item type.
-                array_walk($children, function(&$value) use (&$usermenu, $menu) {
+                array_walk($children, function (&$value) use (&$usermenu, $menu) {
                     if (isset($value['divider'])) {
                         $value['itemtype'] = 'divider';
                         $value['link'] = false;
@@ -388,14 +424,13 @@ class primary extends \core\navigation\output\primary {
         }
 
         // Create a deep clone of menus, direct use of menus mismatch with the usermenus format.
-        $primarymenu = array_map(function($item) {
+        $primarymenu = array_map(function ($item) {
             // Convert core primary menus array to object before cloning to maintain type formats.
             return clone (object) $item;
         }, $menus);
 
         // Iterate over the primary menu items.
         foreach ($primarymenu as $key => $parentmenu) {
-
             // The given menu is not a smart menu (but most probably a Moodle core main navigation item or a custom menu).
             if (!property_exists($parentmenu, 'menudata')) {
                 // We must not convert this menu unless we want to break Moodle completely.
@@ -414,7 +449,7 @@ class primary extends \core\navigation\output\primary {
             $children = $parentmenu->children;
 
             // Updates the ID of first-level submenus as the value of 'sort', where 'sort' contains unique IDs.
-            array_walk($children, function(&$val) use ($parentmenu) {
+            array_walk($children, function (&$val) use ($parentmenu) {
                 $val['submenuid'] = $val['sort'];
             });
 
@@ -448,7 +483,6 @@ class primary extends \core\navigation\output\primary {
         global $FULLME;
         $active = false;
         foreach (array_keys($node->children ?? []) as $c) {
-
             // Update the type of child nodes (smart menu).
             // To prevent issues with already configured menus,
             // The type of children is not updated during the smart menu build process.

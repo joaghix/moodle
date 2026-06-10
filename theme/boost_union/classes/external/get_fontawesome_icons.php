@@ -35,7 +35,6 @@ use core_external\external_value;
  * Provides the theme_boost_union_get_fontawesome_icons external function.
  */
 class get_fontawesome_icons extends external_api {
-
     /**
      * @var int This constant defines the maximum number of FontAwesome icons.
      *
@@ -61,7 +60,12 @@ class get_fontawesome_icons extends external_api {
      * @return array
      */
     public static function execute(string $query): array {
-        global $DB, $PAGE;
+        global $CFG, $DB, $PAGE;
+
+        // Require lib.php (to ensure the theme_boost_union_build_fa_icon_map function is available).
+        // Normally, lib.php is autoloaded by Moodle core, but in PHPUnit tests it may not be the case.
+        require_once($CFG->dirroot . '/theme/boost_union/lib.php');
+        require_once($CFG->dirroot . '/theme/boost_union/locallib.php');
 
         $params = external_api::validate_parameters(self::execute_parameters(), [
             'query' => $query,
@@ -86,9 +90,10 @@ class get_fontawesome_icons extends external_api {
                     continue;
                 }
                 // Search in key and icon class.
-                if (stripos($key, $query) !== false ||
-                    (isset($icon['class']) && stripos($icon['class'], $query) !== false)) {
-
+                if (
+                    stripos($key, $query) !== false ||
+                    (isset($icon['class']) && stripos($icon['class'], $query) !== false)
+                ) {
                     // If we haven't reached the maximum results yet.
                     if ($count <= self::MAX_RESULTS) {
                         // Add the icon to the results.

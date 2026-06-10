@@ -50,7 +50,7 @@ if (!empty($referrerurl)) {
 }
 $THEME->usefallback = !$pagewithoutthemefallback;
 
-$THEME->scss = function($theme) {
+$THEME->scss = function ($theme) {
     return theme_boost_union_get_main_scss_content($theme);
 };
 
@@ -100,7 +100,7 @@ $THEME->layouts = [
     // My courses page.
     'mycourses' => [
         'file' => 'drawers.php',
-        'regions' => ['side-pre'],
+        'regions' => theme_boost_union_get_block_regions('mycourses'),
         'defaultregion' => 'side-pre',
         'options' => ['nonavbar' => true],
     ],
@@ -204,7 +204,10 @@ $THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
 $THEME->iconsystem = \core\output\icon_system::FONTAWESOME;
 $THEME->haseditswitch = true;
 $THEME->usescourseindex = true;
-$THEME->removedprimarynavitems = explode(',', get_config('theme_boost_union', 'hidenodesprimarynavigation'));
+// During the initial installation, we can't access the config table yet, so we set an empty array.
+// Otherwise, we get the hidden primary navigation items from the config.
+$THEME->removedprimarynavitems = during_initial_install() ?
+        [] : explode(',', get_config('theme_boost_union', 'hidenodesprimarynavigation'));
 // By default, all boost theme do not need their titles displayed.
 $THEME->activityheaderconfig = [
     'notitle' => true

@@ -63,3 +63,98 @@ Feature: Configuring the theme_boost_union plugin for the "Dashboard/My courses"
       | list              | should not      | should          | should not         |
       | summary           | should not      | should not      | should             |
       |                   | should not      | should not      | should not         |
+
+  @javascript @_file_upload
+  Scenario: Setting: Course overview image source - Display the course image with a (non-effective) fallback to a geometric pattern (default Moodle behavior)
+    Given the following config values are set as admin:
+      | config                    | value             | plugin            |
+      | courseoverviewimagesource | coursepluspattern | theme_boost_union |
+    And the following "users" exist:
+      | username |
+      | student2 |
+    And the following "course enrolments" exist:
+      | user     | course | role    |
+      | student2 | C1     | student |
+    And I log in as "admin"
+    And I am on "Course 1" course homepage
+    And I click on "Settings" "link"
+    And I upload "theme/boost_union/tests/fixtures/login_bg1.png" file to "Course image" filemanager
+    And I press "Save and display"
+    And the theme cache is purged and the theme is reloaded
+    And I log out
+    When I log in as "student2"
+    And I follow "My courses"
+    Then "//div[contains(@class, 'course-card')]//div[contains(@style, 'course/overviewfiles/login_bg1.png')]" "xpath_element" should exist
+    And "//div[contains(@class, 'course-card')]//div[contains(@style, 'data:image/svg+xml')]" "xpath_element" should not exist
+
+  @javascript @_file_upload
+  Scenario: Setting: Course overview image source - Display the course image with a (non-effective) fallback to the uploaded fallback image
+    Given the following config values are set as admin:
+      | config                    | value              | plugin            |
+      | courseoverviewimagesource | courseplusfallback | theme_boost_union |
+    And the following "users" exist:
+      | username |
+      | student2 |
+    And the following "course enrolments" exist:
+      | user     | course | role    |
+      | student2 | C1     | student |
+    And I log in as "admin"
+    And Behat debugging is disabled
+    And I navigate to "Appearance > Boost Union > Look" in site administration
+    And I click on "Dashboard / My courses" "link" in the "#adminsettings .nav-tabs" "css_element"
+    And I upload "theme/boost_union/tests/fixtures/login_bg2.png" file to "Course overview fallback image" filemanager
+    And I press "Save changes"
+    And Behat debugging is enabled
+    And I am on "Course 1" course homepage
+    And I click on "Settings" "link"
+    And I upload "theme/boost_union/tests/fixtures/login_bg1.png" file to "Course image" filemanager
+    And I press "Save and display"
+    And the theme cache is purged and the theme is reloaded
+    And I log out
+    When I log in as "student2"
+    And I follow "My courses"
+    Then "//div[contains(@class, 'course-card')]//div[contains(@style, 'course/overviewfiles/login_bg1.png')]" "xpath_element" should exist
+    And "//div[contains(@class, 'course-card')]//div[contains(@style, 'theme_boost_union/courseoverviewimagefallback/0/login_bg2.png')]" "xpath_element" should not exist
+    And "//div[contains(@class, 'course-card')]//div[contains(@style, 'data:image/svg+xml')]" "xpath_element" should not exist
+
+  @javascript
+  Scenario: Setting: Course overview image source - Display the fallback to a geometric pattern if no course image is uploaded
+    Given the following config values are set as admin:
+      | config                    | value             | plugin            |
+      | courseoverviewimagesource | coursepluspattern | theme_boost_union |
+    And the following "users" exist:
+      | username |
+      | student2 |
+    And the following "course enrolments" exist:
+      | user     | course | role    |
+      | student2 | C1     | student |
+    When I log in as "student2"
+    And I follow "My courses"
+    Then "//div[contains(@class, 'course-card')]//div[contains(@style, 'course/overviewfiles/login_bg1.png')]" "xpath_element" should not exist
+    And "//div[contains(@class, 'course-card')]//div[contains(@style, 'data:image/svg+xml')]" "xpath_element" should exist
+
+  @javascript @_file_upload
+  Scenario: Setting: Course overview image source - Display the fallback to the fallback image if no course image is uploaded
+    Given the following config values are set as admin:
+      | config                    | value              | plugin            |
+      | courseoverviewimagesource | courseplusfallback | theme_boost_union |
+    And the following "users" exist:
+      | username |
+      | student2 |
+    And the following "course enrolments" exist:
+      | user     | course | role    |
+      | student2 | C1     | student |
+    And I log in as "admin"
+    And Behat debugging is disabled
+    And I navigate to "Appearance > Boost Union > Look" in site administration
+    And I click on "Dashboard / My courses" "link" in the "#adminsettings .nav-tabs" "css_element"
+    And I upload "theme/boost_union/tests/fixtures/login_bg2.png" file to "Course overview fallback image" filemanager
+    And I press "Save changes"
+    And Behat debugging is enabled
+    And the theme cache is purged and the theme is reloaded
+    And I log out
+    When I log in as "student2"
+    And I follow "My courses"
+    Then "//div[contains(@class, 'course-card')]//div[contains(@style, 'course/overviewfiles/login_bg1.png')]" "xpath_element" should not exist
+    And "//div[contains(@class, 'course-card')]//div[contains(@style, 'theme_boost_union/courseoverviewimagefallback/0/login_bg2.png')]" "xpath_element" should exist
+    And "//div[contains(@class, 'course-card')]//div[contains(@style, 'data:image/svg+xml')]" "xpath_element" should not exist

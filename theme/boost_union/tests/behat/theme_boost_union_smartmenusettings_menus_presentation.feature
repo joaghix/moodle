@@ -223,8 +223,7 @@ Feature: Configuring the theme_boost_union plugin on the "Smart menus" page, app
       | Menu mode          | Submenu        |
       | More menu behavior | <menu3beh>     |
     # Set the frontpage title to better control the available space in the navbar
-    And I am on site homepage
-    And I click on "Settings" "link" in the ".secondary-navigation" "css_element"
+    And I navigate to "Site home > Site home settings" in site administration
     And I set the field "id_s__shortname" to "Boost Union Test"
     And I press "Save changes"
     # Hide the standard navigation items to better reproduce the "More" behaviour in the navbar
@@ -239,8 +238,7 @@ Feature: Configuring the theme_boost_union plugin on the "Smart menus" page, app
     And I <menu3shouldornotlarge> see smart menu "Quick links 03" in location "Main"
     And ".primary-navigation .dropdownmoremenu" "css_element" <moreshouldornotlarge> be visible
     # Make the screen smaller and test the "More" behaviour in the navbar
-    # This screen size should be 'tablet', but due to MDL-81892, we have to test on a larger screen.
-    And I change viewport size to "820x1024"
+    And I change viewport size to "tablet"
     Then I <menu1shouldornottablet> see smart menu "Quick links 01" in location "Main"
     And I <menu2shouldornottablet> see smart menu "Quick links 02" in location "Main"
     And I <menu3shouldornottablet> see smart menu "Quick links 03" in location "Main"
@@ -284,8 +282,7 @@ Feature: Configuring the theme_boost_union plugin on the "Smart menus" page, app
       | Menu mode          | Submenu        |
       | More menu behavior | <menu3beh>     |
     # Set the frontpage title to better control the available space in the navbar
-    And I am on site homepage
-    And I click on "Settings" "link" in the ".secondary-navigation" "css_element"
+    And I navigate to "Site home > Site home settings" in site administration
     And I set the field "id_s__shortname" to "Boost Union Test"
     And I press "Save changes"
     # Hide the standard navigation items to better reproduce the "More" behaviour in the navbar
@@ -294,8 +291,7 @@ Feature: Configuring the theme_boost_union plugin on the "Smart menus" page, app
       | hidenodesprimarynavigation | home,myhome,courses,siteadminnode | theme_boost_union |
     And I follow "Dashboard"
     # Make the screen smaller and test the "More" behaviour in the navbar
-    # This screen size should be 'tablet', but due to MDL-81892, we have to test on a larger screen.
-    And I change viewport size to "820x1024"
+    And I change viewport size to "tablet"
     And I click on "More" "link" in the ".primary-navigation" "css_element"
     Then I should see smart menu "Quick links 01" in location "Main"
     And I should see smart menu "Quick links 02" in location "Main"
@@ -337,8 +333,7 @@ Feature: Configuring the theme_boost_union plugin on the "Smart menus" page, app
       | Menu mode          | Submenu                              |
       | More menu behavior | <menu3beh>                           |
     # Set the frontpage title to better control the available space in the navbar
-    And I am on site homepage
-    And I click on "Settings" "link" in the ".secondary-navigation" "css_element"
+    And I navigate to "Site home > Site home settings" in site administration
     And I set the field "id_s__shortname" to "Boost Union Test"
     And I press "Save changes"
     # Hide the standard navigation items to better reproduce the "More" behaviour in the navbar
@@ -398,8 +393,7 @@ Feature: Configuring the theme_boost_union plugin on the "Smart menus" page, app
       | Menu mode          | Submenu                              |
       | More menu behavior | <menu3beh>                           |
     # Set the frontpage title to better control the available space in the navbar
-    And I am on site homepage
-    And I click on "Settings" "link" in the ".secondary-navigation" "css_element"
+    And I navigate to "Site home > Site home settings" in site administration
     And I set the field "id_s__shortname" to "Boost Union Test"
     And I press "Save changes"
     # Hide the standard navigation items to better reproduce the "More" behaviour in the navbar

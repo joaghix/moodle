@@ -34,7 +34,7 @@ define('NO_DEBUG_DISPLAY', true);
 
 define('ABORT_AFTER_CONFIG', true);
 require('../../../config.php');
-require_once($CFG->dirroot.'/lib/csslib.php');
+require_once($CFG->dirroot . '/lib/csslib.php');
 
 if ($slashargument = min_get_slash_argument()) {
     $slashargument = ltrim($slashargument, '/');
@@ -50,12 +50,11 @@ if ($slashargument = min_get_slash_argument()) {
         $usesvg = true;
     }
 
-    list($themename, $rev, $flavourid, $type) = explode('/', $slashargument, 4);
+    [$themename, $rev, $flavourid, $type] = explode('/', $slashargument, 4);
     $themename = min_clean_param($themename, 'SAFEDIR');
     $rev       = min_clean_param($rev, 'RAW');
     $flavourid = min_clean_param($flavourid, 'INT');
     $type      = min_clean_param($type, 'SAFEDIR');
-
 } else {
     $themename = min_optional_param('theme', 'standard', 'SAFEDIR');
     $rev       = min_optional_param('rev', 0, 'RAW');
@@ -162,10 +161,9 @@ if ($type === 'editor' || $type === 'editor-rtl') {
     } else {
         css_send_uncached_css($csscontent);
     }
-
 }
 
-if (($fallbacksheet = theme_styles_fallback_content($theme)) && !$theme->has_css_cached_content()) {
+if (($fallbacksheet = theme_boost_union_flavour_styles_fallback_content($theme, $flavourid)) && !$theme->has_css_cached_content()) {
     // The theme is not yet available and a fallback is available.
     // Return the fallback immediately, specifying the Content-Length, then generate in the background.
     $css = file_get_contents($fallbacksheet);
@@ -207,7 +205,6 @@ if ($sendaftergeneration || $lock) {
             // Do not pollute browser caches if invalid revision requested,
             // let's ignore legacy IE breakage here too.
             css_send_uncached_css(file_get_contents($candidatesheet));
-
         } else {
             // Real browsers - this is the expected result!
             css_send_cached_css($candidatesheet, $etag);
@@ -242,8 +239,12 @@ function theme_boost_union_flavour_styles_generate_and_store($theme, $rev, $them
     }
 
     // Determine the candidatesheet path.
-    $candidatesheet = "{$candidatedir}/" . theme_boost_union_flavour_styles_get_filename($type, $themesubrev, $flavourid,
-            $theme->use_svg_icons());
+    $candidatesheet = "{$candidatedir}/" . theme_boost_union_flavour_styles_get_filename(
+        $type,
+        $themesubrev,
+        $flavourid,
+        $theme->use_svg_icons()
+    );
 
     // Store the CSS.
     css_store_css($theme, $candidatesheet, $csscontent);
@@ -252,7 +253,7 @@ function theme_boost_union_flavour_styles_generate_and_store($theme, $rev, $them
     // This file is used as a fallback when waiting for a theme to compile and is not versioned in any way.
     $fallbacksheet = make_temp_directory("theme/{$theme->name}")
         . "/"
-        . theme_boost_union_flavour_styles_get_filename($type, $themesubrev, $flavourid, $theme->use_svg_icons());
+        . theme_boost_union_flavour_styles_get_filename($type, 0, $flavourid, $theme->use_svg_icons());
     css_store_css($theme, $fallbacksheet, $csscontent);
 
     // Delete older revisions from localcache.
@@ -284,9 +285,10 @@ function theme_boost_union_flavour_styles_generate_and_store($theme, $rev, $them
  * Fetch the preferred fallback content location if available.
  *
  * @param   theme_config    $theme The theme to be generated
+ * @param   int             $flavourid The flavour ID
  * @return  string          The path to the fallback sheet on disk
  */
-function theme_styles_fallback_content($theme) {
+function theme_boost_union_flavour_styles_fallback_content($theme, $flavourid) {
     global $CFG;
 
     if (!$theme->usefallback) {
@@ -295,7 +297,7 @@ function theme_styles_fallback_content($theme) {
     }
 
     $type = $theme->get_rtl_mode() ? 'all-rtl' : 'all';
-    $filename = theme_boost_union_flavour_styles_get_filename($type);
+    $filename = theme_boost_union_flavour_styles_get_filename($type, 0, $flavourid);
 
     $fallbacksheet = "{$CFG->tempdir}/theme/{$theme->name}/{$filename}";
     if (file_exists($fallbacksheet)) {

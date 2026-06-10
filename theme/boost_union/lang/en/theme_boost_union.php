@@ -33,17 +33,63 @@ $string['pluginname'] = 'Boost Union';
 $string['choosereadme'] = 'Theme Boost Union is an enhanced child theme of Boost which is intended, on the one hand, to make Boost simply more configurable and, on the other hand, to provide helpful additional features for the daily Moodle operation of admins, teachers and students. Boost Union is maintained by Moodle an Hochschulen e.V., in cooperation with ssystems GmbH, together with bdecent GmbH and lern.link GmbH';
 $string['configtitle'] = 'Boost Union';
 $string['githubissueslink'] = '<a href="https://github.com/moodle-an-hochschulen/moodle-theme_boost_union/issues">Github issues</a>';
+$string['warningboostunioninactive'] = 'Boost Union (or a child theme of Boost Union) is currently <em>not</em> the active theme. Settings on these pages will not have any effect if you do not <a href="{$a->url}">make Boost Union the active theme</a> or allow Boost Union to be used as category / course / user / cohort theme.';
 
 // General select options.
 $string['never'] = 'Never';
 $string['always'] = 'Always';
 $string['auto'] = 'Automatically';
+$string['bycapability'] = 'Controlled by capability';
 $string['nochange'] = 'No change';
 $string['forguestsonly'] = 'Only for guests and non-logged-in users';
+$string['showastext'] = 'Show as text';
+$string['showasbadge'] = 'Show as badge';
+$string['imageposition_center_center'] = 'Center horizontally and vertically';
+$string['imageposition_center_top'] = 'Center horizontally, top vertically';
+$string['imageposition_center_bottom'] = 'Center horizontally, bottom vertically';
+$string['imageposition_left_top'] = 'Left horizontally, top vertically';
+$string['imageposition_left_center'] = 'Left horizontally, center vertically';
+$string['imageposition_left_bottom'] = 'Left horizontally, bottom vertically';
+$string['imageposition_right_top'] = 'Right horizontally, top vertically';
+$string['imageposition_right_center'] = 'Right horizontally, center vertically';
+$string['imageposition_right_bottom'] = 'Right horizontally, bottom vertically';
+$string['logininstructionposition_between'] = 'Between the intro and the login provider widget';
+$string['logininstructionposition_below'] = 'Below the login provider widget';
+$string['buttoncolorprimaryfilled'] = 'Primary (Filled)';
+$string['buttoncolorsecondaryfilled'] = 'Secondary (Filled)';
+$string['buttoncolorprimaryoutline'] = 'Primary (Outline)';
+$string['buttoncolorsecondaryoutline'] = 'Secondary (Outline)';
+$string['bootstrap0to5_0'] = '0 (None)';
+$string['bootstrap0to5_1'] = '1 (Extra small)';
+$string['bootstrap0to5_2'] = '2 (Small)';
+$string['bootstrap0to5_3'] = '3 (Medium)';
+$string['bootstrap0to5_4'] = '4 (Large)';
+$string['bootstrap0to5_5'] = '5 (Extra large)';
+$string['horizontalalignment_left'] = 'Left';
+$string['horizontalalignment_center'] = 'Centered';
+$string['horizontalalignment_right'] = 'Right';
+$string['pagelayout_admin'] = 'Administration pages';
+$string['pagelayout_base'] = 'Base layout';
+$string['pagelayout_course'] = 'Course main pages';
+$string['pagelayout_coursecategory'] = 'Course category pages';
+$string['pagelayout_frontpage'] = 'Site home page';
+$string['pagelayout_incourse'] = 'Course sub pages / Activity pages';
+$string['pagelayout_login'] = 'Login page';
+$string['pagelayout_mycourses'] = 'My courses';
+$string['pagelayout_mydashboard'] = 'Dashboard';
+$string['pagelayout_mypublic'] = 'User profiles';
+$string['pagelayout_report'] = 'Report pages';
+$string['pagelayout_standard'] = 'Standard layout';
 
 // Settings: General strings.
 $string['dontchange'] = 'Do not change anything';
 $string['tertiarysettings'] = 'List of Boost Union settings pages';
+$string['settingoverridenotificationtitle'] = 'Possible setting overrides';
+$string['settingoverrideactioninfo'] = 'Explain setting possible overrides';
+$string['settingoverrideactionflavours'] = 'Manage flavours';
+$string['settingoverridemodallms'] = '<strong>Flavours</strong><br />Boost Union\'s flavours offer a possibility to override particular Moodle look & feel settings in particular contexts. Here, the global default setting is defined. And with flavours, you can differentiate the setting for particular contexts or user groups. Click on the \'Manage flavours\' icon to go to the flavours management page and define a flavour.';
+$string['settingoverridelms'] = 'This setting can be overridden within Boost Union flavours.';
+$string['settingsupplementlms'] = 'This setting can be supplemented within Boost Union flavours.';
 
 // Settings: General warnings.
 $string['warningslashargumentsdisabled'] = 'Warning: The <a href="{$a->url}">slasharguments setting</a> is disabled in your Moodle configuration currently. However, this setting is required for the correct operation of the following Boost Union setting. Please enable slasharguments, otherwise the following Boost Union setting will not have any effect.';
@@ -59,6 +105,7 @@ $string['settingsoverview_accessibility_desc'] = 'Settings for accessibility-rel
 $string['settingsoverview_flavours_desc'] = 'With flavours, you can diversify the look of your Moodle site between cohorts and / or course categories.';
 $string['settingsoverview_snippets_desc'] = 'With SCSS snippets, you can enable additional eye candy or visual fixes on your Moodle site.';
 $string['settingsoverview_smartmenus_desc'] = 'With smart menus, you can extend the navigation items of your Moodle site in the main menu and the user menus well as introduce a bottom menu or a top menu.';
+$string['settingsoverview_recommendations_desc'] = 'Recommendations highlight relevant Moodle core, Boost Union and third-party plugin settings to allow a more robust Boost Union setup.';
 $string['settingsoverview_all'] = 'All settings on one page';
 $string['settingsoverview_all_desc'] = 'Here, you can open the standard Moodle category settings page for Boost Union that shows all settings on one page. But beware, it is really packed.';
 
@@ -144,7 +191,6 @@ $string['blockdrawerwidthsetting_desc'] = 'With this setting, you can override M
 $string['sitebrandingtab'] = 'Site branding';
 // ... Section: Logos.
 $string['logosheading'] = 'Logos';
-$string['logosheading_desc'] = 'Please note: Boost Union has its own logo upload and does not use the logo from <a href="{$a}">Moodle core\'s logo setting</a>.<br />Boost Union especially allows you to upload more image formats that Moodle core allows and allows you to override the uploaded logos within its flavours.';
 // ... ... Setting: Logo.
 $string['logosetting'] = 'Logo';
 $string['logosetting_desc'] = 'Here, you can upload a full logo to be used as decoration. This image is especially used on the login page. This image can be quite high resolution because it will be scaled down for use.';
@@ -153,7 +199,6 @@ $string['logocompactsetting'] = 'Compact logo';
 $string['logocompactsetting_desc'] = 'Here, you can upload a compact version of the same logo as above, such as an emblem, shield or icon. This image is especially used in the navigation bar at the top of each Moodle page. The image should be clear even at small sizes.';
 // ... Section: Favicon.
 $string['faviconheading'] = 'Favicon';
-$string['faviconheading_desc'] = 'Please note: Boost Union has its own favicon upload and does not use the favicon from <a href="{$a}">Moodle core\'s favicon setting</a>.<br />Boost Union especially allows you to override the uploaded favicon within its flavours.';
 // ... ... Setting: Favicon
 $string['faviconsetting'] = 'Favicon';
 $string['faviconsetting_desc'] = 'Here, you can upload a custom image (.ico or .png format) that the browser will show as the favicon of your Moodle website. If no custom favicon is uploaded, a standard Moodle favicon will be used.';
@@ -167,6 +212,20 @@ $string['backgroundimagepositionsetting'] = 'Background image position';
 $string['backgroundimagepositionsetting_desc'] = 'With this setting, you control the positioning of the background image within the browser window. The first value is the horizontal position, the second value is the vertical position.';
 // ... Section: Brand colors.
 $string['brandcolorsheading'] = 'Brand colors';
+// ... ... Setting: Primary brand color.
+$string['brandcolor'] = 'Primary brand color';
+$string['brandcolor_desc'] = 'The primary brand color. It is used for accent and highlighting purposes across the site and is also used as basis for calculating gradated brand colors. Furthermore, it is used for links and buttons unless you set distinct colors for links and buttons in the settings below.';
+// ... ... Setting: Use branded gray tones.
+$string['brandedgraytones'] = 'Use branded gray tones';
+$string['brandedgraytones_desc'] = 'With this setting, the Bootstrap gray tones used throughout the theme are derived from the primary brand color instead of neutral grays. This creates a subtle color harmony across all gray elements on the page. Please note: This setting only takes effect if a primary brand color is configured above.';
+// ... Section: Link colors.
+$string['linkcolorsheading'] = 'Link colors';
+// ... ... Setting: Link brand color.
+$string['linkcolorsetting'] = 'Link brand color';
+$string['linkcolorsetting_desc'] = 'With this setting, you can set a dedicated brand color for links. If this setting is empty, Boost Union\'s primary brand color is used.';
+// ... ... Setting: Button brand color.
+$string['buttonbrandcolorsetting'] = 'Button brand color';
+$string['buttonbrandcolorsetting_desc'] = 'With this setting, you can define a dedicated brand color for primary buttons. If this setting is empty, Boost Union\'s primary brand color is used.';
 // ... Section: Bootstrap colors.
 $string['bootstrapcolorsheading'] = 'Bootstrap colors';
 // ... ... Setting: Bootstrap color for 'Success'.
@@ -186,13 +245,18 @@ $string['navbarheading'] = 'Navbar';
 // ... Section: Maximal width of logo in navbar.
 $string['maxlogowidth'] = 'Maximal width of logo in navbar';
 $string['maxlogowidth_desc'] = 'In the navbar, the uploaded compact logo is normally displayed with 100% height and proportional width. However, if the logo is too broad or has another special aspect ratio, you can set the maximal width of the logo in the navbar here. You can enter pixel-based values like 120px, but you can also enter a percentage-based value like 10% or a viewport-width value like 5vw. If you do not enter any value, the logo will be displayed with the default presentation.';
+$string['maxsitenamewidth'] = 'Maximal width of sitename in navbar';
+$string['maxsitenamewidth_desc'] = 'If you have a very long sitename and want to prevent it from breaking the navbar layout (especially the edit button widget) on medium-width screens, you can set the maximal width of the sitename in the navbar here. If the sitename exceeds this width, it will be truncated with an ellipsis (...). You can enter pixel-based values like 200px, but you can also enter a percentage-based value like 20% or a viewport-width value like 15vw. If you do not enter any value, the sitename will be displayed with its full width.';
 // ... ... Setting: Navbar color.
 $string['navbarcolorsetting'] = 'Navbar color';
 $string['navbarcolorsetting_desc'] = 'With this setting, you can change the navbar color from the default light navbar to a dark one or a colored one.';
 $string['navbarcolorsetting_light'] = 'Light navbar with dark font color (unchanged as presented by Moodle core)';
 $string['navbarcolorsetting_dark'] = 'Dark navbar with light font color';
-$string['navbarcolorsetting_primarydark'] = 'Primary color navbar with light font color';
-$string['navbarcolorsetting_primarylight'] = 'Primary color navbar with dark font color';
+$string['navbarcolorsetting_coloreddark'] = 'Colored navbar with light font color';
+$string['navbarcolorsetting_coloredlight'] = 'Colored navbar with dark font color';
+// ... ... Setting: Navbar tint.
+$string['navbartintsetting'] = 'Navbar tint';
+$string['navbartintsetting_desc'] = 'With this setting, you can define the color of the colored navbar. This setting is only effective if the navbar color is set to one of the \'Colored navbar\' options above. If no color is defined here, the primary brand color will be used as a fallback.';
 
 // Settings: Activity branding tab.
 $string['activitybrandingtab'] = 'Activity branding';
@@ -287,6 +351,23 @@ $string['calendariconscolorsetting_desc'] = 'The color of some icons which are u
 
 // Settings: Login page tab.
 $string['loginpagetab'] = 'Login page';
+// ... Section: Login page arrangement.
+$string['loginarrangementheading'] = 'Login page arrangement';
+// ... ... Setting: Login container position.
+// These strings do not fully match the setting name as the setting was renamend during its lifetime, but the string IDs were keps to ease the life of the translators.
+$string['loginformpositionsetting'] = 'Login container position';
+$string['loginformpositionsetting_desc'] = 'With this setting, you can optimize the login container to fit to a greater variety of background images. By default, the login container is displayed centered on the login page. Alternatively, you can move it to the left or to the right of the login page to let other parts of the background image shine through. Of course, you can also change this setting if no background images are uploaded at all.';
+$string['loginformpositionsetting_center'] = 'Centered';
+$string['loginformpositionsetting_left'] = 'Left-aligned';
+$string['loginformpositionsetting_right'] = 'Right-aligned';
+// ... ... Setting: Login container transparency.
+// These strings do not fully match the setting name as the setting was renamend during its lifetime, but the string IDs were keps to ease the life of the translators.
+$string['loginformtransparencysetting'] = 'Login container transparency';
+$string['loginformtransparencysetting_desc'] = 'With this setting, you can make the login container slightly transparent to let the background image shine through even more.';
+// ... ... Setting: Login container width.
+$string['logincontainerwidthsetting'] = 'Login container width';
+$string['logincontainerwidthsetting_desc'] = 'With this setting, you can override Moodle\'s fixed login container width of 500px. By default, Moodle uses a login container width of 500px on medium and larger screens. You can enter other pixel-based values like 600px, but you can also enter a percentage-based value like 90% or a viewport-width value like 50vw.';
+$string['logincontainerwidthsetting_note'] = 'Please note: If you use the tabs login form layout, the login container might become wider than the defined width if you have many login providers enabled or if you have long login tab texts. In this case, the login container will try to expand horizontally to fit all login provider tabs next to each other.';
 // ... Section: Login page background images.
 $string['loginbackgroundimagesheading'] = 'Login page background images';
 // ... ... Setting: Login page background image.
@@ -303,42 +384,192 @@ For example:<br/>
 background-image-1.jpg|Copyright: CC0|dark<br/>
 As text color, you can use the values "dark" or "light".<br />
 You can declare texts for an arbitrary amount of your uploaded login background images. The texts will be added only to those images that match their filename with the identifier declared in this setting.';
-// ... Section: Login form.
-$string['loginformheading'] = 'Login form';
-// ... ... Setting: login form position.
-$string['loginformpositionsetting'] = 'Login form position';
-$string['loginformpositionsetting_desc'] = 'With this setting, you can optimize the login form to fit to a greater variety of background images. By default, the login form is displayed centered on the login page. Alternatively, you can move it to the left or to the right of the login page to let other parts of the background image shine through. Of course, you can also change this setting if no background images are uploaded at all.';
-$string['loginformpositionsetting_center'] = 'Centered';
-$string['loginformpositionsetting_left'] = 'Left-aligned';
-$string['loginformpositionsetting_right'] = 'Right-aligned';
-// ... ... Setting: login form transparency.
-$string['loginformtransparencysetting'] = 'Login form transparency';
-$string['loginformtransparencysetting_desc'] = 'With this setting, you can make the login form slightly transparent to let the background image shine through even more.';
-// ... Section: Login providers.
-$string['loginprovidersheading'] = 'Login providers';
-$string['loginprovidersheading_desc'] = 'Please note: Boost Union has its own login providers settings and does not use the \'{$a->settingname}\' setting from <a href="{$a->url}">Moodle core\'s authentication setting</a>.';
-// ... ... Setting: Local login form.
+// ... Section: Login page branding.
+$string['loginbrandingheading'] = 'Login page branding';
+// ... ... Setting: Login page brand.
+$string['loginpagebranding'] = 'Login page brand';
+$string['loginpagebranding_desc'] = 'With this setting, you can control which branding elements are shown on the login page. Depending on your choice, the logo (if uploaded), the site heading, and/or a site tagline will be displayed.';
+$string['loginpagebrand_logoheadingtagline'] = 'Logo (if uploaded) + heading + tagline';
+$string['loginpagebrand_logootherwiseheading'] = 'Logo (if uploaded), heading otherwise (Unchanged as handled by Moodle core)';
+$string['loginpagebrand_logoheading'] = 'Logo (if uploaded) + heading';
+$string['loginpagebrand_logotagline'] = 'Logo (if uploaded) + tagline';
+$string['loginpagebrand_headingtagline'] = 'Heading + tagline';
+$string['loginpagebrand_heading'] = 'Heading';
+$string['loginpagebrand_tagline'] = 'Tagline';
+// ... ... Setting: Login page heading.
+$string['loginpageheadingsetting'] = 'Login page heading';
+$string['loginpageheadingsetting_desc'] = 'With this setting, you can control what text is displayed as the heading on the login page.';
+$string['loginpageheadingsetting_options'] = 'On the one hand, you can choose between multiple variations of the presentation of the site name. On the other hand, you can choose a simple greeting message. The \'Welcome! / Welcome back!\' option tries to detect if the user is a returning visitor and will present the matching greeting accordingly.';
+// ... ... Setting: Login page tagline text.
+$string['loginpagetaglinesetting'] = 'Login page tagline';
+$string['loginpagetaglinesetting_desc'] = 'With this setting, you can control what text is displayed as the tagline on the login page.';
+// ... ... Options for login page heading and tagline settings.
+$string['loginpagelabel_welcome'] = 'Welcome!';
+$string['loginpagelabel_welcomeback'] = 'Welcome back!';
+$string['loginpagelabel_welcometo'] = 'Welcome to {$a}';
+// ... ... Setting: Login logo max width.
+$string['loginlogomaxwidthsetting'] = 'Login logo max width';
+$string['loginlogomaxwidthsetting_desc'] = 'With this setting, you can restrict the maximum width of the logo on the login page. You can enter pixel-based values like 120px, but you can also enter a percentage-based value like 10%. If you do not enter any value, the logo will be scaled proportionally.';
+// ... ... Setting: Login logo max height.
+$string['loginlogomaxheightsetting'] = 'Login logo max height';
+$string['loginlogomaxheightsetting_desc'] = 'With this setting, you can restrict the maximum height of the logo on the login page. You can enter pixel-based values like 120px, but you can also enter a percentage-based value like 10%. If you do not enter any value, the logo will be scaled proportionally.';
+// ... ... Setting: Login logo alignment.
+$string['loginlogoalignmentsetting'] = 'Login logo alignment';
+$string['loginlogoalignmentsetting_desc'] = 'With this setting, you can control the horizontal alignment of the logo on the login page.';
+// ... ... Setting: Login logo margin bottom.
+$string['loginlogomarginbottomsetting'] = 'Login logo margin bottom';
+$string['loginlogomarginbottomsetting_desc'] = 'With this setting, you can control the bottom margin of the logo on the login page by adding a Bootstrap spacing class (mb-0 to mb-5) to the logo container. This will help you to optimize the vertical whitespace around your logo.';
+// ... Section: Login form layout.
+$string['loginlayoutheading'] = 'Login form layout';
+// ... ... Setting: Login form layout.
+$string['loginlayoutsetting'] = 'Login form layout';
+$string['loginlayoutsetting_desc'] = 'With this setting, you control how the login providers are displayed on the login page. You can choose between a vertical layout (all login providers displayed one below the other), a tabbed layout (login providers displayed in tabs next to each other), or an accordion layout (login providers displayed one below the other, but collapsed by default and expandable by clicking on the intro texts).';
+$string['loginlayoutvertical'] = 'Vertical (one below the other)';
+$string['loginlayouttabs'] = 'Tabs (next to each other)';
+$string['loginlayoutaccordion'] = 'Accordion (collapsed, expandable)';
+// ... ... Setting: Enhanced tabs layout behaviour.
+$string['loginenhancedtabslayoutsetting'] = 'Enhanced tabs layout behaviour';
+$string['loginenhancedtabslayoutsetting_desc'] = 'The tabs layout generally respects the configured login container width, as described in the login container width setting. And the login container of the tabs layout is displayed vertically centered just like the other login form layouts. However, there might be configurations when this is not enough. Maybe the height of the particular tab panes differ too much so that the tabs jump vertically when the active tab is changed. Or maybe really long tab labels widen the login container width, but multiline login instruction texts do not adapt accordingly. These are edge cases which cannot be solved cleanly with CSS and for such cases, you can add a JavaScript module which, after the login page has loaded, tries to ensure that all the login content is still presented and positioned as appropriately as possible.';
+// ... Section: Login instructions.
+$string['logininstructionsheading'] = 'Login instructions';
+$string['logininstructionsheading_desc'] = 'Please note: Boost Union has its own login instructions settings and does not output the content from <a href="{$a}">Moodle core\'s authentication instruction setting</a>.';
+$string['logininstructionsabove'] = 'Instructions above login provider list';
+$string['logininstructionsabove_desc'] = 'With this setting, you can add instructions that will be shown above the list of login providers on the login page. This is a good place to add general information that applies to all login methods.';
+$string['logininstructionsbelow'] = 'Instructions below login provider list';
+$string['logininstructionsbelow_desc'] = 'With this setting, you can add instructions that will be shown below the list of login providers on the login page. This is a good place to add additional information or support contacts that apply to all login methods.';
+// ... Section: Login order.
+$string['loginorderheading'] = 'Login order';
+$string['loginorderheading_desc'] = 'With these settings, you control the order of the login providers in the login form. The presented order will be defined from lowest to highest ordinal number, skipping all login providers and login form elements which are disabled in Boost Union.';
+// ... ... Settings: Login order.
+$string['loginorderlocalsetting'] = 'Local login';
+$string['loginorderidpsetting'] = 'IDP login';
+$string['loginorderfirsttimesignupsetting'] = 'Self registration';
+$string['loginorderguestsetting'] = 'Guest login';
+// ... ... Setting: Primary login provider.
+$string['primaryloginsetting'] = 'Primary login provider';
+$string['primaryloginsetting_desc'] = 'With this setting, you can specify which login provider should be opened by default when the page loads. This setting only applies to the tabs layout and accordion layout. If set to "None", for the tabs layout the first login provider (based on the login order settings) will be opened by default. And for the accordion layout, no login provider will be opened by default.';
+// ... Section: Login provider: Local.
+$string['loginproviderlocalheading'] = 'Login provider: Local';
+// ... ... Setting: Local login.
 $string['loginlocalloginenablesetting'] = 'Local login';
-$string['loginlocalloginenablesetting_desc'] = 'With this setting, you control if the local login form is shown on the login page or not. By default, the local login form is shown and users can login into the site as normal. If you disable this setting, the local login form is hidden. This allows you to just provide login buttons for external identity providers like OAuth2 or OIDC.';
-$string['loginlocalloginenablesetting_note'] = 'Please note: As soon as you hide the local login form, you risk that admins cannot log in anymore with a local account if there is a problem with the external identity provider. The same goes if no other authentication methods than manual authentication are enabled at all.<br />To allow local logins anyway in such cases, the <a href="{$a->url}">side entrance local login page</a> (see below for details) is enabled automatically. Please bookmark this URL as your own safety net.';
+$string['loginlocalloginenablesetting_desc'] = 'With this setting, you control if the local login provider is shown on the login page or not. By default, the local login provider is shown and users can login into the site as normal. If you disable this setting, the local login provider is hidden. This allows you to just provide login buttons for external identity providers like OAuth2 or OIDC.';
+$string['loginlocalloginenablesetting_core'] = 'Moodle core setting interplay: Boost Union does not process the \'{$a->settingname}\' setting from <a href="{$a->url}">Moodle core\'s authentication setting</a>. This setting here is the only place to disable or enable the local login provider in Boost Union.';
+$string['loginlocalloginenablesetting_note'] = 'Please note: As soon as you hide the local login provider, you risk that admins cannot log in anymore with a local account if there is a problem with the external identity provider. The same goes if no other authentication methods than manual authentication are enabled at all.<br />To allow local logins anyway in such cases, the <a href="{$a->url}">side entrance local login page</a> (see below for details) is enabled automatically. Please bookmark this URL as your own safety net.';
 $string['loginlocalloginformhead'] = 'Local login';
 $string['loginlocalloginlocalnotdisabled'] = 'There is no need to log in on this side entrance login page here. Please use the <a href="{$a->url}">standard login page</a> for logging in.';
 // ... ... Setting: Local login intro.
 $string['loginlocalshowintrosetting'] = 'Local login intro';
-$string['loginlocalshowintrosetting_desc'] = 'With this setting, you control if a <em>\'{$a}\'</em> intro is shown above the local login form or not. By default, the intro is not shown. But if you enable it, this intro may help users to understand which credentials to use in the local login form, especially if you provide more than one login method or if you have changed the order of the login methods.';
+$string['loginlocalshowintrosetting_desc'] = 'With this setting, you control if an intro is shown above the local login form or not. By default, the intro is not shown. But if you enable it, this intro may help users to understand which credentials to use in the local login form, especially if you provide more than one login provider or if you have changed the order of the login providers.';
 $string['loginlocalintro'] = 'Login with your Moodle account';
+// ... ... Setting: Local login intro text.
+$string['loginlocalintrotextsetting'] = 'Local login intro text';
+$string['loginlocalintrotextsetting_desc'] = 'With this setting, you can override the default intro text <em>\'{$a}\'</em> with a custom text. Leave this field empty to use the default text.';
+// ... ... Setting: Local login tab label.
+$string['loginlocalloginlabelsetting'] = 'Local login label';
+$string['loginlocalloginlabelsetting_desc'] = 'With this setting, you can customize the label for local login to be used in the tab and accordion layout.';
+$string['loginlocalloginlabelsetting_default'] = 'Moodle account';
+// ... ... Setting: Local login instruction.
+$string['loginlocalshowinstruction'] = 'Local login instruction';
+$string['loginlocalshowinstruction_desc'] = 'With this setting, you can enable instructions for the local login provider.';
+$string['loginlocalinstructioncontent'] = 'Local login instruction content';
+$string['loginlocalinstructioncontent_desc'] = 'With this setting, you can specify custom instructions for the local login provider. This allows you to provide users with additional information about how to log in locally.';
+$string['loginlocalinstructionposition'] = 'Local login instruction position';
+$string['loginlocalinstructionposition_desc'] = 'With this setting, you can specify where the local login instructions should be shown relative to the login form.';
+// ... ... Setting: Local login button color.
+$string['loginlocalbuttoncolorsetting'] = 'Local login button color';
+$string['loginlocalbuttoncolorsetting_desc'] = 'With this setting, you can control the Bootstrap color style of the local login button.';
+// ... Section: Login provider: IDP.
+$string['loginprovideridpheading'] = 'Login provider: IDP';
+// ... ... Setting: IDP login.
+$string['loginidploginenablesetting'] = 'IDP login';
+$string['loginidploginenablesetting_desc'] = 'With this setting, you control if the identity provider (IDP) login buttons are shown on the login page or not. By default, IDP login buttons are shown if identity providers are configured. If you disable this setting, all IDP login buttons are hidden regardless of the authentication plugins configuration.';
+$string['loginidploginenablesetting_core'] = 'Moodle core setting interplay: Identity provider login buttons are provided by authentication plugins like OAuth2, CAS or Shibboleth. You can manage authentication plugins on <a href="{$a->url}">Moodle core\'s authentication settings page</a>.';
 // ... ... Setting: IDP login intro.
 $string['loginidpshowintrosetting'] = 'IDP login intro';
-$string['loginidpshowintrosetting_desc'] = 'With this setting, you control if the <em>\'{$a}\'</em> intro is shown above the IDP login buttons or not. By default, the intro is shown and users will be quickly informed what the IDP buttons are about. If you disable this setting, the IDP intro is hidden. This allows you to provide a clean user login interface if you just use external identity providers like OAuth2 or OIDC.';
-// ... Section: Login order.
-$string['loginorderheading'] = 'Login order';
-$string['loginorderheading_desc'] = 'With these settings, you control the order of the login methods in the login form. The presented order will be defined from lowest to highest ordinal number, skipping all login methods and login form elements which are disabled in Moodle.';
-$string['loginorderheading_note'] = 'Technical note: The presented order will be realized with CSS flexbox orders, not by rearranging the login widgets in the HTML DOM. This should be fine on all modern browsers but might not work on really old browsers.';
-// ... ... Settings: Login order.
-$string['loginorderlocalsetting'] = 'Local login';
-$string['loginorderidpsetting'] = 'IDP login';
-$string['loginorderfirsttimesignupsetting'] = 'Information for first time visitors & Self registration';
-$string['loginorderguestsetting'] = 'Guest login';
+$string['loginidpshowintrosetting_desc'] = 'With this setting, you control if an intro is shown above the IDP login buttons or not. By default, the intro is shown and users will be quickly informed what the IDP buttons are about. If you disable this setting, the IDP intro is hidden. This allows you to provide a clean user login interface if you just use external identity providers like OAuth2 or OIDC.';
+// ... ... Setting: IDP login intro text.
+$string['loginidpintrotextsetting'] = 'IDP login intro text';
+$string['loginidpintrotextsetting_desc'] = 'With this setting, you can override the default intro text <em>\'{$a}\'</em> (which comes from the Moodle core language pack) with a custom text. Leave this field empty to use the default text.';
+// ... ... Setting: IDP login tab label.
+$string['loginidploginlabelsetting'] = 'IDP login label';
+$string['loginidploginlabelsetting_desc'] = 'With this setting, you can customize the label for IDP login to be used in the tab and accordion layout.';
+$string['loginidploginlabelsetting_default'] = 'IDP login';
+// ... ... Setting: IDP login instruction.
+$string['loginidpshowinstruction'] = 'IDP login instruction';
+$string['loginidpshowinstruction_desc'] = 'With this setting, you can enable instructions for the IDP login provider.';
+$string['loginidpinstructioncontent'] = 'IDP login instruction content';
+$string['loginidpinstructioncontent_desc'] = 'With this setting, you can specify custom instructions for the IDP login provider. This allows you to provide users with additional information about how to log in via identity providers.';
+$string['loginidpinstructionposition'] = 'IDP login instruction position';
+$string['loginidpinstructionposition_desc'] = 'With this setting, you can specify where the IDP login instructions should be shown relative to the login buttons.';
+// ... ... Setting: IDP login button color.
+$string['loginidpbuttoncolorsetting'] = 'IDP login button color';
+$string['loginidpbuttoncolorsetting_desc'] = 'With this setting, you can control the Bootstrap color style of the IDP login buttons.';
+// ... Section: Login provider: IDP (Expert settings).
+$string['loginprovideridpexpertheading'] = 'Login provider: IDP (Expert settings)';
+// ... ... Setting: Split per identity provider.
+$string['loginidpsplitsetting'] = 'Split per identity provider';
+$string['loginidpsplitsetting_desc'] = 'If enabled, each identity provider login option appears in its own tab, accordion panel or section. In tab and accordion layouts, the provider name is used as the label. The IDP intro text and visibility settings still apply within each panel or block. If disabled, all identity providers stay in a single tab, panel, or vertical section.';
+// ... ... Setting: Use internal Shibboleth WAYF.
+$string['loginshibbolethinternalwayfsetting'] = 'Use internal Shibboleth WAYF';
+$string['loginshibbolethinternalwayfsetting_desc'] = 'With this setting, you can replace a Shibboleth login button with an internal WAYF (Where Are You From) form. This allows you to provide a seamless login experience for Shibboleth users without forcing them to leave the login page.<br />If set to "Yes (based on the \'auth_shibboleth\' configuration)", the Shibboleth login button is replaced by the same organisation (IdP) selector as used on the <a href="{$a->loginurl}">Shibboleth authentication plugin\'s internal login page</a>. The list of organisations comes from the <a href="{$a->settingsurl}">Shibboleth authentication plugin\'s \'Identity providers\' configuration</a>. If that list is empty or Shibboleth authentication is not enabled at all, this setting does not have any effect and IDP buttons are shown as normal.<br />If set to "Yes (based on embedded JavaScript code)", the WAYF code can be configured manually in the \'Embedded WAYF JavaScript code\' setting. See the description of that setting for details. Please note that the embedded JavaScript code needs to be able to trigger the login process on the login page by redirecting the user to the correct URL with the correct parameters when an IdP is selected. This setting is especially targetted at Moodle instances which are connected to <a href="https://help.switch.ch/aai/guides/discovery/embedded-wayf/">SWITCH AAI</a> where such a JavaScript code is officially provided.';
+$string['loginshibbolethinternalwayfsettingconfig'] = 'Yes (based on the \'auth_shibboleth\' configuration)';
+$string['loginshibbolethinternalwayfsettingcode'] = 'Yes (based on embedded JavaScript code)';
+// ... ... Setting: Internal WAYF JavaScript code.
+$string['internalshibbolethwayfcodesetting'] = 'Internal WAYF JavaScript code';
+$string['internalshibbolethwayfcodesetting_desc'] = 'With this setting, you can embed custom JavaScript code which renders a WAYF element directly on the login page independent from the configuration of \'auth_shibboleth\'. Please note that you need to provide the complete JavaScript code including the necessary HTML elements and event handlers for the WAYF functionality. The code will be cleaned to remove malicious code during output, but apart from that it will be output as is. This setting only takes effect if the "Yes (based on JavaScript code)" option is selected in the "Use internal Shibboleth WAYF" setting above.';
+$string['internalshibbolethwayfcodesetting_providers'] = 'This setting is especially targetted at Moodle instances which are connected to <a href="https://help.switch.ch/aai/guides/discovery/embedded-wayf/">SWITCH AAI</a> where such <a href="https://rr.aai.switch.ch/gen_embedding_code.php">JavaScript code is officially provided</a>. However, you can also use this setting to embed custom JavaScript code for other identity providers if you like to craft your own internal WAYF solution.';
+// ... Section: Login provider: Self registration.
+$string['loginproviderselfregistrationheading'] = 'Login provider: Self registration';
+// ... ... Setting: Self registration.
+$string['loginselfregistrationenablesetting'] = 'Self registration';
+$string['loginselfregistrationenablesetting_desc'] = 'With this setting, you control if the self registration button and signup link are shown on the login page or not. By default, self registration is shown if it is enabled in Moodle core. If you disable this setting, self registration is hidden regardless of the core registration setting.';
+$string['loginselfregistrationenablesetting_core'] = 'Moodle core setting interplay: Self registration is controlled by the \'{$a->settingname}\' setting which you can manage on <a href="{$a->url}">Moodle core\'s authentication settings page</a>.';
+// ... ... Setting: Self registration intro.
+$string['loginselfregistrationshowintrosetting'] = 'Self registration intro';
+$string['loginselfregistrationshowintrosetting_desc'] = 'With this setting, you control if an intro is shown above the self registration section or not. By default, the intro is shown and helps users to understand what self registration is about. If you disable this setting, the self registration intro is hidden.';
+// ... ... Setting: Self registration intro text.
+$string['loginselfregistrationintrotextsetting'] = 'Self registration intro text';
+$string['loginselfregistrationintrotextsetting_desc'] = 'With this setting, you can override the default intro text <em>\'{$a}\'</em> (which comes from the Moodle core language pack) with a custom text. Leave this field empty to use the default text.';
+// ... ... Setting: Self registration tab label.
+$string['loginselfregistrationloginlabelsetting'] = 'Self registration label';
+$string['loginselfregistrationloginlabelsetting_desc'] = 'With this setting, you can customize the label for self registration to be used in the tab and accordion layout.';
+$string['loginselfregistrationloginlabelsetting_default'] = 'Self registration';
+// ... ... Setting: Self registration login instruction.
+$string['loginselfregistrationshowinstruction'] = 'Self registration instruction';
+$string['loginselfregistrationshowinstruction_desc'] = 'With this setting, you can enable instructions for the self registration provider.';
+$string['loginselfregistrationinstructioncontent'] = 'Self registration instruction content';
+$string['loginselfregistrationinstructioncontent_desc'] = 'With this setting, you can specify custom instructions for the self registration provider. This allows you to provide users with additional information about how to create a new account.';
+$string['loginselfregistrationinstructionposition'] = 'Self registration instruction position';
+$string['loginselfregistrationinstructionposition_desc'] = 'With this setting, you can specify where the self registration instruction should be shown relative to the signup button.';
+// ... ... Setting: Self registration button color.
+$string['loginselfregistrationbuttoncolorsetting'] = 'Self registration button color';
+$string['loginselfregistrationbuttoncolorsetting_desc'] = 'With this setting, you can control the Bootstrap color style of the self registration button.';
+// ... Section: Login provider: Guest.
+$string['loginproviderguestheading'] = 'Login provider: Guest';
+// ... ... Setting: Guest login.
+$string['loginguestloginenablesetting'] = 'Guest login';
+$string['loginguestloginenablesetting_desc'] = 'With this setting, you control if the guest login button is shown on the login page or not. By default, the guest login button is shown if guest access is enabled in Moodle core. If you disable this setting, the guest login button is hidden regardless of the core guest access setting.';
+$string['loginguestloginenablesetting_core'] = 'Moodle core setting interplay: Guest access is controlled by the \'{$a->settingname}\' setting which you can manage on <a href="{$a->url}">Moodle core\'s authentication settings page</a>.';
+// ... ... Setting: Guest login intro.
+$string['loginguestshowintrosetting'] = 'Guest login intro';
+$string['loginguestshowintrosetting_desc'] = 'With this setting, you control if an intro is shown above the guest login button or not. By default, the intro is shown and helps users to understand what guest access is about. If you disable this setting, the guest login intro is hidden.';
+// ... ... Setting: Guest login intro text.
+$string['loginguestintrotextsetting'] = 'Guest login intro text';
+$string['loginguestintrotextsetting_desc'] = 'With this setting, you can override the default intro text <em>\'{$a}\'</em> (which comes from the Moodle core language pack) with a custom text. Leave this field empty to use the default text.';
+// ... ... Setting: Guest login tab label.
+$string['loginguestloginlabelsetting'] = 'Guest login label';
+$string['loginguestloginlabelsetting_desc'] = 'With this setting, you can customize the label for guest login to be used in the tab and accordion layout.';
+$string['loginguestloginlabelsetting_default'] = 'Guest login';
+// ... ... Setting: Guest login instruction.
+$string['loginguestshowinstruction'] = 'Guest login instruction';
+$string['loginguestshowinstruction_desc'] = 'With this setting, you can enable instructions for the guest login provider.';
+$string['loginguestinstructioncontent'] = 'Guest login instruction content';
+$string['loginguestinstructioncontent_desc'] = 'With this setting, you can specify custom instructions for the guest login provider. This allows you to provide users with additional information about guest access.';
+$string['loginguestinstructionposition'] = 'Guest login instruction position';
+$string['loginguestinstructionposition_desc'] = 'With this setting, you can specify where the guest login instruction should be shown relative to the login button.';
+// ... ... Setting: Guest login button color.
+$string['loginguestbuttoncolorsetting'] = 'Guest login button color';
+$string['loginguestbuttoncolorsetting_desc'] = 'With this setting, you can control the Bootstrap color style of the guest login button.';
 // ... Section: Side entrance login.
 $string['sideentranceloginheading'] = 'Side entrance login';
 // ... ... Setting: Endable side entrance login.
@@ -355,6 +586,16 @@ $string['courseoverviewshowcourseimagessetting_desc'] = 'With this setting, you 
 // ... ... Setting: Show course completion progress.
 $string['courseoverviewshowprogresssetting'] = 'Show course completion progress';
 $string['courseoverviewshowprogresssetting_desc'] = 'With this setting, you can control whether the course completion progress is visible inside the course overview block or not.';
+// ... Section: Course overview images.
+$string['courseoverviewimageheading'] = 'Course overview images';
+// ... ... Setting: Course overview image source.
+$string['courseoverviewimagesourcesetting'] = 'Course overview image source';
+$string['courseoverviewimagesourcesetting_desc'] = 'With this setting, you control the source of the image which is shown in the course overview block, on the category index pages and on the course list on site home. The main source for this image is the course image which is uploaded in the particular course\'s settings. If this image is not available, you can choose if you want to show a generated geometric pattern or a fallback course overview image.<br />Please note: If you use the geometric pattern, you can customize the pattern colors on the <a href="/admin/settings.php?section=coursecolors">course colors settings page</a>.';
+$string['courseoverviewimagesource_coursepluspattern'] = 'Course image with a fallback to a geometric pattern (unchanged as presented by Moodle core)';
+$string['courseoverviewimagesource_courseplusfallback'] = 'Course image with a fallback to the course overview fallback image';
+// ... ... Setting: Course overview fallback image.
+$string['courseoverviewimagefallback'] = 'Course overview fallback image';
+$string['courseoverviewimagefallback_desc'] = 'The image which you upload here will be used as a fallback course overview image as soon as the \'Course overview image source\' setting is configured likewise.<br />Please note: If you configure the \'Course overview image source\' setting to use the course overview fallback image, but you do not upload any image here, the geometric pattern will be used as a fallback anyway.';
 
 // Settings: Category index / site home tab.
 $string['categoryindextab'] = 'Category index / Site home';
@@ -400,6 +641,9 @@ $string['courselistingshowfields_desc'] = 'With this setting, you control if the
 $string['courselistingselectfields'] = 'Select course fields to be shown in the course listing';
 $string['courselistingselectfields_desc'] = 'With this setting, you can select which specific custom course fields are shown in the course listing. If none are selected, no fields will be shown.';
 $string['courselistingselectfields_nofield'] = 'With this setting, you can select which specific custom course fields are shown in the course listing. There isn\'t any usable custom course field yet. Please go the <a href="{$a->url}">{$a->linktitle}</a> and create a custom course field first.';
+// ... ... Setting: Style course fields in the course listing.
+$string['courselistingstylefields'] = 'Style course fields in the course listing';
+$string['courselistingstylefields_desc'] = 'With this setting, you can control how the custom course fields are displayed in the course listing. You can choose between showing them as text (showing the field value together with the field name as label) or as badge (showing just the field value).';
 // ... ... Setting: Show goto button in the course listing.
 $string['courselistinghowgoto'] = 'Show goto button in the course listing';
 $string['courselistinghowgoto_desc'] = 'With this setting, you control if a \'Go to course\' button is shown in the course listing or not. If this setting is disabled, the user is still able to go to the course by clicking on the course title or course image.';
@@ -594,6 +838,7 @@ $string['primarynavigationheading'] = 'Primary navigation';
 $string['hidenodesprimarynavigationsetting'] = 'Hide nodes in primary navigation';
 $string['hidenodesprimarynavigationsetting_desc'] = 'With this setting, you can hide one or multiple nodes from the primary navigation.<br /><br />
 Please note: Here, you can just remove navigation nodes. But if you want to add custom navigation nodes, please consider using <a href="{$a->url}">Boost Union\'s smart menu functionality</a>.';
+$string['hidenodesprimarynavigationonlyguest'] = 'This node is shown to guests only';
 // ... ... Settings: Alternative logo link URL.
 $string['alternativelogolinkurlsetting'] = 'Alternative logo link URL';
 $string['alternativelogolinkurlsetting_desc'] = 'With this setting, you can set an alternative link URL which will be used as link on the logo in the navigation bar. You can use this setting to, for example, link to your organization\'s website instead of the Moodle frontpage to maintain a homogeneous navigation bar throughout all of your organization\'s systems.';
@@ -675,6 +920,7 @@ $string['openoffcanvas'] = 'Open Off-canvas drawer';
 // ... ... Setting: Block regions for 'x' layout.
 $string['blockregionsforlayout'] = 'Additional block regions for \'{$a}\' layout';
 $string['blockregionsforlayout_desc'] = 'With this setting, you can enable additional block regions for the \'{$a}\' layout.';
+$string['blockregionsstickyonly'] = 'Please note: This page layout is limited by Moodle core in such a way that blocks cannot be added directly on the page. However, as soon as you enable a block region here, <a href="{$a}" target="_blank">site-wide sticky blocks</a> will still be displayed on this page layout.';
 // ... Section: Outside regions.
 $string['outsideregionsheading'] = 'Outside regions';
 $string['outsideregionsheading_desc'] = 'Outside regions can not only be enabled with the layout settings above, their appearance can also be customized.';
@@ -693,6 +939,9 @@ $string['outsideregionswidthherowidth'] = 'Hero width';
 // ... ... Setting: Block region width for Outside (bottom) region.
 $string['blockregionoutsidebottomwidth'] = 'Block region width for \'Outside (bottom)\' region';
 $string['blockregionoutsidebottomwidth_desc'] = 'With this setting, you can set the width of the \'Outside (bottom)\' block region which is shown below the main content. You can choose between full width, course content width and hero width.';
+// ... Section: Footer regions.
+$string['footerregionsheading'] = 'Footer regions';
+$string['footerregionsheading_desc'] = 'Footer regions can not only be enabled with the layout settings above, their appearance can also be customized.';
 // ... ... Setting: Block region width for Footer region.
 $string['blockregionfooterwidth'] = 'Block region width for \'Footer\' region';
 $string['blockregionfooterwidth_desc'] = 'With this setting, you can set the width of the \'Footer\' block region. You can choose between full width, course content width and hero width.';
@@ -762,11 +1011,15 @@ $string['footnoteheading'] = 'Footnote';
 // ... ... Setting: Footnote.
 $string['footnotesetting'] = 'Footnote';
 $string['footnotesetting_desc'] = 'Whatever you add to this textarea will be displayed at the end of a page, in the footer (not the floating footer) on every page which uses the layouts "drawers", "columns2" or "login". Content in this area could be for example the copyright, the terms of use or the name of your organisation. <br/> If you want to remove the footnote again, just empty the text area.';
+// ... ... Setting: Page layouts for footnote.
+$string['footnotelayouts'] = 'Page layouts for footnote';
+$string['footnotelayouts_desc'] = 'With this setting, you can control on which page layouts the footnote is shown. If no layout is selected, the footnote will not be shown on any layout.';
 // ... Section: Footer.
 $string['footerheading'] = 'Footer';
 // ... ... Setting: Enable footer.
 $string['enablefooterbutton'] = 'Enable footer';
 $string['enablefooterbutton_desc'] = 'With "footer", the circle containing the question mark at the bottom of the page is meant.<br />Upon click, the user is presented with an overlay. Depending on the site configuration Moodle shows several links (like "Documentation for this page" or "Data retention summary") are shown in this overlay.<br />With this setting, you can control whether to show or to suppress the footer button at the bottom of the page.';
+$string['enablefooterbutton_note'] = 'Please note: The content of the <a href="{$a->url}">Moodle core setting additionalhtmlfooter</a> is shown within the footer by default. But if you select "Hide on all devices" here to hide the footer entirely, the additionalhtmlfooter content would not be shown anywhere anymore. To overcome this limitation, Boost Union will move the additionalhtmlfooter content to be shown at the very bottom of the page in this case.';
 $string['enablefooterbuttonboth'] = 'Enable on desktop, tablet and mobile';
 $string['enablefooterbuttondesktop'] = 'Enable on desktop and tablet only, hide on mobile (unchanged as presented by Moodle core)';
 $string['enablefooterbuttonmobile'] = 'Enable on mobile only, hide on desktop and tablet';
@@ -804,6 +1057,7 @@ $string['footersuppressstandardfootercore_desc'] = 'With this setting, you can e
 // ... ... Setting: Suppress footer output by plugins.
 $string['footersuppressstandardfooter'] = 'Suppress footer output by plugin \'{$a}\'';
 $string['footersuppressstandardfooter_desc'] = 'With this setting, you can entirely suppress the footer output by plugin \'{$a}\'. Plugins (even if they are shipped with Moodle core, but are still technically plugins) can add additional content to the footer by implementing a particular hook or function. This plugin has implemented this hook / function and might add content to the footer in certain circumstances.<br />Please note: Due to the way how the suppressing feature is implemented, the setting might not take effect before the second page load after saving the setting.';
+$string['footersuppressstandardfooter_configoverride_desc'] = 'The footer output by plugin \'{$a}\' is already suppressed via <code>$CFG->hooks_callback_overrides</code> in your <code>config.php</code> file. To make this setting configurable here, you need to remove your override in <code>config.php</code> file.';
 
 // Settings: Static pages tab.
 $string['staticpagestab'] = 'Static pages';
@@ -1037,6 +1291,15 @@ $string['tileheightsetting_desc'] = 'With this setting, you control the height o
 $string['tileheading'] = 'Advertisement tile {$a->no}';
 $string['tilebackgroundimagepositionsetting'] = 'Advertisement tile {$a->no} background image position';
 $string['tilebackgroundimagepositionsetting_desc'] = 'With this setting, you control the positioning of the background image within the advertisement tile {$a->no} container. The first value is the horizontal position, the second value is the vertical position.';
+$string['tilebackgroundimagesizesetting'] = 'Advertisement tile {$a->no} background image size';
+$string['tilebackgroundimagesizesetting_desc'] = 'With this setting, you control how the background image of advertisement tile {$a->no} is scaled within the tile. Use \'Cover\' to fully fill the tile (which may crop parts of the image), \'Contain\' to show the whole image (without cropping but maybe with empty space), \'Auto\' to use the image\'s intrinsic size, or a percentage value to scale the image proportionally to the tile container.';
+$string['tilebackgroundimagesizesetting_auto'] = 'Auto';
+$string['tilebackgroundimagesizesetting_contain'] = 'Contain';
+$string['tilebackgroundimagesizesetting_cover'] = 'Cover';
+$string['tilebackgroundimagesizesetting_90percent'] = '90%';
+$string['tilebackgroundimagesizesetting_75percent'] = '75%';
+$string['tilebackgroundimagesizesetting_50percent'] = '50%';
+$string['tilebackgroundimagesizesetting_25percent'] = '25%';
 $string['tilebackgroundimagesetting'] = 'Advertisement tile {$a->no} background image';
 $string['tilebackgroundimagesetting_desc'] = 'Here, you can upload an image file which will be shown as background image behind the content of the advertisement tile {$a->no}. Please make sure or check that the content is still readable on the background image. This is an optional setting, the advertisement tile will work even if you do not upload any background image.';
 $string['tilecontentsetting'] = 'Advertisement tile {$a->no} content';
@@ -1318,8 +1581,14 @@ $string['flavoursbootstrapcolorsuccess'] = 'Bootstrap color for "Success"';
 $string['flavoursbootstrapcolorsuccess_help'] = 'With this setting, the flavour will override the Bootstrap "success" color which is configured in Boost Union\'s look settings.';
 $string['flavoursbootstrapcolorwarning'] = 'Bootstrap color for "Warning"';
 $string['flavoursbootstrapcolorwarning_help'] = 'With this setting, the flavour will override the Bootstrap "warning" color which is configured in Boost Union\'s look settings.';
-$string['flavoursbrandcolor'] = 'Brand color';
-$string['flavoursbrandcolor_help'] = 'With this setting, the flavour will override the brand color which is configured in Boost Union\'s look settings.';
+$string['flavoursbrandcolor'] = 'Primary brand color';
+$string['flavoursbrandcolor_help'] = 'With this setting, the flavour will override the primary brand color which is configured in Boost Union\'s look settings.';
+$string['flavourslinkcolor'] = 'Link brand color';
+$string['flavourslinkcolor_help'] = 'With this setting, the flavour will override the link color which is configured in Boost Union\'s look settings.';
+$string['flavoursbuttonbrandcolor'] = 'Button brand color';
+$string['flavoursbuttonbrandcolor_help'] = 'With this setting, the flavour will override the button brand color which is configured in Boost Union\'s look settings.';
+$string['flavoursbrandedgraytones'] = 'Use branded gray tones';
+$string['flavoursbrandedgraytones_help'] = 'With this setting, the flavour will override the branded gray tones setting which is configured in Boost Union\'s look settings.';
 $string['flavourscreateflavour'] = 'Create flavour';
 $string['flavourscustomscss'] = 'Raw SCSS';
 $string['flavourscustomscss_help'] = 'With this setting, you can write custom SCSS for the flavour. It will be appended to the stack of CSS code which is shipped to the browser as soon as the flavour applies.';
@@ -1334,6 +1603,8 @@ $string['flavoursedit'] = 'Edit';
 $string['flavourseditflavour'] = 'Edit flavour';
 $string['flavoursfavicon'] = 'Favicon';
 $string['flavoursfavicon_help'] = 'With this setting, the flavour will override the favicon which is configured in Boost Union\'s look settings.';
+$string['flavoursfootnote'] = 'Footnote';
+$string['flavoursfootnote_help'] = 'With this setting, the flavour will override the footnote which is configured in Boost Union\'s content settings.';
 $string['flavoursflavours'] = 'Flavours';
 $string['flavoursgeneralsettings'] = 'General settings';
 $string['flavoursincludesubcategories'] = 'Include subcategories';
@@ -1344,6 +1615,8 @@ $string['flavourslogocompact'] = 'Compact logo';
 $string['flavourslogocompact_help'] = 'With this setting, the flavour will override the logo which is configured in Boost Union\'s look settings.';
 $string['flavoursnavbarcolor'] = 'Navbar color';
 $string['flavoursnavbarcolor_help'] = 'With this setting, the flavour will override the navbar color which is configured in Boost Union\'s look settings.';
+$string['flavoursnavbartint'] = 'Navbar tint';
+$string['flavoursnavbartint_help'] = 'With this setting, the flavour will override the navbar tint color which is configured in Boost Union\'s look settings. This setting is only effective if the navbar color is set to one of the \'Colored navbar\' options.';
 $string['flavoursnotificationcreated'] = 'The flavour was created successfully';
 $string['flavoursnotificationdeleted'] = 'The flavour was deleted successfully';
 $string['flavoursnotificationedited'] = 'The flavour was edited successfully';
@@ -1497,6 +1770,18 @@ $string['smartmenusmenuitemcssclass_help'] = 'Enter a CSS class for the menu ite
 $string['smartmenusmenuitemdeleteconfirm'] = 'Are you sure you want to delete this menu item from the smart menu?';
 $string['smartmenusmenuitemdeletesuccess'] = 'Smart menu item deleted successfully';
 $string['smartmenusmenuitemdisplayallcourses'] = 'Show hidden courses';
+$string['smartmenusmenuitememail'] = 'To';
+$string['smartmenusmenuitememail_help'] = 'Primary recipient email address(es) for the mailto link. Separate multiple addresses with commas. Do not include a \'mailto:\' prefix.';
+$string['smartmenusmenuitememail_required'] = 'Required – Enter at least one valid email address without the \'mailto:\' prefix.';
+$string['smartmenusmenuitememail_invalid'] = 'Please enter only valid email address(es), separated by commas if there are several.';
+$string['smartmenusmenuitememail_cc'] = 'Cc';
+$string['smartmenusmenuitememail_cc_help'] = 'Optional carbon-copy address(es), separate multiple addresses with commas. These are added to the mailto link as a Cc header.';
+$string['smartmenusmenuitememail_bcc'] = 'Bcc';
+$string['smartmenusmenuitememail_bcc_help'] = 'Optional blind carbon-copy address(es), separate multiple addresses with commas. These are added to the mailto link as a Bcc header.';
+$string['smartmenusmenuitememail_subject'] = 'Subject';
+$string['smartmenusmenuitememail_subject_help'] = 'Optional default subject line for the composed message. It is URL-encoded in the mailto link.';
+$string['smartmenusmenuitememail_body'] = 'Message body';
+$string['smartmenusmenuitememail_body_help'] = 'Optional default message body. It is URL-encoded in the mailto link (including line breaks).';
 $string['smartmenusmenuitemhidehiddencourses'] = 'Hide hidden courses';
 $string['smartmenusmenuitemhiddencoursessorting_help'] = 'Choose how hidden courses should be sorted in the course list of the dynamic courses menu items.';
 $string['smartmenusmenuitemhiddencoursessorting'] = 'Hidden courses sorting';
@@ -1566,11 +1851,12 @@ $string['smartmenusmenuitemtitle_help'] = 'The title of the menu. This will be u
 $string['smartmenusmenuitemtooltip'] = 'Tooltip';
 $string['smartmenusmenuitemtooltip_help'] = 'The tooltip which will be displayed when the user hovers over the menu item.';
 $string['smartmenusmenuitemtype'] = 'Menu item type';
-$string['smartmenusmenuitemtype_help'] = '<p>Select the type of menu item you want to create, choosing between static, heading, moodle documentation, dynamic courses, and divider.</p><ul><li>Static: A static menu item is simply a link to a fixed URL that does not change.</li><li>Heading: A heading menu item is used to group related menu items together under a common heading. It does not have a link and is not clickable.</li><li>Separator: A dividerenu item displays a horizontal line in the menu to visually separate groups of menu items.</li><li>Moodle documentation: A moodle documenation menu item is used to link to the corresponding MoodleDocs article, similar to the MoodleDocs link which is located in the Moodle footer (questionmark icon).</li><li>Dynamic courses: A dynamic courses menu item is used to display a list of courses based on certain criteria, such as course category, course enrolment role, course completion status or date range. The content displayed in a dynamic courses menu item will update automatically as the criteria changes.</li></ul>';
+$string['smartmenusmenuitemtype_help'] = '<p>Select the type of menu item you want to create, choosing between static, mailto, heading, moodle documentation, dynamic courses, and divider.</p><ul><li>Static: A static menu item is simply a link to a fixed URL that does not change.</li><li>Mailto: A mailto menu item opens the user\'s default email client to compose a message. You can set To, optional Cc and Bcc, and optional subject and message body; each address field can list multiple addresses separated by commas.</li><li>Heading: A heading menu item is used to group related menu items together under a common heading. It does not have a link and is not clickable.</li><li>Separator: A dividerenu item displays a horizontal line in the menu to visually separate groups of menu items.</li><li>Moodle documentation: A moodle documenation menu item is used to link to the corresponding MoodleDocs article, similar to the MoodleDocs link which is located in the Moodle footer (questionmark icon).</li><li>Dynamic courses: A dynamic courses menu item is used to display a list of courses based on certain criteria, such as course category, course enrolment role, course completion status or date range. The content displayed in a dynamic courses menu item will update automatically as the criteria changes.</li></ul>';
 $string['smartmenusmenuitemtypedocs'] = 'Moodle documentation';
 $string['smartmenusmenuitemtypedynamiccourses'] = 'Dynamic courses';
 $string['smartmenusmenuitemtypeheading'] = 'Heading';
 $string['smartmenusmenuitemtypedivider'] = 'Divider';
+$string['smartmenusmenuitemtypemailto'] = 'Mailto';
 $string['smartmenusmenuitemtypestatic'] = 'Static';
 $string['smartmenusmenuitemurl'] = 'Menu item URL';
 $string['smartmenusmenuitemurl_help'] = 'The static URL for the menu item. This is the link that will be followed when the menu item is clicked.';
@@ -1616,6 +1902,68 @@ $string['smartmenusrolecontext_help'] = 'Select the context for which the user\'
 $string['smartmenussavechangesandconfigure'] = 'Save and configure items';
 $string['smartmenussettings'] = 'Smart menu settings';
 
+// Settings: Recommendations page.
+$string['recommendations'] = 'Recommendations';
+$string['recommendations_desc'] = 'Boost Union performs just as well as the entire Moodle instance is configured. On this page, you find recommendations and checks for the optimal Boost Union operation. If you think a particular recommendation does not apply to your instance, you can mute it.';
+$string['recommendationopensetting'] = 'Open setting';
+$string['recommendationmoreinfo'] = 'More info';
+$string['recommendationviewall'] = 'View all recommendations';
+$string['recommendationautofix'] = 'Auto-fix the recommendation';
+$string['recommendationautofixsuccess'] = 'The recommendation has been fixed automatically.';
+$string['recommendationstatusheader'] = 'Status';
+$string['recommendationrecommendationheader'] = 'Recommendation';
+$string['recommendationsummaryheader'] = 'Summary';
+$string['recommendationactionsheader'] = 'Actions';
+$string['recommendationcategory_moodlecore'] = 'Moodle Core';
+$string['recommendationcategory_boostunion'] = 'Boost Union';
+$string['recommendationcategory_thirdparty'] = 'Third-party plugins';
+$string['recommendationcategory_usability'] = 'Usability';
+$string['recommendationcategory_accessibility'] = 'Accessibility';
+$string['recommendationstatus_ok'] = 'OK';
+$string['recommendationstatus_ok_description'] = 'With this recommendation, everything is perfectly fine. No action is required on your side.';
+$string['recommendationstatus_check'] = 'Check';
+$string['recommendationstatus_check_description'] = 'This recommendation is asking you for a manual check as Boost Union cannot automatically assess if there is really an issue or not.';
+$string['recommendationstatus_notice'] = 'Notice';
+$string['recommendationstatus_notice_description'] = 'This recommendation should raise your awareness, but there is no immediate need for action on your side.';
+$string['recommendationstatus_warning'] = 'Warning';
+$string['recommendationstatus_warning_description'] = 'This recommendation needs your attention. The recommendation\'s internal checks have shown that something is configured improperly and may not work as you would expect it.';
+$string['recommendationstatus_na'] = 'N/A';
+$string['recommendationstatus_na_description'] = 'This recommendation is not applicable to your current configuration or there is not enough data available to make a final assessment. No action is required on your side.';
+$string['recommendationstatus_muted'] = 'Muted';
+$string['recommendationstatus_muted_description'] = 'This recommendation is currently muted. Regardless of its original status, it will not bother you unless you unmute it again.';
+$string['recommendationmute'] = 'Mute recommendation';
+$string['recommendationunmute'] = 'Unmute recommendation';
+$string['recommendationmutesuccess'] = 'The recommendation has been muted.<br />You will not be bothered by it from now on, but you can always unmute it again.';
+$string['recommendationunmutesuccess'] = 'The recommendation has been unmuted.';
+$string['recommendationsattentionalert'] = 'Some Boost Union recommendations need your attention. Please review the <a href="{$a->url}">Recommendations</a> page.';
+$string['recommendationsnotificationtitle'] = 'Boost Union recommendation';
+$string['recommendationcurrentstatus'] = 'Current status';
+$string['recommendationpossiblesolutions'] = 'Possible solutions';
+$string['recommendationsolution_both'] = 'You can either click the wand icon to let Boost Union auto-fix this recommendation or click the gear icon to check the affected settings yourself.';
+$string['recommendationsolution_autofixonly'] = 'You can click the wand icon to let Boost Union auto-fix this recommendation.';
+$string['recommendationsolution_actionurlonly'] = 'You can click the gear icon to check the affected settings, but unfortunately Boost Union cannot auto-fix this recommendation.';
+$string['recommendationsolution_check'] = 'Please review the affected settings according to the recommendation summary. If you find that this is a false positive, you can mute this recommendation to avoid being bothered by it in the future.';
+
+// Recommendation: Slash arguments support.
+$string['recommendation_slasharguments_title'] = 'Slash arguments support';
+$string['recommendation_slasharguments_summary'] = 'Slash arguments should be enabled to allow all Boost Union features to work correctly.';
+$string['recommendation_slasharguments_description'] = 'Some Boost Union features rely on the Moodle core function slasharguments to work correctly. If slash arguments are disabled, some features of Boost Union will not work as expected, for example several flavours branding options. Please enable slash arguments in your Moodle instance to ensure the full experience of Boost Union.';
+
+// Recommendation: Theme Boost preset.
+$string['recommendation_themeboostpreset_title'] = 'Theme Boost preset';
+$string['recommendation_themeboostpreset_summary'] = 'The Boost preset should be set to default.scss for optimal Boost Union presentation.';
+$string['recommendation_themeboostpreset_description'] = 'Boost Union is implemented and tested on top of the Boost preset default.scss which is the default in Moodle installations. You are free to configure a different built-in or custom Boost preset, but you should be aware that the Boost Union presentation may suffer.';
+
+// Recommendation: Moodle core brand assets.
+$string['recommendation_corebrandasset_title'] = '{$a} upload';
+$string['recommendation_corebrandasset_summary'] = 'A {$a} should not be uploaded in Moodle core settings as Boost Union uses its own {$a} setting.';
+$string['recommendation_corebrandasset_description'] = 'Boost Union uses its own {$a} setting and does not use the Moodle core {$a} setting. Unless another theme is also used on this site where this {$a} will be presented, a {$a} uploaded in Moodle core is most likely never used and should be deleted.';
+
+// Recommendation: Moodle core auth instructions.
+$string['recommendation_coreauthinstructions_title'] = 'Auth instructions';
+$string['recommendation_coreauthinstructions_summary'] = 'The Moodle core authentication instructions should be empty as Boost Union uses its own login instructions.';
+$string['recommendation_coreauthinstructions_description'] = 'Boost Union does not render Moodle core auth_instructions setting on the login page. If Boost Union is used as the theme for non-logged in users, these users will not see these instructions and thus they should be cleaned.';
+
 // Privacy API.
 $string['privacy:metadata'] = 'The Boost Union theme does not store any personal data about any user.';
 
@@ -1656,11 +2004,17 @@ $string['cachedef_flavours'] = 'Flavours which apply to a given page\'s category
 $string['cachedef_smartmenus'] = 'Smart menus';
 $string['cachedef_smartmenu_items'] = 'Smart menu items';
 $string['cachedef_touchiconsios'] = 'Touch icon files for iOS';
-$string['cachedef_hookoverrides'] = 'Hook overrides';
+$string['cachedef_hooksuppress'] = 'Hook suppressions';
 $string['cachedef_fontawesomeicons'] = 'FontAwesome icon map';
 
 // Scheduled tasks.
 $string['task_purgecache'] = 'Purge theme cache';
+
+// Checks API: Recommendations.
+$string['checkrecommendations'] = 'Boost Union recommendations';
+$string['checkrecommendationsok'] = 'No Boost Union recommendations currently need attention.';
+$string['checkrecommendationswarning'] = 'At least one Boost Union recommendation needs attention.';
+$string['checkrecommendationsdetails'] = 'Review recommendations on the <a href="{$a->url}">Recommendations</a> page.';
 
 // Upgrade notices.
 $string['upgradenotice_2022080922'] = 'From this release on, Boost Union has its own logo and compact logo settings and does not use these files from the Moodle core settings anymore.';
@@ -1671,3 +2025,4 @@ $string['upgradenotice_2022080922_notcopied'] = 'The <strong>{$a}</strong> setti
 $string['upgradenotice_2025041410'] = 'The setting "Show hint for guest access" has been updated to support more options. Your existing configuration (which was set to "Yes") has been migrated to the new option "Yes, but only if no guest access password is set".';
 $string['upgradenotice_2025041413'] = 'The setting "courselistinghowfields" has been renamed to "courselistingshowfields" to fix a typo. Your existing configuration has been migrated to the new setting name.';
 $string['upgradenotice_2025041416'] = 'Smart menu dividers are now available as a dedicated menu item type. Existing dividers (created using heading type with hash signs) have been automatically converted to the new divider type.';
+$string['upgradenotice_2025100623'] = 'The navbar color options "Primary color navbar with dark font color" and "Primary color navbar with light font color" have been renamed to "Colored navbar with dark font color" and "Colored navbar with light font color". Your existing configuration has been migrated automatically. Additionally, your primary brand color has been transferred to the new "Navbar tint" setting to maintain the previous visual appearance.';

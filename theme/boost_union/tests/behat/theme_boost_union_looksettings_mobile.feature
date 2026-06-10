@@ -7,7 +7,7 @@ Feature: Configuring the theme_boost_union plugin for the "Mobile" tab on the "L
   Background:
     Given the following config values are set as admin:
       | config                 | value |
-      | enablemobilewebservice | yes   |
+      | enablemobilewebservice | 1     |
 
   Scenario: Setting: Additional CSS for Mobile app - Insert CSS code and test that the mobilecssurl URL is set correctly.
     When I log in as "admin"
@@ -21,7 +21,7 @@ Feature: Configuring the theme_boost_union plugin for the "Mobile" tab on the "L
     And I press "Save changes"
     And Behat debugging is enabled
     And I navigate to "General > Mobile app > Mobile appearance" in site administration
-    Then "//div[@id='admin-mobilecssurl']//input[contains(@value, 'theme/boost_union/mobile/styles.php')]" "xpath_element" should exist
+    Then the field "CSS" matches expression "/theme\/boost_union\/mobile\/styles\.php/"
 
   Scenario: Setting: Additional CSS for Mobile app - Insert CSS code and test that the mobilecssurl URL is overwritten correctly.
     Given the following config values are set as admin:
@@ -38,7 +38,7 @@ Feature: Configuring the theme_boost_union plugin for the "Mobile" tab on the "L
     And I press "Save changes"
     And Behat debugging is enabled
     And I navigate to "General > Mobile app > Mobile appearance" in site administration
-    Then "//div[@id='admin-mobilecssurl']//input[contains(@value, 'theme/boost_union/mobile/styles.php')]" "xpath_element" should exist
+    Then the field "CSS" matches expression "/theme\/boost_union\/mobile\/styles\.php/"
     And I should not see "mycss.css" in the "#id_s__mobilecssurl" "css_element"
 
   Scenario: Setting: Additional CSS for Mobile app - Remove CSS code and test that the mobilecssurl URL is cleared correctly.
@@ -58,7 +58,7 @@ Feature: Configuring the theme_boost_union plugin for the "Mobile" tab on the "L
     And I press "Save changes"
     And Behat debugging is enabled
     And I navigate to "General > Mobile app > Mobile appearance" in site administration
-    Then "//div[@id='admin-mobilecssurl']//input[contains(@value, 'theme/boost_union/mobile/styles.php')]" "xpath_element" should not exist
+    Then the field "CSS" does not match expression "/theme\/boost_union\/mobile\/styles\.php/"
 
   # Unfortunately, this can't be tested with Behat yet as Mobile App testing is not added to this plugin yet.
   # Scenario: Setting: Additional CSS for Mobile app - Verify that the CSS code has an effect in the Mobile app.
@@ -99,3 +99,17 @@ Feature: Configuring the theme_boost_union plugin for the "Mobile" tab on the "L
     Then I should not see "Touch icon files for iOS list"
     And ".settings-touchiconsios-filelist" "css_element" should not exist
     And Behat debugging is enabled
+
+  @javascript @_file_upload
+  Scenario: Setting: Touch icon files for iOS - Do not ship touch icon files if Boost Union is not the active theme (cross-theme check).
+    Given I log in as "admin"
+    And I navigate to "Appearance > Themes" in site administration
+    And I click on "Select theme" "button" in the "#theme-select-form-boost" "css_element"
+    And Behat debugging is disabled
+    And I navigate to "Appearance > Boost Union > Look" in site administration
+    And I click on "Mobile" "link" in the "#adminsettings .nav-tabs" "css_element"
+    And I upload "theme/boost_union/tests/fixtures/apple-icon-180x180.png" file to "Touch icon files for iOS" filemanager
+    And I press "Save changes"
+    And Behat debugging is enabled
+    And I am on site homepage
+    Then "//head//link[contains(@rel, 'apple-touch-icon')][contains(@sizes, '180x180')][contains(@href, 'pluginfile.php/1/theme_boost_union/touchiconsios')][contains(@href, 'apple-icon-180x180.png')]" "xpath_element" should not exist

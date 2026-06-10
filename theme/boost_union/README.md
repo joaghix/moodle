@@ -128,9 +128,23 @@ With this setting, you control the positioning of the background image within th
 
 ##### Brand colors
 
-###### Brand color
+###### Primary brand color
 
-This setting is already available in the Moodle core theme Boost. For more information how to use it, please have a look at the official Moodle documentation: http://docs.moodle.org/en/Boost_theme
+This color is used for accent and highlighting purposes across the site and is also used as basis for calculating gradated brand colors. Furthermore, it is used for links and buttons unless you set distinct colors for links and buttons.
+
+###### Use branded gray tones
+
+With this setting, the Bootstrap gray tones used throughout the theme are derived from the primary brand color instead of neutral grays. This creates a subtle color harmony across all gray elements on the page.
+
+##### Link colors
+
+###### Link brand color
+
+With this setting, you can set a dedicated brand color for links. If this setting is empty, Boost Union's primary brand color is used.
+
+###### Button brand color
+
+With this setting, you can define a dedicated brand color for primary buttons. If this setting is empty, Boost Union's primary brand color is used.
 
 ##### Bootstrap colors
 
@@ -142,9 +156,17 @@ With these settings, you can overwrite the Bootstrap colors which are used withi
 
 If the logo for the navbar on the top left is too wide or has a special aspect ratio, you can limit the logo's maximum width. Use css definition to limit the max-width.
 
+###### Maximal width of sitename in navbar
+
+If you have a very long sitename and want to prevent it from breaking the navbar layout (especially the edit button widget) on medium-width screens, you can set the maximal width of the sitename in the navbar here. If the sitename exceeds this width, it will be truncated with an ellipsis (...). Use css definition to limit the max-width.
+
 ###### Navbar color
 
 With this setting, you can change the navbar color from the default light navbar to a dark one or a colored one.
+
+###### Navbar tint
+
+With this setting, you can define the color of the colored navbar. This setting is only effective if the navbar color is set to one of the 'Colored navbar' options above.
 
 #### Tab "Activity Branding"
 
@@ -176,56 +198,31 @@ With these settings, you can set additional colors for the calendar views.
 
 #### Tab "Login page"
 
+##### Login page arrangement
+
+With these settings, you can control the way how the login container is presented and positioned within the login page.
+
 ##### Login page background images
 
-###### Login page background images
+With these settings, you can set a background image like you can already in the Moodle core theme Boost.
+But in addition to that, you can set an arbitrary number of files as a background image for the login page. One of these images will be picked randomly and shown when the user visits the login page.
+Furthermore, you can set the login page background image position and a text which is displayed alongside the login background images.
 
-This setting is already available in the Moodle core theme Boost.
-However, in Boost Union you can not only add one but up to 25 files as a background image for the login page. One of these images will be picked randomly and shown when the user visits the login page.
+##### Login page branding
 
-###### Login page background image position
+With these settings, you can influence the visual branding of the login page.
 
-With this setting, you control the positioning of the login page background image within the browser window. The first value is the horizontal position, the second value is the vertical position.
+##### Login form layout
 
-###### Display text for login background images
-
-With this optional setting you can add text, e.g. a copyright notice to your uploaded login background images.
-Each line consists of the file identifier (the file name) and the text that should be displayed, separated by a pipe character. Each declaration needs to be written in a new line.
-
-For example:
-``background-image-1.jpg|Copyright: CC0|dark``
-
-As text color, you can use the values "dark" or "light".
-
-You can declare texts for an arbitrary amount of your uploaded login background images. The texts will be added only to those images that match their filename with the identifier declared in this setting.
-
-##### Login form
-
-###### Login form position
-
-With this setting, you can optimize the login form to fit to a greater variety of background images. By default, the login form is displayed centered on the login page. Alternatively, you can move it to the left or to the right of the login page to let other parts of the background image shine through. Of course, you can also change this setting if no background images are uploaded at all.
-
-###### Login form transparency
-
-With this setting, you can make the login form slightly transparent to let the background image shine through even more.
-
-##### Login providers
-
-###### Local login
-
-With this setting, you control if the local login form is shown on the login page or not. By default, the local login form is shown and users can login into the site as normal. If you disable this setting, the local login form is hidden. This allows you to just provide login buttons for external identity providers like OAuth2 or OIDC.
-
-###### Local login intro
-
-With this setting, you control if a 'Login with your Moodle account' intro is shown above the local login form or not. By default, the intro is not shown. But if you enable it, this intro may help users to understand which credentials to use in the local login form, especially if you provide more than one login method or if you have changed the order of the login methods.
-
-###### IDP login intro
-
-With this setting, you control if the 'Log in using your account on' intro is shown above the IDP login buttons or not. By default, the intro is shown and users will be quickly informed what the IDP buttons are about. If you disable this setting, the IDP intro is hidden. This allows you to provide a clean user login interface if you just use external identity providers like OAuth2 or OIDC.
+With these settings, you can choose how the login providers are displayed in the login form.
 
 ##### Login order
 
-With these settings, you control the order of the login methods in the login form. The presented order will be defined from lowest to highest ordinal number, skipping all login methods and login form elements which are disabled in Moodle.
+With these settings, you control the order of the login providers in the login form. The presented order will be defined from lowest to highest ordinal number, skipping all login providers and login form elements which are disabled in Boost Union.
+
+##### Login providers
+
+In these section, you control if and how particilar login providers are presented on the login page.
 
 ##### Side entrance login
 
@@ -242,6 +239,12 @@ With this setting, you can control whether the course image is visible inside th
 ###### Show course completion progress
 
 With this setting, you can control whether the course completion progress is visible inside the course overview block or not.
+
+##### Course overview images
+
+###### Course overview image source
+
+With this setting, you control the source of the image which is shown in the course overview block, on the category index pages and on the course list on site home. The main source for this image is the course image which is uploaded in the particular course's settings. If this image is not available, you can choose if you want to show a generated geometric pattern or a fallback course overview image.
 
 #### Tab "Category index / Site home"
 
@@ -451,43 +454,9 @@ Please note:
 
 Outside regions can not only be enabled with the layout settings above, their appearance can also be customized.
 
-###### Block region width for 'Outside (left)' region
-
-With this setting, you can set the width of the 'Outside (left)' block region which is shown on the left hand side of the main content area.
-
-###### Block region width for 'Outside (right)' region
-
-With this setting, you can set the width of the 'Outside (right)' block region which is shown on the right hand side of the main content area.
-
-###### Block region width for 'Outside (top)' region
-
-With this setting, you can set the width of the 'Outside (top)' block region which is shown at the very top of the page.
-
-###### Block region width for 'Outside (bottom)' region
-
-With this setting, you can set the width of the 'Outside (bottom)' block region which is shown below the main content.
-
-###### Block region width for 'Footer' region
-
-With this setting, you can set the width of the 'Footer' block region.
-
-###### Outside regions horizontal placement
-
-With this setting, you can control if, on larger screens, the 'Outside (left)' and 'Outside (right)' block regions should be placed near the main content area or rather near the window edges.
-
 ##### Site home right-hand block drawer
 
-###### Show right-hand block drawer of site home on visit
-
-With this setting, the right-hand block drawer of site home will be displayed in its expanded state by default. This only applies to users who are not logged in and does not overwrite the toggle state of each individual user.
-
-###### Show right-hand block drawer of site home on first login
-
-With this setting, the right-hand block drawer of site home will be displayed in its expanded state by default. This only applies to users who log in for the very first time and does not overwrite the toggle state of each individual user.
-
-###### Show right-hand block drawer of site home on guest login
-
-With this setting, the right-hand block drawer of site home will be displayed in its expanded state by default. This only applies to users who log in as a guest.
+With these settings, the right-hand block drawer of site home will be displayed in its expanded state by default.
 
 #### Tab "Links"
 
@@ -675,6 +644,10 @@ Boost Union's CSS snippets offer a possibility to add small (or slightly larger)
 
 Smart menus allow site administrators to create customizable menus that can be placed in different locations on the site, such as the site main menu, bottom mobile menu, and user menu. The menus can be configured to display different types of content, including links to other pages or resources, category links, or user profile links. On this page, you can create and manage smart menus.
 
+### Settings page "Recommendations"
+
+Boost Union performs just as well as the entire Moodle instance is configured. On this page, you find recommendations and checks for the optimal Boost Union operation. If you think a particular recommendation does not apply to your instance, you can mute it.
+
 
 Capabilities
 ------------
@@ -748,16 +721,36 @@ To ease such admin tasks as well as the crafting of SCSS Snippet PRs,
 this CLI script can be run and will re-populate the list of built-in SCSS snippets based on the list of snippets
 which exist on disk in the theme/boost_union/snippets/builtin directory.
 
+### cli/validate_scss.php
+
+This script compiles the SCSS of the Boost Union theme exactly as it would happen during a theme cache purge, but without writing any CSS to disk or storing it in any cache.
+
+This is useful for catching SCSS syntax errors in custom SCSS settings, external SCSS files or enabled SCSS snippets before purging the cache on a production system. Any compilation error is reported with its exact error message (including line number) and the script exits with a non-zero exit code. On success, the size of the generated CSS output is reported.
+
+The script replicates the full SCSS stack as it is built during a real cache purge, including pre-SCSS variables and settings, the main SCSS content, external SCSS files and all enabled SCSS snippets.
+
 
 Exceptions to our main design principle
 ---------------------------------------
 
 As you have read in the introduction, the main design principle of Boost Union is not to change anything in the GUI until Boost Union is set as active theme and a particular feature is enabled in the theme settings. However, due to the way how Moodle core and Boost in Moodle core is built, this main design principle sometimes could not be fully satisfied:
 
+* Logo:
+  Boost Union has its own logo upload and does not use the logo from Moodle core\'s logo setting.
+  Boost Union especially allows you to upload more image formats that Moodle core allows and allows you to override the uploaded logos within its flavours.
+  Against this background, if you switch from Boost to Boost Union and had a logo shown in Boost before, this logo won't be shown until you upload it again in Boost Union directly.
+* Favicon:
+  Boost Union has its own favison upload and does not use the favicon from Moodle core\'s logo setting.
+  Boost Union especially allows you to override the uploaded favicon within its flavours.
+  Against this background, if you switch from Boost to Boost Union and had a favicon shown in Boost before, this favicon won't be shown until you upload it again in Boost Union directly.
+* Login page authentication instructions:
+  Boost Union does not output the Moodle core setting `auth_instructions` (authentication method instructions) on the login page anymore.
+  In Moodle core, this setting is shown in context of the user self-registration method.
+  However, in Boost Union with its enhanced login page layouts (tabs, accordion), the self-registration section might not be visible after page load, making the instructions hidden from view.
+  To improve the admin experience and provide a cleaner solution, Boost Union offers dedicated login instructions settings for each login method as well as generic instructions.
+  Against this background, if you switch from Boost to Boost Union and had a text configured in the Moodle core `auth_instructions` setting, this text won't be shown until you copy it to Boost Union's own login instructions.
 * Footer popover:
   As soon as you click the footer button (questionmark icon) in the bottom right corner of the screen, a popover with several links appears. However, the content of this link list is far from being well-structured and looks more like a garage sale. When implementing the settings to individually suppress each of these popover links, we had to make some code re-arrangements which result in the fact that the popover links are slightly more well-structured even if you do not enable any setting in Boost Union.
-* Suppress footer outputs by plugin / core component:
-  Due to the way how the settings `theme_boost_union | footersuppressstandardfooter_*` had to be built, it was not possible to quickly and reliably detect if Boost Union (or a Boost Union child theme) is the active theme. Thus, these settings are also applied if another theme than Boost Union is active. Please make sure to disable these settings if Boost Union is installed but should not be used.
 * Clickable header and transition time in the user's menu third level:
   Due to the way how the smart menu was integrated into the user menu, as soon as at least one smart menu exists on the page, the header of the language menu in the user menu is now fully clickable - compared to Boost core where only the 'back' arrow in the language menu is clickable - and the transition time to open the language menu is shortened. This should be a neglectible difference to Boost core.
 
@@ -768,15 +761,29 @@ Companion plugin local_navbarplus
 With the footersuppressusertour setting, you can disable the possibility to reset a user tour in the footer popover. If you have enabled this setting, you might want to have a look at our plugin local_navbarplus as a companion plugin which allows you, among other things, to add a "Reset user tour" link to the navigation bar instead. local_navbarplus is published on https://moodle.org/plugins/local_navbarplus and on https://github.com/moodle-an-hochschulen/moodle-local_navbarplus.
 
 
-Interference with forced settings in config.php
------------------------------------------------
+Expert settings for config.php
+------------------------------
 
-Due to the way how some Boost Union features had to be built, you have to be aware of the following interferences if you force settings in config.php:
+There are expert settings without GUI setting which can be defined in config.php to customize Boost Union in expert scenarios.
 
-* $CFG->hooks_callback_overrides:
-  With this setting, you can override hook definitions in config.php - see https://moodledev.io/docs/4.4/apis/core/hooks#hooks-overview-page.
-  However, if you use the `theme_boost_union | footersuppressstandardfooter_*` settings, this forced setting will be set as well during each page load.
-  Using the Boost Union settings and overriding hooks manually in config.php at the same time should work, but is not officially supported and tested by Boost Union.
+* `$CFG->theme_boost_union_githubapiurl`:\
+  With this setting, you can override the default GitHub API URL which is used to fetch external SCSS code from private GitHub repositories.
+  This is necessary if you want to use a GitHub Enterprise server instead of the public GitHub server.
+  The setting must contain the base URL of the GitHub API without a trailing slash, for example 'https://github.example.com/api/v3'.
+  If this setting is not set, Boost Union will use the default GitHub API URL 'https://api.github.com'.
+
+Please note that these expert settings might not be covered by Boost Union's automated tests and upstrade tests.
+If you encounter any problem with one of these expert settings, please raise an issue on https://github.com/moodle-an-hochschulen/moodle-theme_boost_union/issues.
+
+
+Checks API
+----------
+
+This plugin also introduces these additional checks to the System status page:
+
+### \theme_boost_union\check\recommendations
+
+This check fails as soon as at least one recommendations on Boost Union's recommendation page has a status different from OK, MUTED or N/A.
 
 
 Support for other companion plugins
@@ -963,9 +970,11 @@ This theme is a successor of and heavily inspired by the former theme theme_boos
 Contributors
 ------------
 
-This theme is a collaboration result of multiple organisations.
+This theme is a collaboration result of numerous organisations and individuals.
 
-Moodle an Hochschulen e.V. would like to thank these main contributors (in alphabetical order of the institutions) for their work:
+Moodle an Hochschulen e.V. would like to thank these contributors for their contributions to the codebase:
+
+#### Institutional contributors (in alphabetical order)
 
 * Academic Moodle Cooperation (AMC): Ideating, Code
 * Adapta, Daniel Neis Araujo: Code
@@ -973,10 +982,14 @@ Moodle an Hochschulen e.V. would like to thank these main contributors (in alpha
 * bdecent GmbH, Stefan Scholz: Code, Ideating, Funding
 * Bern University of Applied Sciences (BFH), Luca Bösch: Code, Peer Review, Ideating
 * Carinthia University of Applied Sciences, Mario Wehr: Code
+* Catalyst IT Australia, Brendan Heywood: Code
+* Catalyst IT Canada, Karl Michael Reyes: Code
 * Catalyst IT Europe, Mark Johnson: Code
 * Catalyst IT Europe, Simon Thornett: Code
 * ELAN e.V., Farbod Zamani: Code
+* ETH Zürich, nexterday: Code
 * FernUniversität in Hagen, Daniel Poggenpohl: Code, Ideating
+* Friedrich Schiller University Jena: Funding, Ideating
 * Hochschule Hannover - University of Applied Sciences and Arts: Code, Funding, Ideating
 * Käferfreie Software, Nina Herrmann: Code
 * lern.link GmbH, Alexander Bias: Code, Peer Review, Ideating, Funding
@@ -988,6 +1001,7 @@ Moodle an Hochschulen e.V. would like to thank these main contributors (in alpha
 * Moodle.NRW / Ruhr University Bochum, Matthias Buttgereit: Code, Ideating
 * Moodle.NRW / Ruhr University Bochum, Tim Trappen: Code, Ideating
 * moodleSCHULE e.V., Ralf Krause: German translation and curation, Ideating
+* Open Source Development Network Lower Saxony: Funding, Ideating
 * Plakos GmbH, Waldemar Erdmann: Funding, Ideating
 * Ruhr University Bochum, Thorsten Bartel: Code
 * Ruhr University Bochum, Melanie Treitinger: Code, Ideating
@@ -996,6 +1010,8 @@ Moodle an Hochschulen e.V. would like to thank these main contributors (in alpha
 * RWTH Aachen, Tim Schröder: Code
 * Solent University, Mark Sharp: Code
 * ssystems GmbH, Alexander Bias: Code, Peer Review, Ideating, Funding
+* ssystems GmbH, Sangyul Cha: Code
+* ssystems GmbH, berthob98: Code
 * Technische Universität Berlin, Lars Bonczek: Code
 * University of Bayreuth, Nikolai Jahreis: Code
 * University of California, San Francisco, Stefan Topfstedt: Code
@@ -1003,4 +1019,16 @@ Moodle an Hochschulen e.V. would like to thank these main contributors (in alpha
 * University of Lübeck, Christian Wolters: Code, Peer Review, Ideating
 * Zurich University of Applied Sciences (ZHAW): Code, Funding, Ideating
 
-Additionally, we thank all other contributors who contributed ideas, feedback and code snippets within the Github issues and pull requests as well as all contributors who contributed additional translations in AMOS, the Moodle translation tool.
+#### Individual contributors (in alphabetical order)
+
+* Alberto Lara Hernández: Code
+* Krishna Sai Rohith Vadla: Code
+* Sai Asish Yamani: Code
+
+#### Furthermore
+
+Additionally, we thank all the countless contributors who
+
+* contributed ideas, feedback and code snippets within the Github issues and pull requests,
+* participated in the Boost Union discussions in the moodle.org forums,
+* contributed additional translations in AMOS, the Moodle translation tool.

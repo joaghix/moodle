@@ -22,8 +22,31 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core\di;
-use core\hook\manager as hook_manager;
+/**
+ * Get all activity purposes which are available in the current Moodle version.
+ * This function returns all activity purposes, but excludes MOD_PURPOSE_INTERFACE for Moodle 5.2+
+ * where this constant has been removed.
+ *
+ * @param bool $includeother Whether to include MOD_PURPOSE_OTHER in the returned array.
+ * @return array Array of activity purpose constants.
+ */
+function theme_boost_union_get_activity_purposes($includeother = false) {
+    $purposes = [MOD_PURPOSE_ADMINISTRATION,
+            MOD_PURPOSE_ASSESSMENT,
+            MOD_PURPOSE_COLLABORATION,
+            MOD_PURPOSE_COMMUNICATION,
+            MOD_PURPOSE_CONTENT,
+            MOD_PURPOSE_INTERACTIVECONTENT];
+    // Add MOD_PURPOSE_INTERFACE only if it exists (removed in Moodle 5.2+).
+    if (defined('MOD_PURPOSE_INTERFACE')) {
+        $purposes[] = MOD_PURPOSE_INTERFACE;
+    }
+    // Add MOD_PURPOSE_OTHER if requested.
+    if ($includeother) {
+        $purposes[] = MOD_PURPOSE_OTHER;
+    }
+    return $purposes;
+}
 
 /**
  * Build the course related hints HTML code.
@@ -38,18 +61,19 @@ function theme_boost_union_get_course_related_hints() {
     global $CFG, $COURSE, $PAGE, $USER, $OUTPUT;
 
     // Require user library.
-    require_once($CFG->dirroot.'/user/lib.php');
+    require_once($CFG->dirroot . '/user/lib.php');
 
     // Initialize HTML code.
     $html = '';
 
     // If the setting showhintcoursehidden is set and the visibility of the course is hidden
     // a hint for the visibility will be shown.
-    if (get_config('theme_boost_union', 'showhintcoursehidden') == THEME_BOOST_UNION_SETTING_SELECT_YES
+    if (
+        get_config('theme_boost_union', 'showhintcoursehidden') == THEME_BOOST_UNION_SETTING_SELECT_YES
             && has_capability('theme/boost_union:viewhintinhiddencourse', \context_course::instance($COURSE->id))
             && $PAGE->has_set_url()
-            && $COURSE->visible == false) {
-
+            && $COURSE->visible == false
+    ) {
         // Initialize hint text.
         $hintcoursehiddentext = '';
 
@@ -61,10 +85,12 @@ function theme_boost_union_get_course_related_hints() {
 
         // If the setting showhintcoursehiddennotifications is set too and we view a forum (e.g. announcement) within a hidden
         // course a hint will be shown that no notifications via forums will be sent out to students.
-        if (get_config('theme_boost_union', 'showhintforumnotifications') == THEME_BOOST_UNION_SETTING_SELECT_YES
-                && ($PAGE->url->compare(new core\url('/mod/forum/view.php'), URL_MATCH_BASE) ||
-                        $PAGE->url->compare(new core\url('/mod/forum/discuss.php'), URL_MATCH_BASE) ||
-                        $PAGE->url->compare(new core\url('/mod/forum/post.php'), URL_MATCH_BASE))) {
+        if (
+            get_config('theme_boost_union', 'showhintforumnotifications') == THEME_BOOST_UNION_SETTING_SELECT_YES
+                && ($PAGE->url->compare(new core\url('/mod/forum/view.php'), URL_MATCH_BASE)
+                        || $PAGE->url->compare(new core\url('/mod/forum/discuss.php'), URL_MATCH_BASE)
+                        || $PAGE->url->compare(new core\url('/mod/forum/post.php'), URL_MATCH_BASE))
+        ) {
             // Use the specialized hint text for hidden courses on forum pages.
             $hintcoursehiddentext = get_string('showhintforumnotifications', 'theme_boost_union');
         }
@@ -89,12 +115,13 @@ function theme_boost_union_get_course_related_hints() {
     // We also check that the user did not switch the role. This is a special case for roles that can fully access the course
     // without being enrolled. A role switch would show the guest access hint additionally in that case and this is not
     // intended.
-    if (get_config('theme_boost_union', 'showhintcourseguestaccess') == THEME_BOOST_UNION_SETTING_SELECT_YES
+    if (
+        get_config('theme_boost_union', 'showhintcourseguestaccess') == THEME_BOOST_UNION_SETTING_SELECT_YES
             && is_guest(\context_course::instance($COURSE->id), $USER->id)
             && $PAGE->has_set_url()
             && $PAGE->url->compare(new core\url('/course/view.php'), URL_MATCH_BASE)
-            && !is_role_switched($COURSE->id)) {
-
+            && !is_role_switched($COURSE->id)
+    ) {
         // Require self enrolment library.
         require_once($CFG->dirroot . '/enrol/self/lib.php');
 
@@ -130,13 +157,14 @@ function theme_boost_union_get_course_related_hints() {
     // This hint is only shown if the course is visible, the guest acess is enabled and if the user has the
     // capability "theme/boost_union:viewhintcourseguestenrol".
     $showhintcourseguestenrol = get_config('theme_boost_union', 'showhintcourseguestenrol');
-    if (($showhintcourseguestenrol == THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_WITHOUTPASSWORD ||
-         $showhintcourseguestenrol == THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_ALWAYS)
-            && has_capability('theme/boost_union:viewhintcourseguestenrol', \context_course::instance($COURSE->id))
-            && $PAGE->has_set_url()
-            && $PAGE->url->compare(new core\url('/course/view.php'), URL_MATCH_BASE)
-            && $COURSE->visible == true) {
-
+    if (
+        ($showhintcourseguestenrol == THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_WITHOUTPASSWORD ||
+         $showhintcourseguestenrol == THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_ALWAYS) &&
+            has_capability('theme/boost_union:viewhintcourseguestenrol', \context_course::instance($COURSE->id)) &&
+            $PAGE->has_set_url() &&
+            $PAGE->url->compare(new core\url('/course/view.php'), URL_MATCH_BASE) &&
+            $COURSE->visible == true
+    ) {
         // Get the active enrol instances for this course.
         $enrolinstances = enrol_get_instances($COURSE->id, true);
 
@@ -145,11 +173,12 @@ function theme_boost_union_get_course_related_hints() {
             // Check if guest access is possible based on setting.
             // If WITHOUTPASSWORD is set, only show hint when no password is set.
             // If ALWAYS is set, show hint regardless of password.
-            if ($instance->enrol == 'guest' &&
+            if (
+                $instance->enrol == 'guest' &&
                 ($showhintcourseguestenrol == THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_ALWAYS ||
                  (empty($instance->password) &&
-                        $showhintcourseguestenrol == THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_WITHOUTPASSWORD))) {
-
+                        $showhintcourseguestenrol == THEME_BOOST_UNION_SETTING_GUESTACCESSHINT_WITHOUTPASSWORD))
+            ) {
                 // Prepare template context.
                 $templatecontext = ['courseid' => $COURSE->id];
 
@@ -186,14 +215,16 @@ function theme_boost_union_get_course_related_hints() {
     // If the setting showhintcourseselfenrol is set, a hint for users is shown that the course allows unrestricted self
     // enrolment. This hint is only shown if the course is visible, the self enrolment is visible and if the user has the
     // capability "theme/boost_union:viewhintcourseselfenrol".
-    if (get_config('theme_boost_union', 'showhintcourseselfenrol') == THEME_BOOST_UNION_SETTING_SELECT_YES
+    if (
+        get_config('theme_boost_union', 'showhintcourseselfenrol') == THEME_BOOST_UNION_SETTING_SELECT_YES
             && has_capability('theme/boost_union:viewhintcourseselfenrol', \context_course::instance($COURSE->id))
             && $PAGE->has_set_url()
             && $PAGE->url->compare(new core\url('/course/view.php'), URL_MATCH_BASE)
-            && $COURSE->visible == true) {
-
+            && $COURSE->visible == true
+    ) {
         // Get the active enrol instances for this course.
         $enrolinstances = enrol_get_instances($COURSE->id, true);
+        $selfenrolplugin = enrol_get_plugin('self');
 
         // Prepare to remember when self enrolment is / will be possible.
         $selfenrolmentpossiblecurrently = false;
@@ -201,42 +232,48 @@ function theme_boost_union_get_course_related_hints() {
         foreach ($enrolinstances as $instance) {
             // Check if unrestricted self enrolment is possible currently or in the future.
             $now = (new \DateTime("now", \core_date::get_server_timezone_object()))->getTimestamp();
-            if ($instance->enrol == 'self' && empty($instance->password) && $instance->customint6 == 1 &&
-                    (empty($instance->enrolenddate) || $instance->enrolenddate > $now)) {
-
+            if (
+                $instance->enrol == 'self' && empty($instance->password) && $instance->customint6 == 1 &&
+                    (empty($instance->enrolenddate) || $instance->enrolenddate > $now)
+            ) {
                 // Build enrol instance object with all necessary information for rendering the note later.
                 $instanceobject = new stdClass();
 
                 // Remember instance name.
-                if (empty($instance->name)) {
-                    $instanceobject->name = get_string('pluginname', 'enrol_self') .
-                            " (" . get_string('defaultcoursestudent', 'core') . ")";
-                } else {
-                    $instanceobject->name = $instance->name;
-                }
+                $instanceobject->name = $selfenrolplugin->get_instance_name($instance);
 
                 // Remember type of unrestrictedness.
                 if (empty($instance->enrolenddate) && empty($instance->enrolstartdate)) {
                     $instanceobject->unrestrictedness = 'unlimited';
                     $selfenrolmentpossiblecurrently = true;
-                } else if (empty($instance->enrolstartdate) &&
-                        !empty($instance->enrolenddate) && $instance->enrolenddate > $now) {
+                } else if (
+                    empty($instance->enrolstartdate) &&
+                        !empty($instance->enrolenddate) && $instance->enrolenddate > $now
+                ) {
                     $instanceobject->unrestrictedness = 'until';
                     $selfenrolmentpossiblecurrently = true;
-                } else if (empty($instance->enrolenddate) &&
-                        !empty($instance->enrolstartdate) && $instance->enrolstartdate > $now) {
+                } else if (
+                    empty($instance->enrolenddate) &&
+                        !empty($instance->enrolstartdate) && $instance->enrolstartdate > $now
+                ) {
                     $instanceobject->unrestrictedness = 'from';
                     $selfenrolmentpossiblefuture = true;
-                } else if (empty($instance->enrolenddate) &&
-                        !empty($instance->enrolstartdate) && $instance->enrolstartdate <= $now) {
+                } else if (
+                    empty($instance->enrolenddate) &&
+                        !empty($instance->enrolstartdate) && $instance->enrolstartdate <= $now
+                ) {
                     $instanceobject->unrestrictedness = 'since';
                     $selfenrolmentpossiblecurrently = true;
-                } else if (!empty($instance->enrolstartdate) && $instance->enrolstartdate > $now &&
-                        !empty($instance->enrolenddate) && $instance->enrolenddate > $now) {
+                } else if (
+                    !empty($instance->enrolstartdate) && $instance->enrolstartdate > $now &&
+                        !empty($instance->enrolenddate) && $instance->enrolenddate > $now
+                ) {
                     $instanceobject->unrestrictedness = 'fromuntil';
                     $selfenrolmentpossiblefuture = true;
-                } else if (!empty($instance->enrolstartdate) && $instance->enrolstartdate <= $now &&
-                        !empty($instance->enrolenddate) && $instance->enrolenddate > $now) {
+                } else if (
+                    !empty($instance->enrolstartdate) && $instance->enrolstartdate <= $now &&
+                        !empty($instance->enrolenddate) && $instance->enrolenddate > $now
+                ) {
                     $instanceobject->unrestrictedness = 'sinceuntil';
                     $selfenrolmentpossiblecurrently = true;
                 } else {
@@ -265,9 +302,10 @@ function theme_boost_union_get_course_related_hints() {
 
         // If there is at least one unrestricted enrolment instance,
         // show the hint with information about each unrestricted active self enrolment in the course.
-        if (!empty($selfenrolinstances) &&
-                ($selfenrolmentpossiblecurrently == true || $selfenrolmentpossiblefuture == true)) {
-
+        if (
+            !empty($selfenrolinstances) &&
+                ($selfenrolmentpossiblecurrently == true || $selfenrolmentpossiblefuture == true)
+        ) {
             // Prepare template context.
             $templatecontext = [];
 
@@ -290,30 +328,53 @@ function theme_boost_union_get_course_related_hints() {
 
                 // Add the enrolment instance information to the template context depending on the instance configuration.
                 if ($selfenrolinstanceobject->unrestrictedness == 'unlimited') {
-                    $templatecontext['selfenrolinstances'][] = get_string('showhintcourseselfenrolunlimited', 'theme_boost_union',
-                            ['name' => $selfenrolinstanceobject->name]);
+                    $templatecontext['selfenrolinstances'][] = get_string(
+                        'showhintcourseselfenrolunlimited',
+                        'theme_boost_union',
+                        ['name' => $selfenrolinstanceobject->name]
+                    );
                 } else if ($selfenrolinstanceobject->unrestrictedness == 'until') {
-                    $templatecontext['selfenrolinstances'][] = get_string('showhintcourseselfenroluntil', 'theme_boost_union',
-                            ['name' => $selfenrolinstanceobject->name,
-                                    'until' => userdate($selfenrolinstanceobject->enddate), ]);
+                    $templatecontext['selfenrolinstances'][] = get_string(
+                        'showhintcourseselfenroluntil',
+                        'theme_boost_union',
+                        ['name' => $selfenrolinstanceobject->name,
+                        'until' => userdate($selfenrolinstanceobject->enddate),
+                        ]
+                    );
                 } else if ($selfenrolinstanceobject->unrestrictedness == 'from') {
-                    $templatecontext['selfenrolinstances'][] = get_string('showhintcourseselfenrolfrom', 'theme_boost_union',
-                            ['name' => $selfenrolinstanceobject->name,
-                                    'from' => userdate($selfenrolinstanceobject->startdate), ]);
+                    $templatecontext['selfenrolinstances'][] = get_string(
+                        'showhintcourseselfenrolfrom',
+                        'theme_boost_union',
+                        ['name' => $selfenrolinstanceobject->name,
+                        'from' => userdate($selfenrolinstanceobject->startdate),
+                        ]
+                    );
                 } else if ($selfenrolinstanceobject->unrestrictedness == 'since') {
-                    $templatecontext['selfenrolinstances'][] = get_string('showhintcourseselfenrolsince', 'theme_boost_union',
-                            ['name' => $selfenrolinstanceobject->name,
-                                    'since' => userdate($selfenrolinstanceobject->startdate), ]);
+                    $templatecontext['selfenrolinstances'][] = get_string(
+                        'showhintcourseselfenrolsince',
+                        'theme_boost_union',
+                        ['name' => $selfenrolinstanceobject->name,
+                        'since' => userdate($selfenrolinstanceobject->startdate),
+                        ]
+                    );
                 } else if ($selfenrolinstanceobject->unrestrictedness == 'fromuntil') {
-                    $templatecontext['selfenrolinstances'][] = get_string('showhintcourseselfenrolfromuntil', 'theme_boost_union',
-                            ['name' => $selfenrolinstanceobject->name,
+                    $templatecontext['selfenrolinstances'][] = get_string(
+                        'showhintcourseselfenrolfromuntil',
+                        'theme_boost_union',
+                        ['name' => $selfenrolinstanceobject->name,
                                     'until' => userdate($selfenrolinstanceobject->enddate),
-                                    'from' => userdate($selfenrolinstanceobject->startdate), ]);
+                        'from' => userdate($selfenrolinstanceobject->startdate),
+                        ]
+                    );
                 } else if ($selfenrolinstanceobject->unrestrictedness == 'sinceuntil') {
-                    $templatecontext['selfenrolinstances'][] = get_string('showhintcourseselfenrolsinceuntil', 'theme_boost_union',
-                            ['name' => $selfenrolinstanceobject->name,
+                    $templatecontext['selfenrolinstances'][] = get_string(
+                        'showhintcourseselfenrolsinceuntil',
+                        'theme_boost_union',
+                        ['name' => $selfenrolinstanceobject->name,
                                     'until' => userdate($selfenrolinstanceobject->enddate),
-                                    'since' => userdate($selfenrolinstanceobject->startdate), ]);
+                        'since' => userdate($selfenrolinstanceobject->startdate),
+                        ]
+                    );
                 }
             }
 
@@ -331,19 +392,23 @@ function theme_boost_union_get_course_related_hints() {
 
     // If the setting showswitchedroleincourse is set and the user has switched his role,
     // a hint for the role switch will be shown.
-    if (get_config('theme_boost_union', 'showswitchedroleincourse') === THEME_BOOST_UNION_SETTING_SELECT_YES
-            && is_role_switched($COURSE->id) ) {
-
+    if (
+        get_config('theme_boost_union', 'showswitchedroleincourse') === THEME_BOOST_UNION_SETTING_SELECT_YES
+            && is_role_switched($COURSE->id)
+    ) {
         // Get the role name switched to.
         $opts = \user_get_user_navigation_info($USER, $PAGE);
         $role = $opts->metadata['rolename'];
 
         // Get the URL to switch back (normal role).
-        $url = new core\url('/course/switchrole.php',
-                ['id' => $COURSE->id,
+        $url = new core\url(
+            '/course/switchrole.php',
+            ['id' => $COURSE->id,
                         'sesskey' => sesskey(),
                         'switchrole' => 0,
-                        'returnurl' => $PAGE->url->out_as_local_url(false), ]);
+            'returnurl' => $PAGE->url->out_as_local_url(false),
+            ]
+        );
 
         // Prepare template context.
         $templatecontext = ['role' => $role,
@@ -365,7 +430,7 @@ function theme_boost_union_get_course_related_hints() {
  */
 function theme_boost_union_get_staticpage_link($page) {
     // Compose the URL object.
-    $url = new core\url('/theme/boost_union/pages/'.$page.'.php');
+    $url = new core\url('/theme/boost_union/pages/' . $page . '.php');
 
     // Return the string representation of the URL.
     return $url->out();
@@ -379,8 +444,11 @@ function theme_boost_union_get_staticpage_link($page) {
  */
 function theme_boost_union_get_staticpage_pagetitle($page) {
     // Get the configured page title.
-    $pagetitleconfig = format_string(get_config('theme_boost_union', $page.'pagetitle'), true,
-    ['context' => \context_system::instance()]);
+    $pagetitleconfig = format_string(
+        get_config('theme_boost_union', $page . 'pagetitle'),
+        true,
+        ['context' => \context_system::instance()]
+    );
 
     // If there is a string configured.
     if ($pagetitleconfig) {
@@ -390,7 +458,7 @@ function theme_boost_union_get_staticpage_pagetitle($page) {
         // Otherwise.
     } else {
         // Return the default string.
-        return get_string($page.'pagetitledefault', 'theme_boost_union');
+        return get_string($page . 'pagetitledefault', 'theme_boost_union');
     }
 }
 
@@ -402,7 +470,7 @@ function theme_boost_union_get_staticpage_pagetitle($page) {
  */
 function theme_boost_union_get_accessibility_link($page) {
     // Compose the URL object.
-    $url = new core\url('/theme/boost_union/accessibility/'.$page.'.php');
+    $url = new core\url('/theme/boost_union/accessibility/' . $page . '.php');
 
     // Return the string representation of the URL.
     return $url->out();
@@ -416,7 +484,7 @@ function theme_boost_union_get_accessibility_link($page) {
  */
 function theme_boost_union_get_accessibility_pagetitle($page) {
     // Re-use the theme_boost_union_get_staticpage_pagetitle() as we are basically doing the same thing here.
-    return theme_boost_union_get_staticpage_pagetitle('accessibility'.$page);
+    return theme_boost_union_get_staticpage_pagetitle('accessibility' . $page);
 }
 
 /**
@@ -455,13 +523,13 @@ function theme_boost_union_infobanner_is_shown_on_page($bannerno) {
     $config = get_config('theme_boost_union');
 
     // If the info banner is enabled.
-    $enabledsettingname = 'infobanner'.$bannerno.'enabled';
+    $enabledsettingname = 'infobanner' . $bannerno . 'enabled';
     if ($config->{$enabledsettingname} == THEME_BOOST_UNION_SETTING_SELECT_YES) {
         // If the info banner has any content.
-        $contentsettingname = 'infobanner'.$bannerno.'content';
+        $contentsettingname = 'infobanner' . $bannerno . 'content';
         if (!empty($config->{$contentsettingname})) {
             // If the info banner should be shown on this page.
-            $pagessettingname = 'infobanner'.$bannerno.'pages';
+            $pagessettingname = 'infobanner' . $bannerno . 'pages';
             $showonpage = false;
             $pages = explode(',', $config->{$pagessettingname});
             foreach ($pages as $page) {
@@ -472,10 +540,10 @@ function theme_boost_union_infobanner_is_shown_on_page($bannerno) {
             }
             if ($showonpage == true) {
                 // If this is a time-based-banner.
-                $modesettingname = 'infobanner'.$bannerno.'mode';
+                $modesettingname = 'infobanner' . $bannerno . 'mode';
                 if ($config->{$modesettingname} == THEME_BOOST_UNION_SETTING_INFOBANNERMODE_TIMEBASED) {
-                    $startsettingname = 'infobanner'.$bannerno.'start';
-                    $endsettingname = 'infobanner'.$bannerno.'end';
+                    $startsettingname = 'infobanner' . $bannerno . 'start';
+                    $endsettingname = 'infobanner' . $bannerno . 'end';
                     // Check if time settings are empty and try to convert the time strings to a unix timestamp.
                     if (empty($config->{$startsettingname})) {
                         $startempty = true;
@@ -498,17 +566,19 @@ function theme_boost_union_infobanner_is_shown_on_page($bannerno) {
                     // c) end is not set, but start lies in the past OR
                     // d) no dates are set, so there's no time restriction.
                     $now = time();
-                    if (($now >= $start && $now <= $end ||
+                    if (
+                        ($now >= $start && $now <= $end ||
                             ($now <= $end && $startempty) ||
                             ($now >= $start && $endempty) ||
-                            ($startempty && $endempty))) {
+                            ($startempty && $endempty))
+                    ) {
                         return true;
                     }
 
                     // Otherwise this is a perpetual banner.
                 } else {
                     // If the banner was not dismissed by the user.
-                    if (get_user_preferences('theme_boost_union_infobanner'.$bannerno.'_dismissed') != true) {
+                    if (get_user_preferences('theme_boost_union_infobanner' . $bannerno . '_dismissed') != true) {
                         return true;
                     }
                 }
@@ -556,7 +626,7 @@ function theme_boost_union_infobanner_reset_visibility($no) {
 
     // Get all users that have dismissed the info banner once and therefore the user preference.
     $whereclause = 'name = :name AND value = :value';
-    $params = ['name' => 'theme_boost_union_infobanner'.$no.'_dismissed', 'value' => '1'];
+    $params = ['name' => 'theme_boost_union_infobanner' . $no . '_dismissed', 'value' => '1'];
     $users = $DB->get_records_select('user_preferences', $whereclause, $params, '', 'userid');
 
     // Initialize variable for feedback messages.
@@ -566,7 +636,7 @@ function theme_boost_union_infobanner_reset_visibility($no) {
 
     foreach ($users as $user) {
         try {
-            unset_user_preference('theme_boost_union_infobanner'.$no.'_dismissed', $user->userid);
+            unset_user_preference('theme_boost_union_infobanner' . $no . '_dismissed', $user->userid);
         } catch (coding_exception $e) {
             $somethingwentwrong = true;
         }
@@ -591,11 +661,8 @@ function theme_boost_union_get_random_loginbackgroundimage_number() {
     static $number = null;
 
     if ($number == null) {
-        // Get all files for loginbackgroundimages.
-        $files = theme_boost_union_get_loginbackgroundimage_files();
-
-        // Get count of array elements.
-        $filecount = count($files);
+        // Get the count of loginbackgroundimage files.
+        $filecount = theme_boost_union_get_loginbackgroundimage_filecount();
 
         // We only return a number if images are uploaded to the loginbackgroundimage file area.
         if ($filecount > 0) {
@@ -624,16 +691,53 @@ function theme_boost_union_get_random_loginbackgroundimage_class() {
 
     // Only create the class name with the random number if there is a number (=files uploaded to the file area).
     if ($number != null) {
-        return 'loginbackgroundimage'.$number;
+        return 'loginbackgroundimage' . $number;
     } else {
         return '';
     }
 }
 
 /**
+ * Return the count of files in the loginbackgroundimage file area.
+ *
+ * This is a performant alternative to loading all file records when only the count is needed
+ * (e.g., for random number generation at login time). It supports an unlimited number of images.
+ *
+ * @return int
+ * @throws dml_exception
+ */
+function theme_boost_union_get_loginbackgroundimage_filecount() {
+    global $DB;
+
+    // Static variable to remember the count for subsequent calls of this function.
+    static $count = null;
+
+    if ($count === null) {
+        // Get the system context.
+        $systemcontext = \context_system::instance();
+
+        // Count only actual files (excluding directory entries) in the filearea.
+        $count = $DB->count_records_select(
+            'files',
+            'contextid = :contextid AND component = :component AND filearea = :filearea AND filename != :dot',
+            [
+                'contextid' => $systemcontext->id,
+                'component' => 'theme_boost_union',
+                'filearea' => 'loginbackgroundimage',
+                'dot' => '.',
+            ]
+        );
+    }
+
+    return $count;
+}
+
+/**
  * Return the files from the loginbackgroundimage file area.
- * This function always loads the files from the filearea which is not really performant.
- * However, we accept this at the moment as it is only invoked on the login page.
+ *
+ * This function loads all files from the filearea and is intended for use during theme compilation
+ * (SCSS generation), where all files are needed. For per-request use (e.g., random image selection),
+ * prefer theme_boost_union_get_loginbackgroundimage_filecount() to avoid loading all file records.
  *
  * @return array|null
  * @throws coding_exception
@@ -651,8 +755,14 @@ function theme_boost_union_get_loginbackgroundimage_files() {
         $fs = get_file_storage();
 
         // Get all files from filearea.
-        $files = $fs->get_area_files($systemcontext->id, 'theme_boost_union', 'loginbackgroundimage',
-                false, 'itemid', false);
+        $files = $fs->get_area_files(
+            $systemcontext->id,
+            'theme_boost_union',
+            'loginbackgroundimage',
+            false,
+            'itemid',
+            false
+        );
     }
 
     return $files;
@@ -679,7 +789,7 @@ function theme_boost_union_get_urloftilebackgroundimage($tileno) {
     }
 
     // Get the background image config for this tile.
-    $bgconfig = get_config('theme_boost_union', 'tile'.$tileno.'backgroundimage');
+    $bgconfig = get_config('theme_boost_union', 'tile' . $tileno . 'backgroundimage');
 
     // If a background image is configured.
     if (!empty($bgconfig)) {
@@ -690,15 +800,27 @@ function theme_boost_union_get_urloftilebackgroundimage($tileno) {
         $fs = get_file_storage();
 
         // Get all files from filearea.
-        $files = $fs->get_area_files($systemcontext->id, 'theme_boost_union', 'tilebackgroundimage'.$tileno,
-                false, 'itemid', false);
+        $files = $fs->get_area_files(
+            $systemcontext->id,
+            'theme_boost_union',
+            'tilebackgroundimage' . $tileno,
+            false,
+            'itemid',
+            false
+        );
 
         // Just pick the first file - we are sure that there is just one file.
         $file = reset($files);
 
         // Build and return the image URL.
-        return core\url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(),
-                $file->get_itemid(), $file->get_filepath(), $file->get_filename());
+        return core\url::make_pluginfile_url(
+            $file->get_contextid(),
+            $file->get_component(),
+            $file->get_filearea(),
+            $file->get_itemid(),
+            $file->get_filepath(),
+            $file->get_filename()
+        );
     }
 
     // As no image was found, return null.
@@ -725,7 +847,7 @@ function theme_boost_union_get_urlofslidebackgroundimage($slideno) {
     }
 
     // Get the background image config for this slide.
-    $bgconfig = get_config('theme_boost_union', 'slide'.$slideno.'backgroundimage');
+    $bgconfig = get_config('theme_boost_union', 'slide' . $slideno . 'backgroundimage');
 
     // If a background image is configured.
     if (!empty($bgconfig)) {
@@ -736,15 +858,27 @@ function theme_boost_union_get_urlofslidebackgroundimage($slideno) {
         $fs = get_file_storage();
 
         // Get all files from filearea.
-        $files = $fs->get_area_files($systemcontext->id, 'theme_boost_union', 'slidebackgroundimage'.$slideno,
-                false, 'itemid', false);
+        $files = $fs->get_area_files(
+            $systemcontext->id,
+            'theme_boost_union',
+            'slidebackgroundimage' . $slideno,
+            false,
+            'itemid',
+            false
+        );
 
         // Just pick the first file - we are sure that there is just one file.
         $file = reset($files);
 
         // Build and return the image URL.
-        return core\url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(),
-                $file->get_itemid(), $file->get_filepath(), $file->get_filename());
+        return core\url::make_pluginfile_url(
+            $file->get_contextid(),
+            $file->get_component(),
+            $file->get_filearea(),
+            $file->get_itemid(),
+            $file->get_filepath(),
+            $file->get_filename()
+        );
     }
 
     // As no image was found, return null.
@@ -768,11 +902,17 @@ function theme_boost_union_get_loginbackgroundimage_scss() {
     foreach ($files as $file) {
         $count++;
         // Get url from file.
-        $url = core\url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(),
-                $file->get_itemid(), $file->get_filepath(), $file->get_filename());
+        $url = core\url::make_pluginfile_url(
+            $file->get_contextid(),
+            $file->get_component(),
+            $file->get_filearea(),
+            $file->get_itemid(),
+            $file->get_filepath(),
+            $file->get_filename()
+        );
         // Add this url to the body class loginbackgroundimage[n] as a background image.
-        $scss .= 'body.pagelayout-login.loginbackgroundimage'.$count.' {';
-        $scss .= 'background-image: url("'.$url.'");';
+        $scss .= 'body.pagelayout-login.loginbackgroundimage' . $count . ' {';
+        $scss .= 'background-image: url("' . $url . '");';
         $scss .= '}';
     }
 
@@ -782,51 +922,74 @@ function theme_boost_union_get_loginbackgroundimage_scss() {
 /**
  * Get the text that should be displayed for the randomly displayed background image on the login page.
  *
+ * This function fetches only the single selected file record from the database instead of all files,
+ * which keeps it efficient even with a large number of uploaded login background images.
+ *
  * @return array (of two strings, holding the text and the text color)
  * @throws coding_exception
  * @throws dml_exception
  */
 function theme_boost_union_get_loginbackgroundimage_text() {
+    global $DB;
+
     // Get the random number.
     $number = theme_boost_union_get_random_loginbackgroundimage_number();
 
     // Only search for the text if there's a background image.
     if ($number != null) {
+        // Get the system context.
+        $systemcontext = \context_system::instance();
 
-        // Get the files from the filearea loginbackgroundimage.
-        $files = theme_boost_union_get_loginbackgroundimage_files();
-        // Get the file for the selected random number.
-        $file = array_slice($files, ($number - 1), 1, false);
-        // Get the filename.
-        $filename = array_pop($file)->get_filename();
+        // Fetch only the single file record at position $number using the same ordering as
+        // theme_boost_union_get_loginbackgroundimage_files() (i.e., sorted by itemid).
+        $sql = "SELECT f.filename
+                  FROM {files} f
+                 WHERE f.contextid = :contextid
+                       AND f.component = :component
+                       AND f.filearea = :filearea
+                       AND f.filename != :dot
+                 ORDER BY f.itemid";
+        $params = [
+            'contextid' => $systemcontext->id,
+            'component' => 'theme_boost_union',
+            'filearea' => 'loginbackgroundimage',
+            'dot' => '.',
+        ];
+        $filerecords = $DB->get_records_sql($sql, $params, $number - 1, 1);
+        $filerecord = reset($filerecords);
 
-        // Get the config for loginbackgroundimagetext and make an array out of the lines.
-        $lines = explode("\n", get_config('theme_boost_union', 'loginbackgroundimagetext'));
+        // Only proceed if we got a file record.
+        if ($filerecord) {
+            $filename = $filerecord->filename;
 
-        // Process the lines.
-        foreach ($lines as $line) {
-            $settings = explode("|", $line);
-            // If the line does not have three items, skip it.
-            if (count($settings) != 3) {
-                continue;
-            }
-            // Compare the filenames for a match.
-            if (strcmp($filename, trim($settings[0])) == 0) {
-                // Trim the second parameter as we need it more than once.
-                $settings[2] = trim($settings[2]);
+            // Get the config for loginbackgroundimagetext and make an array out of the lines.
+            $lines = explode("\n", get_config('theme_boost_union', 'loginbackgroundimagetext'));
 
-                // If the color value is not acceptable, replace it with dark.
-                if ($settings[2] != 'dark' && $settings[2] != 'light') {
-                    $settings[2] = 'dark';
+            // Process the lines.
+            foreach ($lines as $line) {
+                $settings = explode("|", $line);
+                // If the line does not have three items, skip it.
+                if (count($settings) != 3) {
+                    continue;
                 }
+                // Compare the filenames for a match.
+                if (strcmp($filename, trim($settings[0])) == 0) {
+                    // Trim the second parameter as we need it more than once.
+                    $settings[2] = trim($settings[2]);
 
-                // Return the text + text color that belongs to the randomly selected image.
-                return [format_string(trim($settings[1])), $settings[2]];
+                    // If the color value is not acceptable, replace it with dark.
+                    if ($settings[2] != 'dark' && $settings[2] != 'light') {
+                        $settings[2] = 'dark';
+                    }
+
+                    // Return the text + text color that belongs to the randomly selected image.
+                    return [format_string(trim($settings[1])), $settings[2]];
+                }
             }
         }
     }
 
-    return '';
+    return ['', ''];
 }
 
 /**
@@ -861,7 +1024,7 @@ function theme_boost_union_get_additionalresources_templatecontext() {
             $urlpersistent = new core\url('/pluginfile.php/' . $systemcontext->id .
                 '/theme_boost_union/additionalresources/0/' . $af->get_filename());
                 $urlrevisioned = new core\url('/pluginfile.php/' . $systemcontext->id .
-                '/theme_boost_union/additionalresources/' . theme_get_revision().
+                '/theme_boost_union/additionalresources/' . theme_get_revision() .
                 '/' . $af->get_filename());
             $filesforcontext[] = ['filename' => $af->get_filename(),
                                         'filetype' => $af->get_mimetype(),
@@ -914,12 +1077,12 @@ function theme_boost_union_get_customfonts_templatecontext() {
             // according to its file suffix (as the filetype might not have a known mimetype).
             // If it isn't a font file, skip it.
             $filenamesuffix = pathinfo($filename, PATHINFO_EXTENSION);
-            if (!in_array('.'.$filenamesuffix, $webfonts)) {
+            if (!in_array('.' . $filenamesuffix, $webfonts)) {
                 continue;
             }
 
             // Otherwise, fill the templatecontext of the file list.
-            $urlpersistent = new core\url('/pluginfile.php/'. $systemcontext->id .
+            $urlpersistent = new core\url('/pluginfile.php/' . $systemcontext->id .
                 '/theme_boost_union/customfonts/0/' . $filename);
             $filesforcontext[] = ['filename' => $filename,
                     'fileurlpersistent' => $urlpersistent->out(), ];
@@ -1085,11 +1248,11 @@ function theme_boost_union_get_emailbrandingtextpreview() {
 function theme_boost_union_get_externaladminpage_title($pagename) {
     global $SITE;
 
-    $title = $SITE->shortname.': ';
-    $title .= get_string('administration', 'core').': ';
-    $title .= get_string('appearance', 'core').': ';
-    $title .= get_string('themes', 'core').': ';
-    $title .= get_string('pluginname', 'theme_boost_union').': ';
+    $title = $SITE->shortname . ': ';
+    $title .= get_string('administration', 'core') . ': ';
+    $title .= get_string('appearance', 'core') . ': ';
+    $title .= get_string('themes', 'core') . ': ';
+    $title .= get_string('pluginname', 'theme_boost_union') . ': ';
     $title .= $pagename;
 
     return $title;
@@ -1141,15 +1304,72 @@ function theme_boost_union_get_course_header_image_url() {
         $fs = get_file_storage();
 
         // Get all files from filearea.
-        $files = $fs->get_area_files($systemcontext->id, 'theme_boost_union', 'courseheaderimagefallback',
-            false, 'itemid', false);
+        $files = $fs->get_area_files(
+            $systemcontext->id,
+            'theme_boost_union',
+            'courseheaderimagefallback',
+            false,
+            'itemid',
+            false
+        );
 
         // Just pick the first file - we are sure that there is just one file.
         $file = reset($files);
 
         // Build and return the image URL.
-        return core\url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(),
-            $file->get_itemid(), $file->get_filepath(), $file->get_filename());
+        return core\url::make_pluginfile_url(
+            $file->get_contextid(),
+            $file->get_component(),
+            $file->get_filearea(),
+            $file->get_itemid(),
+            $file->get_filepath(),
+            $file->get_filename()
+        );
+    }
+
+    // As no picture was found, return null.
+    return null;
+}
+
+/**
+ * Helper function to get the course overview fallback image URL.
+ *
+ * @return core\url|null The URL to the course overview fallback image or null if none is configured.
+ */
+function theme_boost_union_get_course_overview_fallback_image_url() {
+    // If a fallback image is configured.
+    if (get_config('theme_boost_union', 'courseoverviewimagefallback')) {
+        // Get the system context.
+        $systemcontext = \context_system::instance();
+
+        // Get filearea.
+        $fs = get_file_storage();
+
+        // Get all files from filearea.
+        $files = $fs->get_area_files(
+            $systemcontext->id,
+            'theme_boost_union',
+            'courseoverviewimagefallback',
+            false,
+            'itemid',
+            false
+        );
+
+        // Just pick the first file - we are sure that there is just one file.
+        $file = reset($files);
+
+        // If a file was found.
+        if ($file) {
+            // Build and return the image URL.
+            return \core\url::make_pluginfile_url(
+                $file->get_contextid(),
+                $file->get_component(),
+                $file->get_filearea(),
+                $file->get_itemid(),
+                $file->get_filepath(),
+                $file->get_filename()
+            );
+        }
     }
 
     // As no picture was found, return null.
@@ -1190,7 +1410,7 @@ function theme_boost_union_set_mobilecss_url() {
  * @param array $pageregions List of page regions.
  * @return array $regions
  */
-function theme_boost_union_get_additional_regions($pageregions=[]) {
+function theme_boost_union_get_additional_regions($pageregions = []) {
     $regions = [
             'footerleft' => 'footer-left',
             'footerright' => 'footer-right',
@@ -1218,8 +1438,13 @@ function theme_boost_union_get_additional_regions($pageregions=[]) {
  */
 function theme_boost_union_get_block_regions($layout) {
 
+    // During the initial installation, we can't access the config table yet, so we return the default regions only.
+    if (during_initial_install()) {
+        return ['side-pre'];
+    }
+
     // Get the admin setting for the layout.
-    $regionsettings = get_config('theme_boost_union', 'blockregionsfor'.$layout);
+    $regionsettings = get_config('theme_boost_union', 'blockregionsfor' . $layout);
 
     // Explode the admin setting to get the block regions.
     $settings = !empty($regionsettings) ? explode(',', $regionsettings) : [];
@@ -1249,7 +1474,7 @@ function theme_boost_union_check_mod_icons_cleanup() {
     }
 
     // Purge the content of the pix_plugins/mod folder in Moodledata.
-    $pixpluginpath = $CFG->dataroot.DIRECTORY_SEPARATOR.'pix_plugins'.DIRECTORY_SEPARATOR.'mod';
+    $pixpluginpath = $CFG->dataroot . DIRECTORY_SEPARATOR . 'pix_plugins' . DIRECTORY_SEPARATOR . 'mod';
     if (is_dir($pixpluginpath)) {
         remove_dir($pixpluginpath, false);
     }
@@ -1284,7 +1509,7 @@ function theme_boost_union_place_mod_icons() {
     }
 
     // Purge the content of the pix_plugins/mod folder in Moodledata.
-    $pixpluginpath = $CFG->dataroot.DIRECTORY_SEPARATOR.'pix_plugins'.DIRECTORY_SEPARATOR.'mod';
+    $pixpluginpath = $CFG->dataroot . DIRECTORY_SEPARATOR . 'pix_plugins' . DIRECTORY_SEPARATOR . 'mod';
     if (is_dir($pixpluginpath)) {
         remove_dir($pixpluginpath, true);
     }
@@ -1340,14 +1565,14 @@ function theme_boost_union_place_mod_icons() {
         }
 
         // Compose the path for the icon's folder in Moodledata.
-        $path = $pixpluginpath.DIRECTORY_SEPARATOR.$trimmedfolder;
+        $path = $pixpluginpath . DIRECTORY_SEPARATOR . $trimmedfolder;
 
         // Create the folder.
         check_dir_exists($path, true, true);
 
         // Write the file to Moodledata.
         if (!empty($file)) {
-            $file->copy_content_to($path.DIRECTORY_SEPARATOR.$file->get_filename());
+            $file->copy_content_to($path . DIRECTORY_SEPARATOR . $file->get_filename());
         }
     }
 
@@ -1365,7 +1590,7 @@ function theme_boost_union_place_mod_icons() {
  * @throws coding_exception
  * @throws dml_exception
  */
-function theme_boost_union_get_modicon_templatecontext () {
+function theme_boost_union_get_modicon_templatecontext() {
     global $DB;
 
     // Get the system context.
@@ -1393,8 +1618,10 @@ function theme_boost_union_get_modicon_templatecontext () {
         $trimmedextension = pathinfo($file->get_filename(), PATHINFO_EXTENSION);
 
         // Check if we have a Moodle 4 icon, a Moodle 4 legacy icon or none of both.
-        if (!($trimmedfilename === 'icon' || $trimmedfilename === 'monologo') ||
-                !($trimmedextension === 'svg' || $trimmedextension === 'png')) {
+        if (
+            !($trimmedfilename === 'icon' || $trimmedfilename === 'monologo') ||
+                !($trimmedextension === 'svg' || $trimmedextension === 'png')
+        ) {
             $templateobject->invalidname = true;
         } else if ($trimmedfilename === 'monologo') {
             $templateobject->moodle4 = true;
@@ -1413,7 +1640,7 @@ function theme_boost_union_get_modicon_templatecontext () {
         }
 
         // Compose and add the path to the template object.
-        $templateobject->path = $file->get_filepath().$file->get_filename();
+        $templateobject->path = $file->get_filepath() . $file->get_filename();
 
         // If we have a file within one single folder.
         if (!empty($file->get_filepath()) && $pathsize == 3) {
@@ -1460,32 +1687,38 @@ function theme_boost_union_get_scss_for_activity_icon_purpose($theme) {
         $blocksscss = [];
         // If the admin wanted us to tint the timeline block as well.
         if (get_config('theme_boost_union', 'timelinetintenabled') == THEME_BOOST_UNION_SETTING_SELECT_YES) {
-            $blocksscss[] = '.block_timeline .theme-boost-union-mod_'.$modname.'.activityiconcontainer img';
+            $blocksscss[] = '.block_timeline .theme-boost-union-mod_' . $modname . '.activityiconcontainer img';
         }
         // If the admin wanted us to tint the upcoming events block as well.
         if (get_config('theme_boost_union', 'upcomingeventstintenabled') == THEME_BOOST_UNION_SETTING_SELECT_YES) {
-            $blocksscss[] = '.block_calendar_upcoming .theme-boost-union-mod_'.$modname.'.activityiconcontainer img';
+            $blocksscss[] = '.block_calendar_upcoming .theme-boost-union-mod_' . $modname . '.activityiconcontainer img';
         }
         // If the admin wanted us to tint the recently accessed items block as well.
         if (get_config('theme_boost_union', 'recentlyaccesseditemstintenabled') == THEME_BOOST_UNION_SETTING_SELECT_YES) {
-            $blocksscss[] = '.block_recentlyaccesseditems .theme-boost-union-'.$modname.'.activityiconcontainer img';
+            $blocksscss[] = '.block_recentlyaccesseditems .theme-boost-union-' . $modname . '.activityiconcontainer img';
         }
         // If the admin wanted us to tint the activities block as well.
         if (get_config('theme_boost_union', 'activitiestintenabled') == THEME_BOOST_UNION_SETTING_SELECT_YES) {
-            $blocksscss[] = '.block_activity_modules .content .icon[title="'.$modinfo.'"]';
+            $blocksscss[] = '.block_activity_modules .content .icon[title="' . $modinfo . '"]';
         }
         $blocksscss = implode(', ', $blocksscss);
 
         // If the activity purpose setting is set and differs from the activity's default purpose.
-        $activitypurpose = get_config('theme_boost_union', 'activitypurpose'.$modname);
+        $activitypurpose = get_config('theme_boost_union', 'activitypurpose' . $modname);
         if ($activitypurpose && $activitypurpose != $defaultpurpose) {
             // Add CSS to modify the activity purpose color in the activity chooser and the activity icon.
-            $scss .= '.activity.modtype_'.$modname.' .activityiconcontainer.courseicon img,';
-            $scss .= '.modchoosercontainer .modicon_'.$modname.'.activityiconcontainer img,';
-            $scss .= '#page-header .modicon_'.$modname.'.activityiconcontainer img';
+            $scss .= '.activity.modtype_' . $modname . ' .activityiconcontainer.courseicon img,';
+            // If the activity is mod_lti, we have to check the whole class name for the activity chooser as Moodle
+            // uses a class like modtype_mod_lti_type_1 there.
+            if ($modname == 'lti') {
+                $scss .= '.modchoosercontainer [class*="modicon_' . $modname . '"].activityiconcontainer img,';
+            } else {
+                $scss .= '.modchoosercontainer .modicon_' . $modname . '.activityiconcontainer img,';
+            }
+            $scss .= '#page-header .modicon_' . $modname . '.activityiconcontainer img';
             // Add CSS for the configured blocks.
             if (strlen($blocksscss) > 0) {
-                $scss .= ', '.$blocksscss;
+                $scss .= ', ' . $blocksscss;
             }
             $scss .= ' {';
             // If the purpose is now different than 'other', change the filter to the new color.
@@ -1502,7 +1735,7 @@ function theme_boost_union_get_scss_for_activity_icon_purpose($theme) {
         } else {
             // Add CSS for the configured blocks.
             if (strlen($blocksscss) > 0) {
-                $scss .= $blocksscss.'{ ';
+                $scss .= $blocksscss . '{ ';
 
                 // If the purpose is now different than 'other', set the filter to tint the icon.
                 if ($activitypurpose != MOD_PURPOSE_OTHER) {
@@ -1531,7 +1764,6 @@ function theme_boost_union_get_scss_to_mark_external_links($theme) {
     // If the corresponding setting is set to 'yes'.
     $markexternallinksconfig = get_config('theme_boost_union', 'markexternallinks');
     if (isset($markexternallinksconfig) && $markexternallinksconfig == THEME_BOOST_UNION_SETTING_SELECT_YES) {
-
         // Get the scope setting.
         $scope = get_config('theme_boost_union', 'markexternallinksscope');
 
@@ -1549,12 +1781,12 @@ function theme_boost_union_get_scss_to_mark_external_links($theme) {
         }
 
         // SCSS to add external link icon after the link and respect LTR and RTL while doing this.
-        $scss = $topltrselector.' a:not([href^="' . $CFG->wwwroot . '"])[href^="http://"]::after,'.
-                $topltrselector.' a:not([href^="' . $CFG->wwwroot . '"])[href^="https://"]::after {
+        $scss = $topltrselector . ' a:not([href^="' . $CFG->wwwroot . '"])[href^="http://"]::after,' .
+                $topltrselector . ' a:not([href^="' . $CFG->wwwroot . '"])[href^="https://"]::after {
             @include externallink(ltr);
         }';
-        $scss .= $toprtlselector.' a:not([href^="' . $CFG->wwwroot . '"])[href^="http://"]::before,'.
-                $toprtlselector.' a:not([href^="' . $CFG->wwwroot . '"])[href^="https://"]::before {
+        $scss .= $toprtlselector . ' a:not([href^="' . $CFG->wwwroot . '"])[href^="http://"]::before,' .
+                $toprtlselector . ' a:not([href^="' . $CFG->wwwroot . '"])[href^="https://"]::before {
             @include externallink(rtl);
         }';
 
@@ -1587,16 +1819,16 @@ function theme_boost_union_get_scss_to_mark_external_links($theme) {
             $scss .= '.footer-support-link a[href^="https://moodle.com/help/"] .fa-arrow-up-right-from-square,
                     .footer-support-link a[target="_blank"] .fa-arrow-up-right-from-square';
             if (!empty($CFG->servicespage)) {
-                $scss .= ', .footer-support-link a[href="'.$CFG->servicespage.'"] .fa-arrow-up-right-from-square';
+                $scss .= ', .footer-support-link a[href="' . $CFG->servicespage . '"] .fa-arrow-up-right-from-square';
             }
             if (!empty($CFG->supportpage)) {
-                $scss .= ', a[href="'.$CFG->supportpage.'"] .fa-arrow-up-right-from-square';
+                $scss .= ', a[href="' . $CFG->supportpage . '"] .fa-arrow-up-right-from-square';
             }
             if (!empty($CFG->enableuserfeedback)) {
                 $scss .= ', a[href^="https://feedback.moodle.org"] .fa-arrow-up-right-from-square,
                 a[href^="https://feedback.moodle.org"] .ms-1';
             }
-            $scss .= ', a[href^="'.get_docs_url().'"] .fa-arrow-up-right-from-square,
+            $scss .= ', a[href^="' . get_docs_url() . '"] .fa-arrow-up-right-from-square,
                     a[href^="https://exiftool.sourceforge.net"] .fa-arrow-up-right-from-square,
                     div.cta a .fa-arrow-up-right-from-square {
                 display: none;
@@ -1672,10 +1904,10 @@ function theme_boost_union_get_scss_to_mark_mailto_links($theme) {
         }
 
         // SCSS to add envelope icon in front of the link and respect LTR and RTL while doing this.
-        $scss .= $topltrselector.' a[href^="mailto"]::before {
+        $scss .= $topltrselector . ' a[href^="mailto"]::before {
             @include mailtolink(ltr);
         }';
-        $scss .= $toprtlselector.' a[href^="mailto"]::after {
+        $scss .= $toprtlselector . ' a[href^="mailto"]::after {
             @include mailtolink(rtl);
         }';
     }
@@ -1712,23 +1944,25 @@ function theme_boost_union_get_scss_courseoverview_block($theme) {
 
     // If the corresponding settings are set to false.
     if (!$showimagessummary) {
-        $listitemselector = $blockselector.' .course-summaryitem > .row ';
-        $scss .= $listitemselector.'> .col-md-2 { display: none !important; }'.PHP_EOL;
-        $scss .= $listitemselector.'> .col-md-9 { @extend .col-md-11; }'.PHP_EOL;
+        $listitemselector = $blockselector . ' .course-summaryitem > .row ';
+        $scss .= $listitemselector . '> .col-md-2 { display: none !important; }' . PHP_EOL;
+        $scss .= $listitemselector . '> .col-md-9 { @extend .col-md-11; }' . PHP_EOL;
     }
     if (!$showcourseimageslist) {
-        $listitemselector = $blockselector.' .course-listitem:not(.course-summaryitem) > .row ';
-        $scss .= $listitemselector.'> .col-md-2 { display: none !important; }'.PHP_EOL;
-        $scss .= $listitemselector.'> .col-md-9 { @extend .col-md-11; }'.PHP_EOL;
+        $listitemselector = $blockselector . ' .course-listitem:not(.course-summaryitem) > .row ';
+        $scss .= $listitemselector . '> .col-md-2 { display: none !important; }' . PHP_EOL;
+        $scss .= $listitemselector . '> .col-md-9 { @extend .col-md-11; }' . PHP_EOL;
     }
     if (!$showcourseimagescard) {
-        $scss .= $blockselector.' .card-img-top { display: none !important; }'.PHP_EOL;
+        $scss .= $blockselector . ' .card-img-top { display: none !important; }' . PHP_EOL;
     }
 
     // Get the course progress setting, defaults to true if the setting does not exist.
     $courseoverviewshowcourseprogressconfig = get_config('theme_boost_union', 'courseoverviewshowcourseprogress');
-    if (!isset($courseoverviewshowcourseprogressconfig) ||
-            $courseoverviewshowcourseprogressconfig == THEME_BOOST_UNION_SETTING_SELECT_YES) {
+    if (
+        !isset($courseoverviewshowcourseprogressconfig) ||
+            $courseoverviewshowcourseprogressconfig == THEME_BOOST_UNION_SETTING_SELECT_YES
+    ) {
         $showcourseprogress = true;
     } else {
         $showcourseprogress = false;
@@ -1736,7 +1970,7 @@ function theme_boost_union_get_scss_courseoverview_block($theme) {
 
     // If the corresponding setting is set to false.
     if (!$showcourseprogress) {
-        $scss .= $blockselector.' .progress-text { display: none !important; }'.PHP_EOL;
+        $scss .= $blockselector . ' .progress-text { display: none !important; }' . PHP_EOL;
     }
 
     return $scss;
@@ -1747,18 +1981,95 @@ function theme_boost_union_get_scss_courseoverview_block($theme) {
  * Returns the SCSS code to be used in the navbar.
  *
  * @param theme_config $theme The theme config object.
+ * @param int|null $flavourid The ID of the flavour to apply, or null for global settings.
  * @return string
  */
-function theme_boost_union_get_scss_navbar($theme) {
+function theme_boost_union_get_scss_navbar($theme, $flavourid = null) {
     // Initialize SCSS snippet.
     $scss = '';
 
     // Set styles bases on the maxlogowidth setting.
     if (!empty(get_config('theme_boost_union', 'maxlogowidth'))) {
         $scss .= '.navbar-brand, .navbar-brand .logo {
-                max-width: '.get_config('theme_boost_union', 'maxlogowidth').';
+                max-width: ' . get_config('theme_boost_union', 'maxlogowidth') . ';
                 height: auto;
-        }'.PHP_EOL;
+        }' . PHP_EOL;
+    }
+
+    // Set styles based on the maxsitenamewidth setting.
+    // Apply only to medium-size screens where the layout issue occurs.
+    if (!empty(get_config('theme_boost_union', 'maxsitenamewidth'))) {
+        $scss .= '@include media-breakpoint-only(md) {
+            .navbar-brand .sitename {
+                @extend .text-truncate;
+                max-width: ' . get_config('theme_boost_union', 'maxsitenamewidth') . ';
+            }
+        }' . PHP_EOL;
+    }
+
+    // Set styles based on the navbartint setting (only effective for colored navbar variants).
+    $navbarcolorsetting = get_config('theme_boost_union', 'navbarcolor');
+    // If a flavour applies.
+    if ($flavourid != null) {
+        $navbarcolorflavour = theme_boost_union_get_flavour_config_item_for_flavourid($flavourid, 'look_navbarcolor');
+        if (!empty($navbarcolorflavour) && $navbarcolorflavour != THEME_BOOST_UNION_SETTING_SELECT_NOCHANGE) {
+            $navbarcolorsetting = $navbarcolorflavour;
+        }
+    }
+    if (
+        $navbarcolorsetting == THEME_BOOST_UNION_SETTING_NAVBARCOLOR_COLOREDLIGHT ||
+        $navbarcolorsetting == THEME_BOOST_UNION_SETTING_NAVBARCOLOR_COLOREDDARK
+    ) {
+        // Resolve the effective tint: flavour overrides global setting.
+        $navbartintsetting = get_config('theme_boost_union', 'navbartint');
+        // If a flavour applies.
+        if ($flavourid != null) {
+            $navbartintflavour = theme_boost_union_get_flavour_config_item_for_flavourid($flavourid, 'look_navbartint');
+            if (!empty($navbartintflavour)) {
+                $navbartintsetting = $navbartintflavour;
+            }
+        }
+        // Fall back to the primary brand color if no tint is set.
+        if (empty($navbartintsetting)) {
+            $navbartintsetting = get_config('theme_boost_union', 'brandcolor');
+        }
+        // If a color is now available (either tint or brand color), override the navbar background.
+        if (!empty($navbartintsetting)) {
+            $scss .= '.navbar.bg-primary {
+                background-color: ' . $navbartintsetting . ' !important;
+            }' . PHP_EOL;
+        }
+    }
+
+    return $scss;
+}
+
+/**
+ * Returns the SCSS code to be used on the login page.
+ *
+ * @return string
+ */
+function theme_boost_union_get_scss_loginpage() {
+    // Initialize SCSS snippet.
+    $scss = '';
+
+    // Get the login branding settings.
+    $loginlogomaxwidth = get_config('theme_boost_union', 'loginlogomaxwidth');
+    $loginlogomaxheight = get_config('theme_boost_union', 'loginlogomaxheight');
+
+    // If at least one of the width and height settings is set.
+    if (!empty($loginlogomaxwidth) || !empty($loginlogomaxheight)) {
+        // Set styles for the login logo to limit the max width and height and keep the aspect ratio.
+        $scss .= '#page-login-index #logoimage {' . PHP_EOL;
+        if (!empty($loginlogomaxwidth)) {
+            $scss .= '    max-width: ' . $loginlogomaxwidth . ';' . PHP_EOL;
+        }
+        if (!empty($loginlogomaxheight)) {
+            $scss .= '    max-height: ' . $loginlogomaxheight . ';' . PHP_EOL;
+        }
+        $scss .= 'width: auto;
+            height: auto;
+        }' . PHP_EOL;
     }
 
     return $scss;
@@ -1775,63 +2086,6 @@ function theme_boost_union_get_loginpage_methods() {
             3 => 'firsttimesignup',
             4 => 'guest',
     ];
-}
-
-/**
- * Returns the SCSS code to re-order the elements of the login form, depending on the theme settings loginorder*.
- *
- * @param \core\output\theme_config $theme The theme config object.
- * @return string
- */
-function theme_boost_union_get_scss_login_order($theme) {
-    // Initialize SCSS snippet.
-    $scss = '';
-
-    // Get the login methods.
-    $loginmethods = theme_boost_union_get_loginpage_methods();
-
-    // If the default orders are unchanged.
-    $unchanged = true;
-    foreach ($loginmethods as $key => $lm) {
-        $setting = get_config('theme_boost_union', 'loginorder'.$lm);
-        if ($setting != $key) {
-            $unchanged = false;
-        }
-    }
-    if ($unchanged == true) {
-        // Hide the first login-divider (as we have added login-dividers to all orderable login methods,
-        // but do not want a divider between the page heading and the first login method).
-        $scss .= '#theme_boost_union-loginorder .theme_boost_union-loginmethod:first-of-type .login-divider { display: none; }';
-
-        // Return the SCSS code as we are done.
-        return $scss;
-    }
-
-    // Make the loginform a flexbox.
-    $scss .= '#theme_boost_union-loginorder { display: flex; flex-direction: column; }';
-
-    // Initialize a variable to detect the very first method.
-    $veryfirstmethodname = '';
-    $veryfirstmethodorder = 99; // This assumes that we will never have more than 99 login methods which should be fair.
-
-    // Iterate over all login methods.
-    foreach ($loginmethods as $lm) {
-        // Set the flexbox order for this login method.
-        $setting = get_config('theme_boost_union', 'loginorder'.$lm);
-        $scss .= '#theme_boost_union-loginorder-'.$lm.' { order: '.$setting.'; }';
-
-        // If no other login method has a lower order than this one.
-        if ($setting < $veryfirstmethodorder) {
-            // Remember this login method as very first method.
-            $veryfirstmethodorder = $setting;
-            $veryfirstmethodname = $lm;
-        }
-    }
-
-    // Hide the first login-divider - similar to the 'unchanged settings' case, but in this case based on the flexbox orders.
-    $scss .= '#theme_boost_union-loginorder-'.$veryfirstmethodname.' .login-divider { display: none; }';
-
-    return $scss;
 }
 
 /**
@@ -1869,6 +2123,13 @@ function theme_boost_union_get_touchicons_for_ios() {
  * @return void
  */
 function theme_boost_union_touchicons_for_ios_checkin() {
+
+    // Do not run this function during the initial installation.
+    // This would lead to errors as the file API is not available yet then.
+    if (during_initial_install()) {
+        return;
+    }
+
     // Create cache for touch icon files.
     $cache = cache::make('theme_boost_union', 'touchiconsios');
 
@@ -1912,11 +2173,13 @@ function theme_boost_union_touchicons_for_ios_checkin() {
         $filename = $file->get_filename();
 
         // Get the filename without extension.
-        $filenamewithoutext = pathinfo($filename,  PATHINFO_FILENAME);
+        $filenamewithoutext = pathinfo($filename, PATHINFO_FILENAME);
 
         // If the filename is a recommended filename or if it is an optional filename.
-        if (in_array($filenamewithoutext, $touchiconsios['filenames']['recommended']) ||
-            in_array($filenamewithoutext, $touchiconsios['filenames']['optional'])) {
+        if (
+            in_array($filenamewithoutext, $touchiconsios['filenames']['recommended']) ||
+            in_array($filenamewithoutext, $touchiconsios['filenames']['optional'])
+        ) {
             // Get the file extension.
             $filenameextension = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -1991,12 +2254,12 @@ function theme_boost_union_get_touchicons_html_for_page() {
                 // Build the file URL.
                 $systemcontext = \context_system::instance();
                 $fileurl = new core\url('/pluginfile.php/' . $systemcontext->id . '/theme_boost_union/touchiconsios/' .
-                    theme_get_revision().'/'.$file->filename);
+                    theme_get_revision() . '/' . $file->filename);
 
                 // Compose and append the HTML tag.
                 $touchiconstring .= '<link rel="apple-touch-icon" sizes="';
                 $touchiconstring .= $file->size;
-                $touchiconstring .= '" href="'.$fileurl->out().'">';
+                $touchiconstring .= '" href="' . $fileurl->out() . '">';
             }
         }
     }
@@ -2028,7 +2291,10 @@ function theme_boost_union_yesno_to_boolstring($var) {
  * @return string HTML to display in the navbar.
  */
 function theme_boost_union_get_navbar_starredcoursespopover() {
-    global $USER, $OUTPUT;
+    global $CFG, $USER, $OUTPUT;
+
+    // Require library.
+    require_once($CFG->dirroot . '/theme/boost_union/lib.php');
 
     // If a theme other than Boost Union or a child theme of it is active, return directly.
     // This is necessary as the callback is called regardless of the active theme.
@@ -2063,16 +2329,24 @@ function theme_boost_union_get_navbar_starredcoursespopover() {
 
     // Pick the course IDs from the course objects.
     $favouritecourseids = array_map(
-        function($favourite) {
+        function ($favourite) {
             return $favourite->itemid;
-        }, $favourites);
+        },
+        $favourites
+    );
 
     // Get all courses that the current user is enrolled in, restricted down to favourites.
     $filteredcourses = [];
     if ($favouritecourseids) {
-        $courses = course_get_enrolled_courses_for_logged_in_user(0, 0, null, null,
-            COURSE_DB_QUERY_LIMIT, $favouritecourseids);
-        list($filteredcourses, $processedcount) = course_filter_courses_by_favourites(
+        $courses = course_get_enrolled_courses_for_logged_in_user(
+            0,
+            0,
+            null,
+            null,
+            COURSE_DB_QUERY_LIMIT,
+            $favouritecourseids
+        );
+        [$filteredcourses, $processedcount] = course_filter_courses_by_favourites(
             $courses,
             $favouritecourseids,
             0
@@ -2082,7 +2356,7 @@ function theme_boost_union_get_navbar_starredcoursespopover() {
     $filteredcourseids = array_column($filteredcourses, 'id');
 
     // Filter out any favourites that are not in the list of enroled courses.
-    $filteredfavourites = array_filter($favourites, function($favourite) use ($filteredcourseids) {
+    $filteredfavourites = array_filter($favourites, function ($favourite) use ($filteredcourseids) {
         return in_array($favourite->itemid, $filteredcourseids);
     });
 
@@ -2104,7 +2378,7 @@ function theme_boost_union_get_navbar_starredcoursespopover() {
 
     // Sort the favourites by name (if there is anything to be sorted).
     if (count($coursesfortemplate) > 1) {
-        usort($coursesfortemplate, function($a, $b) {
+        usort($coursesfortemplate, function ($a, $b) {
             if ($a['fullname'] == $b['fullname']) {
                 return 0;
             }
@@ -2115,7 +2389,7 @@ function theme_boost_union_get_navbar_starredcoursespopover() {
 
     // Get the cog icon link target.
     $cogiconlinktarget = get_config('theme_boost_union', 'starredcourseslinktarget');
-    switch($cogiconlinktarget) {
+    switch ($cogiconlinktarget) {
         case THEME_BOOST_UNION_SETTING_STARREDCOURSES_LINKTARGET_DASHBOARD:
             $cogiconlinktargeturl = new \core\url('/my/');
             $cogiconlinktargettitle =
@@ -2130,12 +2404,14 @@ function theme_boost_union_get_navbar_starredcoursespopover() {
     }
 
     // Compose the popover menu.
-    $html = $OUTPUT->render_from_template('theme_boost_union/popover-favourites',
-            [
+    $html = $OUTPUT->render_from_template(
+        'theme_boost_union/popover-favourites',
+        [
                 'favourites' => $coursesfortemplate,
                 'cogiconlinktargeturl' => $cogiconlinktargeturl,
                 'cogiconlinktargettitle' => $cogiconlinktargettitle,
-            ]);
+        ]
+    );
 
     return $html;
 }
@@ -2158,8 +2434,8 @@ function theme_boost_union_get_navbar_starredcoursespopover() {
 function theme_boost_union_callbackimpl_before_standard_html(&$hook = null) {
     global $CFG;
 
-    // Require local library.
-    require_once($CFG->dirroot.'/theme/boost_union/locallib.php');
+    // Require library.
+    require_once($CFG->dirroot . '/theme/boost_union/lib.php');
 
     // Initialize HTML.
     $html = '';
@@ -2174,11 +2450,15 @@ function theme_boost_union_callbackimpl_before_standard_html(&$hook = null) {
         if ($hook != null) {
             // Add the HTML code to the hook.
             $hook->add_html($html);
+            return;
         } else {
             // Return the HTML code.
             return $html;
         }
     }
+
+    // Require local library.
+    require_once($CFG->dirroot . '/theme/boost_union/locallib.php');
 
     // Add the touch icons to the page.
     $html .= theme_boost_union_get_touchicons_html_for_page();
@@ -2186,6 +2466,7 @@ function theme_boost_union_callbackimpl_before_standard_html(&$hook = null) {
     if ($hook != null) {
         // Add the HTML code to the hook.
         $hook->add_html($html);
+        return;
     } else {
         // Return the HTML code.
         return $html;
@@ -2209,8 +2490,8 @@ function theme_boost_union_callbackimpl_before_standard_html(&$hook = null) {
 function theme_boost_union_callbackimpl_before_standard_top_of_body_html(&$hook = null) {
     global $CFG, $PAGE;
 
-    // Require local library.
-    require_once($CFG->dirroot.'/theme/boost_union/locallib.php');
+    // Require library.
+    require_once($CFG->dirroot . '/theme/boost_union/lib.php');
 
     // Initialize HTML.
     $html = '';
@@ -2304,13 +2585,19 @@ function theme_boost_union_get_external_scss($type) {
         // Compose the request URL for the Github API.
         $ghuser = get_config('theme_boost_union', 'extscssgithubuser');
         $ghrepo = get_config('theme_boost_union', 'extscssgithubrepo');
-        $ghurl = 'https://api.github.com/repos/'.$ghuser.'/'.$ghrepo.'/contents/'.$ghfilepath;
+        // If a custom Github API URL is set in config.php, use it. Otherwise, use the default Github API URL.
+        if (isset($CFG->theme_boost_union_githubapiurl) && !empty($CFG->theme_boost_union_githubapiurl)) {
+            $ghapiurl = $CFG->theme_boost_union_githubapiurl;
+        } else {
+            $ghapiurl = 'https://api.github.com';
+        }
+        $ghurl = $ghapiurl . '/repos/' . $ghuser . '/' . $ghrepo . '/contents/' . $ghfilepath;
 
         // Get the download URL from the Github API.
         $curl2 = new curl();
         $curl2header = [
             'Accept: application/vnd.github+json',
-            'Authorization: Bearer '.get_config('theme_boost_union', 'extscssgithubtoken'),
+            'Authorization: Bearer ' . get_config('theme_boost_union', 'extscssgithubtoken'),
             'X-GitHub-Api-Version: 2022-11-28',
         ];
         $curl2->setHeader($curl2header);
@@ -2407,13 +2694,13 @@ function theme_boost_union_get_accessibility_support_skip_link() {
     // If the accessibility support is enabled.
     $enableaccessibilitysupportsetting = get_config('theme_boost_union', 'enableaccessibilitysupport');
     if (isset($enableaccessibilitysupportsetting) && $enableaccessibilitysupportsetting == THEME_BOOST_UNION_SETTING_SELECT_YES) {
-
         // If user login is either not required or if the user is logged in.
         $allowaccessibilitysupportwithoutloginsetting = get_config('theme_boost_union', 'allowaccessibilitysupportwithoutlogin');
-        if (!(isset($allowaccessibilitysupportwithoutloginsetting) &&
+        if (
+            !(isset($allowaccessibilitysupportwithoutloginsetting) &&
                 $allowaccessibilitysupportwithoutloginsetting != THEME_BOOST_UNION_SETTING_SELECT_YES) ||
-                (isloggedin() && !isguestuser())) {
-
+                (isloggedin() && !isguestuser())
+        ) {
             // Add link for screen readers to accessibility support page.
             $supporturl = new \core\url('/theme/boost_union/accessibility/support.php');
             $supporttitle = theme_boost_union_get_accessibility_srlinktitle();
@@ -2428,11 +2715,11 @@ function theme_boost_union_get_accessibility_support_skip_link() {
 }
 
 /**
- * Helper function which wxtracts and returns the pluginname for the given callback name.
+ * Helper function which extracts and returns the pluginname for the given callback name.
  * This function simply differentiates between real plugins and core components.
  * The result is especially used in the footersuppressstandardfooter_* feature.
  *
- * @param stdClass $callback The callback.
+ * @param array $callback The callback.
  * @return string
  */
 function theme_boost_union_get_pluginname_from_callbackname($callback) {
@@ -2448,205 +2735,127 @@ function theme_boost_union_get_pluginname_from_callbackname($callback) {
 }
 
 /**
- * Helper function which is called from the before_session_start() callback which manipulates Moodle core's hooks.
+ * Helper function to check if a hook callback is disabled via $CFG->hooks_callback_overrides.
+ *
+ * @param string $callbackstring The callback string to check (e.g. 'tool_dataprivacy\\hook_callbacks::standard_footer_html')
+ * @return bool True if the callback is disabled in config.php, false otherwise.
  */
-function theme_boost_union_manipulate_hooks() {
+function theme_boost_union_is_callback_disabled_in_config($callbackstring) {
     global $CFG;
 
-    // If this is called by a CLI script.
-    if (CLI_SCRIPT) {
-        // Return directly.
-        return;
+    // Check if the callback is disabled via $CFG->hooks_callback_overrides.
+    if (
+        isset($CFG->hooks_callback_overrides[\core\hook\output\before_standard_footer_html_generation::class]) &&
+        isset($CFG->hooks_callback_overrides[\core\hook\output\before_standard_footer_html_generation::class][$callbackstring]) &&
+        // phpcs:disable moodle.Files.LineLength.TooLong
+        isset($CFG->hooks_callback_overrides[\core\hook\output\before_standard_footer_html_generation::class][$callbackstring]['disabled']) &&
+        // phpcs:disable moodle.Files.LineLength.TooLong
+        $CFG->hooks_callback_overrides[\core\hook\output\before_standard_footer_html_generation::class][$callbackstring]['disabled'] === true
+    ) {
+        return true;
     }
 
-    // If $CFG->hooks_callback_overrides is not set yet.
-    if (!isset($CFG->hooks_callback_overrides)) {
-        // Initialize it as empty array.
-        $CFG->hooks_callback_overrides = [];
-    }
-
-    // Note: You might think that this function does not need to be processed during AJAX requests as well.
-    // But in this case, due to the way how Moodle's setup works, AJAX requests would "rollback" the hook manipulations
-    // and Boost Union would have to compose the manipulated hooks again on the next "real" page load.
-    // This would result in longer page load times for real end users.
-
-    // Get Moodle core's hookcallbacks cache.
-    $corecache = \cache::make('core', 'hookcallbacks');
-
-    // Get Boost Union's hookoverrides cache.
-    $bucache = \cache::make('theme_boost_union', 'hookoverrides');
-
-    // Get the latest overrides from cache.
-    $overridesfromcache = $bucache->get('overrides');
-
-    // If a value for the latest overrides was found in the cache.
-    if ($overridesfromcache !== false) {
-        // Set it as the new $CFG->hooks_callback_overrides.
-        $CFG->hooks_callback_overrides = $overridesfromcache;
-
-        // Otherwise.
-    } else {
-        // Use a temporary marker in the hookoverrides cache as mutex (to avoid that this code is run in parallel and
-        // race conditions appear).
-        // This is a quite lightweight approach compared to a lock and especially helpful as the hookoverrides cache
-        // is a local cache store which means that this code should be run on each node.
-        $alreadystarted = $bucache->get('manipulationstarted');
-
-        // If the manipulation has already been started, return directly.
-        // In this case, the hooks will not be manipulated, but we can't do anything about it.
-        if ($alreadystarted == true) {
-            return;
-        }
-
-        // Set the mutex marker.
-        $bucache->set('manipulationstarted', true);
-
-        // Require the own library.
-        require_once($CFG->dirroot.'/theme/boost_union/lib.php');
-
-        // Get the array of plugins with the before_standard_footer_html_generation hook which can be suppressed by Boost Union.
-        //
-        // Ideally, this would be done with:
-        // $pluginswithhook =
-        // di::get(hook_manager::class)->get_callbacks_for_hook('core\\hook\\output\\before_standard_footer_html_generation');
-        // like it's done in settings.php, but it's not that easy.
-        // If we use get_callbacks_for_hook() to get the list of plugins, the hook manager will be instantiated,
-        // will create the list of callbacks and will be kept as static object for the rest of the script lifetime.
-        // We won't have a possibility to modify the list of callbacks with $CFG->hooks_callback_overrides after that point.
-        //
-        // Thus, we adopt the code from init_standard_callbacks(), load_callbacks() and add_component_callbacks()
-        // to here to search for existing hooks ourselves.
-        // In addition to that, it is important to know that this hook list is cached. We thus set a marker in
-        // the hookoverrides cache to store the fact that we have manipulated the hooks and do not need to do that
-        // again until the cache is cleared. On the other hand, if we already have manipulated the hooks, we have to
-        // "convince" Moodle to use it (see later).
-
-        // Get list of all files with callbacks, one per component.
-        $components = ['core' => "{$CFG->dirroot}/lib/db/hooks.php"];
-        $plugintypes = \core\component::get_plugin_types();
-        foreach ($plugintypes as $plugintype => $plugintypedir) {
-            $plugins = \core\component::get_plugin_list($plugintype);
-            foreach ($plugins as $pluginname => $plugindir) {
-                if (!$plugindir) {
-                    continue;
-                }
-                $components["{$plugintype}_{$pluginname}"] = "{$plugindir}/db/hooks.php";
-            }
-        }
-
-        // Iterate over the hooks files and collect all hooks.
-        // Doing this, we do not do the same cleanup and check operations as the hook manager does.
-        // If there would be a problem with a particular hook file, the hook manager itself would stumble upon it anyway.
-        $callbacks = [];
-        $parsecallbacks = function ($hookfile) {
-            $callbacks = [];
-            include($hookfile);
-            return $callbacks;
-        };
-        foreach ($components as $component => $hookfile) {
-            if (!file_exists($hookfile)) {
-                continue;
-            }
-            $newcallbacks = $parsecallbacks($hookfile);
-            if (!is_array($newcallbacks) || !$newcallbacks) {
-                continue;
-            }
-            foreach ($newcallbacks as &$ncb) {
-                $ncb['component'] = $component;
-            }
-            $callbacks = array_merge($callbacks, $newcallbacks);
-        }
-
-        // Pick the callbacks which implement the core\hook\output\before_standard_footer_html_generation hook.
-        $bsfhgcallbacks = [];
-        foreach ($callbacks as $callback) {
-            if ($callback['hook'] == 'core\\hook\\output\\before_standard_footer_html_generation') {
-                // If the callback is a string.
-                if (is_string($callback['callback'])) {
-                    // Use it directly.
-                    $bsfhgcallbacks[] = ['callback' => $callback['callback'], 'component' => $callback['component']];
-
-                    // Otherwise, if the callback is an array with two elements.
-                } else if (is_array($callback['callback']) && count($callback['callback']) == 2) {
-                    // Normalize and use it.
-                    $bsfhgcallbacks[] = ['callback' => implode('::', $callback['callback']), 'component' => $callback['component']];
-                }
-
-                // In all other cases, ignore the callback as it does not match our expectations.
-            }
-        }
-
-        // Iterate over all found callbacks.
-        foreach ($bsfhgcallbacks as $callback) {
-            // Extract the pluginname.
-            $pluginname = theme_boost_union_get_pluginname_from_callbackname($callback);
-            // If the given plugin's output is suppressed by Boost Union's settings.
-            $suppresssetting = get_config('theme_boost_union', 'footersuppressstandardfooter_'.$pluginname);
-            if (isset($suppresssetting) && $suppresssetting == THEME_BOOST_UNION_SETTING_SELECT_YES) {
-                // Set the plugin's hook as disabled.
-                // phpcs:disable moodle.Files.LineLength.TooLong
-                $CFG->hooks_callback_overrides['core\\hook\\output\\before_standard_footer_html_generation'][$callback['callback']] =
-                        ['disabled' => true];
-                // phpcs:enable
-            }
-        }
-
-        // Remember the hook overrides in the cache.
-        $bucache->set('overrides', $CFG->hooks_callback_overrides);
-
-        // Remove the mutex marker.
-        $bucache->delete('manipulationstarted');
-    }
-
-    // Now, as this function is called via before_session_start(), we can (and have to) assume that the hook_manager
-    // has not been instantiated yet on this page load.
-    // But it will be instantiated soon at the end of /lib/setup.php and our modifications which we set in
-    // $CFG->hooks_callback_overrides will be taken into account then.
+    return false;
 }
 
 /**
- * Helper function which is called from settings.php as callback.
- * It simply removes the cached hook overrides for the Boost Union hook manipulations so that they are
- * processed again on the next page load.
+ * Helper function which is called from settings.php as callback if a footersuppressstandardfooter_ setting has changed.
+ * It checks all Boost Union settings to determine if any hook suppression settings are active and caches the result.
+ *
+ * @return bool True if there are hook suppression settings active, false otherwise.
  */
-function theme_boost_union_remove_hookmanipulation() {
+function theme_boost_union_reset_hooksuppress_cache() {
     // Get the cache.
-    $cache = \cache::make('theme_boost_union', 'hookoverrides');
+    $cache = \cache::make('theme_boost_union', 'hooksuppress');
 
-    // Remove the hook overrides.
-    $cache->delete('overrides');
+    // Check all Boost Union settings to determine if any hook suppression settings are active.
+    $boostunionconfig = get_config('theme_boost_union');
+    $hashooksuppresssettings = false;
+    foreach ($boostunionconfig as $key => $value) {
+        if (str_starts_with($key, 'footersuppressstandardfooter_') && $value == THEME_BOOST_UNION_SETTING_SELECT_YES) {
+            $hashooksuppresssettings = true;
+            break;
+        }
+    }
+
+    // Cache the result (as integer: 1 = true, 0 = false, because cache returns false for empty values).
+    $cache->set('hashooksuppresssettings', $hashooksuppresssettings ? 1 : 0);
+
+    // Return the result.
+    return $hashooksuppresssettings;
 }
 
 /**
- * Helper function to check if Boost Union or a child theme of Boost Union is active.
- * This is needed at multiple locations to avoid that callbacks in Boost Union affect other active themes.
+ * Helper function to generate HTML for an alert when Boost Union is not the active theme,
+ * but someone tries to access Boost Union's settings.
  *
- * @return bool
+ * @return string HTML for the alert.
  */
-function theme_boost_union_is_active_theme() {
-    global $PAGE;
+function theme_boost_union_is_not_active_alert() {
+    global $CFG, $OUTPUT;
 
-    if ($PAGE->theme->name == 'boost_union' || in_array('boost_union', $PAGE->theme->parents)) {
-        return true;
-    } else {
-        return false;
+    // Require library.
+    require_once($CFG->dirroot . '/theme/boost_union/lib.php');
+
+    // Check if Boost Union or a child theme of it is active.
+    if (theme_boost_union_is_active_theme()) {
+        return '';
     }
+
+    // Get the URL of the theme selector page for use in the alert.
+    $notificationurl = new core\url('/admin/themeselector.php');
+
+    // Create the notification object.
+    $notification = new core\output\notification(
+        get_string('warningboostunioninactive', 'theme_boost_union', [
+            'url' => $notificationurl->out(),
+        ]),
+        core\output\notification::NOTIFY_WARNING
+    );
+
+    // Do not show a close button.
+    $notification->set_show_closebutton(false);
+
+    // Return the HTML for the alert.
+    return $OUTPUT->render($notification);
 }
 
 /**
- * Helper function to check if a child theme of Boost Union (and _not_ Boost Union itself) is active.
- * This is needed at multiple locations to improve child theme support in Boost Union already.
+ * Helper function to generate HTML for an alert when recommendations need attention.
  *
- * @return bool
+ * @return string HTML for the alert.
  */
-function theme_boost_union_is_active_childtheme() {
-    global $PAGE;
+function theme_boost_union_recommendations_alert() {
+    global $OUTPUT;
 
-    if ($PAGE->theme->name != 'boost_union') {
-        return true;
-    } else {
-        return false;
+    // If Boost Union or a child theme of it is not active, return directly (as the alert would not be relevant then).
+    if (theme_boost_union_is_active_theme() == false) {
+        return '';
     }
+
+    // Check if a recommendation needs attention. If not, return directly.
+    if (!\theme_boost_union\recommendation\manager::has_recommendations_needing_attention()) {
+        return '';
+    }
+
+    // Get the URL of the recommendations overview page for use in the alert.
+    $notificationurl = new core\url('/theme/boost_union/recommendations/overview.php');
+
+    // Create the notification object.
+    $notification = new core\output\notification(
+        get_string(
+            'recommendationsattentionalert',
+            'theme_boost_union',
+            ['url' => $notificationurl->out()]
+        ),
+        core\output\notification::NOTIFY_INFO
+    );
+
+    // Do not show a close button.
+    $notification->set_show_closebutton(false);
+
+    // Return the HTML for the alert.
+    return $OUTPUT->render($notification);
 }
 
 /**
@@ -2717,10 +2926,10 @@ function theme_boost_union_build_fa_icon_map() {
                 if (!empty($solidmatches[1])) {
                     // Process the icons.
                     foreach ($solidmatches[1] as $iconname) {
-                        $fasolidclass = 'fa-'. $iconname;
+                        $fasolidclass = 'fa-' . $iconname;
 
                         // Add icon to the icon map, ignoring the fact by purpose that the icon could already be there from core.
-                        $iconmap['theme_boost_union:fa-'.$iconname] = [
+                        $iconmap['theme_boost_union:fa-' . $iconname] = [
                             'class' => $fasolidclass,
                             'source' => 'fasolid',
                         ];
@@ -2744,10 +2953,10 @@ function theme_boost_union_build_fa_icon_map() {
             if (!empty($brandmatches[1])) {
                 // Process the brand icons.
                 foreach ($brandmatches[1] as $brandname) {
-                    $fabrandclass = 'fa-'. $brandname;
+                    $fabrandclass = 'fa-' . $brandname;
 
                     // Add brand icon to the icon map.
-                    $iconmap['theme_boost_union:fa-'.$brandname] = [
+                    $iconmap['theme_boost_union:fa-' . $brandname] = [
                         'class' => $fabrandclass,
                         'source' => 'fabrand',
                     ];
@@ -2772,4 +2981,122 @@ function theme_boost_union_build_fa_icon_map() {
 
     // Return icon map.
     return $iconmap;
+}
+
+/**
+ * Helper function to build a notification about possible setting overrides.
+ *
+ * @param int $mwp If 0, the notification will make clear that the setting override is relevant for Moodle LMS only.
+ * @param bool $supplement If yes, the 'supplement' version of the string is used instead of the 'override' version.
+ * @return string The HTML for the notification.
+ */
+function theme_boost_union_render_setting_override_notification(int $mwp = 0, bool $supplement = false): string {
+    global $OUTPUT, $PAGE;
+
+    // Determine language string and URL placeholders based on mwp mode.
+    switch ($mwp) {
+        case 0:
+        default:
+            // Pick the notification details for Moodle LMS.
+            if ($supplement) {
+                $langstring = get_string('settingsupplementlms', 'theme_boost_union');
+            } else {
+                $langstring = get_string('settingoverridelms', 'theme_boost_union');
+            }
+
+            // Pick the modal details for Moodle LMS.
+            $modaltitle = get_string('settingoverridenotificationtitle', 'theme_boost_union');
+            $modalbody = get_string('settingoverridemodallms', 'theme_boost_union');
+
+            // Flag the possible actions.
+            $flavoursaction = true;
+
+            break;
+    }
+
+    // Initialize actions.
+    $actions = [];
+
+    // Info.
+    $actions[] = [
+        'url' => '#',
+        'icon' => new \core\output\pix_icon(
+            'info',
+            get_string('settingoverrideactioninfo', 'theme_boost_union'),
+            'theme_boost_union'
+        ),
+        'attributes' => [
+            'class' => 'action-info py-0 pl-0 ml-0 mr-0',
+            'data-action' => 'bumodal',
+            'data-title' => $modaltitle,
+            'data-body' => $modalbody,
+        ],
+    ];
+
+    // Action for flavours.
+    if ($flavoursaction == true) {
+        $actions[] = [
+            'url' => new \core\url('/theme/boost_union/flavours/overview.php'),
+            'icon' => new \core\output\pix_icon(
+                'flavours',
+                get_string('settingoverrideactionflavours', 'theme_boost_union'),
+                'theme_boost_union'
+            ),
+            'attributes' => [
+                'class' => 'action-flavours py-0 ml-0 mr-0 pr-0',
+                'title' => get_string('settingoverrideactionflavours', 'theme_boost_union'),
+                'aria-label' => get_string('settingoverrideactionflavours', 'theme_boost_union'),
+            ],
+        ];
+    }
+
+    // Compose action icons for all actions.
+    $actionshtml = [];
+    foreach ($actions as $action) {
+        $action['attributes']['role'] = 'button';
+        $actionshtml[] = $OUTPUT->action_icon(
+            $action['url'],
+            $action['icon'],
+            null,
+            $action['attributes']
+        );
+    }
+    $actionshtml = html_writer::span(join('', $actionshtml), 'settings-actions');
+
+    // Render notification body with mustache template.
+    $content = $OUTPUT->render_from_template('theme_boost_union/settingoverridenotification', [
+        'message' => $langstring,
+        'actionshtml' => $actionshtml,
+    ]);
+
+    // Ensure the modal JS is included.
+    theme_boost_union_ensure_modal_js();
+
+    // Render as info notification while preserving action link data-* attributes.
+    // If we would use $OUTPUT->notification(), the action link data-* attributes would be stripped.
+    return $OUTPUT->render_from_template('core/notification_info', [
+        'message' => $content,
+        'closebutton' => false,
+    ]);
+}
+
+/**
+ * Ensure the modal JS is added to the page, but only once per request.
+ */
+function theme_boost_union_ensure_modal_js(): void {
+    global $PAGE;
+
+    // Initialize static variable to track if the JS has already been included.
+    static $initialized = false;
+
+    // If the JS is already included or if $PAGE is not available, do nothing.
+    if ($initialized || empty($PAGE)) {
+        return;
+    }
+
+    // Include the JS module for the modal.
+    $PAGE->requires->js_call_amd('theme_boost_union/modal', 'init');
+
+    // And remember that fact.
+    $initialized = true;
 }
