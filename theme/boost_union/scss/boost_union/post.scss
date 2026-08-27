@@ -1,4 +1,35 @@
 /*=======================================
+ * General styles
+ ======================================*/
+
+/* Replicate the Moodle Boost default login button style (from .login-identityprovider-btn)
+   for the btn-outline-lightmoodle variant: white background with a light gray border.
+   Replicating the styles is necessary as we cannot re-use the existing class without side-effects here. */
+.btn-outline-lightmoodle {
+    background-color: $white;
+    border-color: $gray-400;
+    color: $gray-600;
+
+    &:hover,
+    &:focus {
+        background-color: $gray-100;
+        border-color: $gray-500;
+        color: $gray-700;
+    }
+}
+
+/* Replicate the BS5 opacity classes which do not exist in BS4 yet.
+   This helps us with backporting. */
+$opacities: (0, 25, 50, 75, 100);
+
+@each $value in $opacities {
+    .opacity-#{$value} {
+        opacity: $value / 100 !important; /* stylelint-disable-line declaration-no-important */
+    }
+}
+
+
+/*=======================================
  * Settings: Look -> Site branding
  ======================================*/
 
@@ -281,15 +312,28 @@
  * Setting: Login container position
  --------------------------------------*/
 
-/* Move the login window to the side based on the theme settings.
-   While the classes login-wrapper-left and login-wrapper-right are set here,
+/* On larger screens, move the login window to the side based on the theme settings.
+   While the classes login-wrapper-left, -right, -semileft, -semiright are set here,
    the class login-wrapper-center is not set here as the login form is already centered by Moodle core. */
-.login-wrapper.login-wrapper-left {
-    justify-content: left;
+@include media-breakpoint-up(md) {
+    .login-wrapper.login-wrapper-left {
+        justify-content: left;
+        padding-left: 1rem;
+    }
+    .login-wrapper.login-wrapper-right {
+        justify-content: right;
+        padding-right: 1rem;
+    }
+    .login-wrapper.login-wrapper-semileft {
+        justify-content: left;
+        padding-left: 10rem;
+    }
+    .login-wrapper.login-wrapper-semiright {
+        justify-content: right;
+        padding-right: 10rem;
+    }
 }
-.login-wrapper.login-wrapper-right {
-    justify-content: right;
-}
+
 
 /*---------------------------------------
  * Setting: Login container transparency
@@ -1214,6 +1258,17 @@ body.theme-boost-union-commincourse {
     }
 }
 
+/* Add a right padding to the login link in the navbar if the offcanvas region is enabled.
+   Moodle core adds a left padding to the login link only (with .ps-2 in the core/user_menu template).
+   As long as the login link is the last element in the navbar, this is fine. But as soon as the offcanvas
+   region is enabled, the offcanvas divider and toggle icon follow directly after the login link and the
+   login link would stick to the divider without this padding.
+   A logged-in user's usermenu does not need this treatment as it is rendered as a .btn element which
+   already brings its own horizontal padding. */
+#usernavigation:has(.drawer-offcanvas-toggle) .login {
+    padding-right: map-get($spacers, 2);
+}
+
 
 /*---------------------------------------
  * Settings: Additional block regions - The outside-left and outside-right regions.
@@ -1458,12 +1513,20 @@ body.limitedwidth .theme-block-region-footer-coursecontentwidth {
  * Settings: Footnote.
  --------------------------------------*/
 
-/* Static pages links dividers. */
+/* Static pages links dividers.
+   The links live in a flex container (see footnote.mustache), so we draw the divider on the inner,
+   inline <a> element rather than on the flex item itself. Otherwise the border would be stretched to
+   the full height of the flex line (the line-height, i.e. 24px) instead of just the text height.
+   The spacing around the divider is added here as well (instead of as pe-2 / me-2 utility classes in
+   the template): the padding puts a gap between the link text and the divider, the margin puts a gap
+   between the divider and the next link. */
 #footnote {
     .theme_boost_union_footnote_link {
-        border-right: 2px solid $nav-divider-color;
+        padding-right: 0.5rem;
+        border-right: 2px solid $breadcrumb-divider-color;
+        margin-right: 0.5rem;
     }
-    .theme_boost_union_footnote_link:last-of-type {
+    .theme_boost_union_footnote_link:last-of-type a {
         border-right: none;
     }
 }

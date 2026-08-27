@@ -4,6 +4,49 @@ moodle-theme_boost_union
 Changes
 -------
 
+### v4.5-r46
+
+* 2026-07-19 - Bugfix: Prevent a redirect for flavour files when users have not accepted the policy yet, resolves #684
+* 2026-07-19 - Glitch: The login link in the navbar was missing a right padding before the off-canvar button, resolves #1193
+* 2026-07-18 - Bugfix: Do not throw a TypeError if an info banner start or end date is stored as an empty string, resolves #1370
+* 2026-07-14 - Bugfix: Surround the dividers between the static page links in the footnote with equal spacing, resolves #1237
+* 2026-07-14 - Bugfix: In dynamic courses smart menus, fix second line font color on mouse over, resolves #1342
+* 2026-07-13 - Bugfix: Do not break the SCSS compilation if an activity icon purpose is still set to the deprecated 'interface' purpose, resolves #1331.
+               Please note: This change will reset any activity icon purpose which is still set to 'interface' to its original purpose.
+* 2026-07-10 - Bugfix: Do not purge theme_boost_union_touchiconsios cache before refilling it to avoid race conditions with asynchronous cache purging configurations, resolves #1361
+
+### v4.5-r45
+
+* 2026-07-08 - Bugfix: Show the icon inline with the title in dynamic courses submenus instead of on its own line, regression of #1300, resolves #1347
+* 2026-07-08 - Bugfix: Filter courses correctly in starred courses popover, resolves #1332
+* 2026-07-08 - Upstream change: Adopt changes from Moodle core in MDL-55528
+
+### v4.5-r44
+
+* 2026-06-13 - Tests: Use Behat slicing to bring Behat runtime down and reduce GHA container outages, resolves #1016
+* 2026-06-10 - Improvement: Support Bootstrap large and small buttons on the login page, resolves #1321
+* 2026-06-10 - Improvement: Support Moodle's color for the secondary outline buttons on the login page, resolves #1319
+* 2026-06-10 - Bugfix: Solve a debugging message when expanding a course category (when the Boost Union course/category listing presentation is activated), resolves #1317
+
+### v4.5-r43
+
+* 2026-06-09 - MWP: Avoid the 'class theme_boost_union\local\mwp not found' exception when upgrading the plugin, resolves #1314
+* 2026-06-08 - Cleanup: Remove unused strings from the language pack, resolves #1311
+* 2026-06-08 - Internal change: Replace $notification->set_show_closebutton(false) with the third parameter of new \core\output\notification(), resolves #1310
+* 2026-06-08 - Improvement: Align the flavours, smart menus and snippets table with the recommendations table, resolves #1309
+* 2026-06-08 - Glitch: Flavours actions tooltips were wrong, resolves #1307
+
+### v4.5-r42
+
+* 2026-06-06 - Tests: Fix PHPUnit Failure about missing SVGs for newly added FontAwesome mappings, resolves #1301
+* 2026-06-04 - Settings: Correct the 'Possible setting overrides' banners regarding the logo and the loginbackground settings
+* 2026-06-04 - MWP: Postprocess the default for the loginformposition setting, resolves #1302
+* 2026-06-03 - Improvement: Smart menus: Refine the "Number of words" option to only process the course full name, but neither the course short name nor the custom course fields.
+* 2026-06-03 - Improvement: Smart menus: Add more versatile course name presentation options to the dynamic courses, resolves #448
+* 2026-06-01 - Improvement: Improve the outer margins of the left-aligned and right-aligned login forms on smaller and of larger screens
+* 2026-06-01 - Improvement: Add a semi-left and semi-right option to the loginformposition setting, resolves #1296
+* 2026-05-31 - MWP: Add support for a Moodle Workplace™ extension for Boost Union, resolves #409
+
 ### v4.5-r41
 
 * 2026-05-26 - Bugfix: Additional login background images may be not have been recognized directly after upload, resolved #1290

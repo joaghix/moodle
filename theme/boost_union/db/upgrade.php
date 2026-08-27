@@ -134,8 +134,7 @@ function xmldb_theme_boost_union_upgrade($oldversion) {
         // Show the notification.
         // (If this notification is shown during a CLI upgrade, the p and strong HTML tags are shown as well.
         // We accept this glitch as it's just a one-time glitch and the admin can still read the notification.
-        $notification = new \core\output\notification($message, \core\output\notification::NOTIFY_SUCCESS);
-        $notification->set_show_closebutton(false);
+        $notification = new \core\output\notification($message, \core\output\notification::NOTIFY_SUCCESS, false);
         echo $OUTPUT->render($notification);
 
         // Boost_union savepoint reached.
@@ -852,6 +851,64 @@ function xmldb_theme_boost_union_upgrade($oldversion) {
 
         // Boost Union savepoint reached.
         upgrade_plugin_savepoint(true, 2024100777, 'theme', 'boost_union');
+    }
+
+    if ($oldversion < 2024100789) {
+        // Define field displayfieldcustomfield to be added to theme_boost_union_menuitems.
+        $table = new xmldb_table('theme_boost_union_menuitems');
+        $field = new xmldb_field('displayfieldcustomfield', XMLDB_TYPE_INTEGER, '18', null, null, null, null, 'displayfield');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field displayfieldsecond to be added to theme_boost_union_menuitems.
+        $table = new xmldb_table('theme_boost_union_menuitems');
+        $field = new xmldb_field('displayfieldsecond', XMLDB_TYPE_INTEGER, '9', null, null, null, null, 'displayfield');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field displayfieldsecondcustomfield to be added to theme_boost_union_menuitems.
+        $field = new xmldb_field(
+            'displayfieldsecondcustomfield',
+            XMLDB_TYPE_INTEGER,
+            '18',
+            null,
+            null,
+            null,
+            null,
+            'displayfieldsecond'
+        );
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field textcountsecond to be added to theme_boost_union_menuitems.
+        $table = new xmldb_table('theme_boost_union_menuitems');
+        $field = new xmldb_field('textcountsecond', XMLDB_TYPE_INTEGER, '9', null, null, null, null, 'textcount');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Boost Union savepoint reached.
+        upgrade_plugin_savepoint(true, 2024100789, 'theme', 'boost_union');
+    }
+
+    if ($oldversion < 2024100795) {
+        // Remove all activitypurpose* settings from Boost Union which are still set to the deprecated 'interface' purpose.
+        // This purpose has been deprecated in Moodle 4.4 and has been removed in Moodle 5.2. As Moodle core does not hold a color
+        // for this purpose in the $activity-icon-colors SCSS map since Moodle 4.4, these settings would break the SCSS
+        // compilation of the whole theme.
+        // The affected activities will simply fall back to their default purpose again.
+        $boostunionconfig = get_config('theme_boost_union');
+        foreach ($boostunionconfig as $name => $value) {
+            if (str_starts_with($name, 'activitypurpose') && $value === 'interface') {
+                unset_config($name, 'theme_boost_union');
+            }
+        }
+
+        // Boost Union savepoint reached.
+        upgrade_plugin_savepoint(true, 2024100795, 'theme', 'boost_union');
     }
 
     // Load the builtin SCSS snippets into the database.

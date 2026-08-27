@@ -14,10 +14,12 @@ Feature: Configuring the theme_boost_union plugin for the "Login page" tab on th
     And the "class" attribute of ".login-wrapper" "css_element" should not contain "<notclass2>"
 
     Examples:
-      | setting | class                | notclass1            | notclass2           |
-      | center  | login-wrapper-center | login-wrapper-left   | login-wrapper-right |
-      | left    | login-wrapper-left   | login-wrapper-center | login-wrapper-right |
-      | right   | login-wrapper-right  | login-wrapper-center | login-wrapper-left  |
+      | setting   | class                   | notclass1            | notclass2               |
+      | center    | login-wrapper-center    | login-wrapper-left   | login-wrapper-right     |
+      | left      | login-wrapper-left      | login-wrapper-center | login-wrapper-right     |
+      | right     | login-wrapper-right     | login-wrapper-center | login-wrapper-left      |
+      | semileft  | login-wrapper-semileft  | login-wrapper-center | login-wrapper-semiright |
+      | semiright | login-wrapper-semiright | login-wrapper-center | login-wrapper-semileft  |
 
   Scenario Outline: Setting: Login form transparency
     Given the following config values are set as admin:
@@ -694,15 +696,57 @@ Feature: Configuring the theme_boost_union plugin for the "Login page" tab on th
 
     # We do not want to burn too much CPU time by testing all available options. We just test the default value and one non-default value.
     Examples:
-      | provider         | buttoncolorconfig                | buttoncolor       | buttonselector                     | expectedclass         |
-      | locallogin       | loginlocalbuttoncolor            | primary           | #login-method-local .btn           | btn-primary           |
-      | locallogin       | loginlocalbuttoncolor            | outline-secondary | #login-method-local .btn           | btn-outline-secondary |
-      | idplogin         | loginidpbuttoncolor              | outline-secondary | #login-method-idp .btn             | btn-outline-secondary |
-      | idplogin         | loginidpbuttoncolor              | outline-primary   | #login-method-idp .btn             | btn-outline-primary   |
-      | selfregistration | loginselfregistrationbuttoncolor | secondary         | #login-method-firsttimesignup .btn | btn-secondary         |
-      | selfregistration | loginselfregistrationbuttoncolor | primary           | #login-method-firsttimesignup .btn | btn-primary           |
-      | guestlogin       | loginguestbuttoncolor            | secondary         | #login-method-guest .btn           | btn-secondary         |
-      | guestlogin       | loginguestbuttoncolor            | outline-primary   | #login-method-guest .btn           | btn-outline-primary   |
+      | provider         | buttoncolorconfig                | buttoncolor         | buttonselector                     | expectedclass           |
+      | locallogin       | loginlocalbuttoncolor            | primary             | #login-method-local .btn           | btn-primary             |
+      | locallogin       | loginlocalbuttoncolor            | outline-secondary   | #login-method-local .btn           | btn-outline-secondary   |
+      | idplogin         | loginidpbuttoncolor              | outline-secondary   | #login-method-idp .btn             | btn-outline-secondary   |
+      | idplogin         | loginidpbuttoncolor              | outline-primary     | #login-method-idp .btn             | btn-outline-primary     |
+      | idplogin         | loginidpbuttoncolor              | outline-lightmoodle | #login-method-idp .btn             | btn-outline-lightmoodle |
+      | selfregistration | loginselfregistrationbuttoncolor | secondary           | #login-method-firsttimesignup .btn | btn-secondary           |
+      | selfregistration | loginselfregistrationbuttoncolor | primary             | #login-method-firsttimesignup .btn | btn-primary             |
+      | guestlogin       | loginguestbuttoncolor            | secondary           | #login-method-guest .btn           | btn-secondary           |
+      | guestlogin       | loginguestbuttoncolor            | outline-primary     | #login-method-guest .btn           | btn-outline-primary     |
+      | guestlogin       | loginguestbuttoncolor            | outline-lightmoodle | #login-method-guest .btn           | btn-outline-lightmoodle |
+
+  Scenario Outline: Setting: Login provider button size
+    Given the following config values are set as admin:
+      | config                | value        | plugin            |
+      | login<provider>enable | yes          | theme_boost_union |
+      | <buttonsizeconfig>    | <buttonsize> | theme_boost_union |
+    And the following config values are set as admin:
+      | config           | value               |
+      | auth             | manual,email,oauth2 |
+      | registerauth     | email               |
+      | guestloginbutton | 1                   |
+    And I log in as "admin"
+    And I navigate to "Server > OAuth 2 services" in site administration
+    And I press "Google"
+    And I should see "Create new service: Google"
+    And I set the following fields to these values:
+      | Name          | Testing service   |
+      | Client ID     | thisistheclientid |
+      | Client secret | supersecret       |
+    And I press "Save changes"
+    And I log out
+    When I am on login page
+    Then the "class" attribute of "<buttonselector>" "css_element" should contain "<expectedclass>"
+    And the "class" attribute of "<buttonselector>" "css_element" should not contain "<notexpectedclass>"
+
+    # We do not want to burn too much CPU time by testing all available options on all login methods.
+    # We just test the small and the large size on the login methods and verify with the local login button that the medium size
+    # (which is the default) does not add any size class at all.
+    Examples:
+      | provider         | buttonsizeconfig                | buttonsize | buttonselector                     | expectedclass | notexpectedclass |
+      | locallogin       | loginlocalbuttonsize            | sm         | #login-method-local .btn           | btn-sm        | btn-lg           |
+      | locallogin       | loginlocalbuttonsize            | lg         | #login-method-local .btn           | btn-lg        | btn-sm           |
+      | locallogin       | loginlocalbuttonsize            | md         | #login-method-local .btn           | btn-primary   | btn-sm           |
+      | locallogin       | loginlocalbuttonsize            | md         | #login-method-local .btn           | btn-primary   | btn-lg           |
+      | idplogin         | loginidpbuttonsize              | sm         | #login-method-idp .btn             | btn-sm        | btn-lg           |
+      | idplogin         | loginidpbuttonsize              | lg         | #login-method-idp .btn             | btn-lg        | btn-sm           |
+      | selfregistration | loginselfregistrationbuttonsize | sm         | #login-method-firsttimesignup .btn | btn-sm        | btn-lg           |
+      | selfregistration | loginselfregistrationbuttonsize | lg         | #login-method-firsttimesignup .btn | btn-lg        | btn-sm           |
+      | guestlogin       | loginguestbuttonsize            | sm         | #login-method-guest .btn           | btn-sm        | btn-lg           |
+      | guestlogin       | loginguestbuttonsize            | lg         | #login-method-guest .btn           | btn-lg        | btn-sm           |
 
   @javascript
   Scenario Outline: Setting: Login form layout tabs - Verify tabs structure and primarylogin functionality

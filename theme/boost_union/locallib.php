@@ -23,9 +23,9 @@
  */
 
 /**
- * Get all activity purposes which are available in the current Moodle version.
- * This function returns all activity purposes, but excludes MOD_PURPOSE_INTERFACE for Moodle 5.2+
- * where this constant has been removed.
+ * Get all activity purposes which are supported by Boost Union.
+ * This function is the single source of truth for the activity purposes which Boost Union offers in its settings and for which
+ * it composes SCSS code.
  *
  * @param bool $includeother Whether to include MOD_PURPOSE_OTHER in the returned array.
  * @return array Array of activity purpose constants.
@@ -37,10 +37,6 @@ function theme_boost_union_get_activity_purposes($includeother = false) {
             MOD_PURPOSE_COMMUNICATION,
             MOD_PURPOSE_CONTENT,
             MOD_PURPOSE_INTERACTIVECONTENT];
-    // Add MOD_PURPOSE_INTERFACE only if it exists (removed in Moodle 5.2+).
-    if (defined('MOD_PURPOSE_INTERFACE')) {
-        $purposes[] = MOD_PURPOSE_INTERFACE;
-    }
     // Add MOD_PURPOSE_OTHER if requested.
     if ($includeother) {
         $purposes[] = MOD_PURPOSE_OTHER;
@@ -1672,6 +1668,10 @@ function theme_boost_union_get_scss_for_activity_icon_purpose($theme) {
     // Get installed activity modules.
     $installedactivities = get_module_types_names();
 
+    // Get the activity purposes which are supported by Boost Union (including the 'other' purpose as an activity can be
+    // configured to be not branded at all).
+    $supportedpurposes = theme_boost_union_get_activity_purposes(true);
+
     // Iterate over all existing activities.
     foreach ($installedactivities as $modname => $modinfo) {
         // Get default purpose of activity module.
@@ -1706,6 +1706,14 @@ function theme_boost_union_get_scss_for_activity_icon_purpose($theme) {
         // If the activity purpose setting is set and differs from the activity's default purpose.
         $activitypurpose = get_config('theme_boost_union', 'activitypurpose' . $modname);
         if ($activitypurpose && $activitypurpose != $defaultpurpose) {
+            // If the configured purpose is not supported (anymore) by Boost Union, we must not compose any SCSS code for it.
+            // Otherwise, the $activity-icon-colors SCSS map would not hold a color for this purpose and the recolor-icon-important
+            // mixin would be called with a null color which would break the whole SCSS compilation.
+            if (!in_array($activitypurpose, $supportedpurposes)) {
+                // Skip this activity.
+                continue;
+            }
+
             // Add CSS to modify the activity purpose color in the activity chooser and the activity icon.
             $scss .= '.activity.modtype_' . $modname . ' .activityiconcontainer.courseicon img,';
             // If the activity is mod_lti, we have to check the whole class name for the activity chooser as Moodle
@@ -2009,6 +2017,19 @@ function theme_boost_union_get_scss_navbar($theme, $flavourid = null) {
 
     // Set styles based on the navbartint setting (only effective for colored navbar variants).
     $navbarcolorsetting = get_config('theme_boost_union', 'navbarcolor');
+
+    // If we are on MWP.
+    if (\theme_boost_union\local\mwp::extension_present() == true) {
+        // Call the BU MWP class method only if the class and method exist.
+        if (
+            class_exists('\\local_boost_union_mwp\\local\\branding') &&
+                method_exists('\\local_boost_union_mwp\\local\\branding', 'get_overridden_navbarcolor')
+        ) {
+            // Get the potentially branding-overridden value for navbarcolor.
+            $navbarcolorsetting = \local_boost_union_mwp\local\branding::get_overridden_navbarcolor($navbarcolorsetting);
+        }
+    }
+
     // If a flavour applies.
     if ($flavourid != null) {
         $navbarcolorflavour = theme_boost_union_get_flavour_config_item_for_flavourid($flavourid, 'look_navbarcolor');
@@ -2022,6 +2043,19 @@ function theme_boost_union_get_scss_navbar($theme, $flavourid = null) {
     ) {
         // Resolve the effective tint: flavour overrides global setting.
         $navbartintsetting = get_config('theme_boost_union', 'navbartint');
+
+        // If we are on MWP.
+        if (\theme_boost_union\local\mwp::extension_present() == true) {
+            // Call the BU MWP class method only if the class and method exist.
+            if (
+                class_exists('\\local_boost_union_mwp\\local\\branding') &&
+                    method_exists('\\local_boost_union_mwp\\local\\branding', 'get_overridden_navbartint')
+            ) {
+                // Get the potentially branding-overridden value for navbartint.
+                $navbartintsetting = \local_boost_union_mwp\local\branding::get_overridden_navbartint($navbartintsetting);
+            }
+        }
+
         // If a flavour applies.
         if ($flavourid != null) {
             $navbartintflavour = theme_boost_union_get_flavour_config_item_for_flavourid($flavourid, 'look_navbartint');
@@ -2133,8 +2167,14 @@ function theme_boost_union_touchicons_for_ios_checkin() {
     // Create cache for touch icon files.
     $cache = cache::make('theme_boost_union', 'touchiconsios');
 
-    // Purge the existing cache values as we will refill the cache now.
-    $cache->purge();
+    // Note:
+    // We deliberately do not purge the cache here before refilling it.
+    // This function always rewrites the complete set of cache values ('filelist' and 'checkedin') with $cache->set()
+    // further down, and these are the only keys which this cache ever holds. A purge is therefore redundant.
+    // What's more, purging here is actively harmful when the cache is backed by a file store with asynchronous
+    // deletion enabled: purge() would only queue a deletion task for cron which, when it eventually runs, wipes the
+    // whole store - including the values which were set() right after the purge. This leaves the cache empty again,
+    // triggers the on-the-fly refill on the next page load and thus creates an endless purge / refill loop.
 
     // Get list of possible touch icons for iOS.
     $touchiconsios = theme_boost_union_get_touchicons_for_ios();
@@ -2370,7 +2410,7 @@ function theme_boost_union_get_navbar_starredcoursespopover() {
         if ($course->visible || $canviewhiddencourses) {
             $coursesfortemplate[] = [
                 'url' => new \core\url('/course/view.php', ['id' => $course->id]),
-                'fullname' => $course->fullname,
+                'fullname' => format_string($course->fullname, true, ['context' => $context, 'escape' => false]),
                 'visible' => $course->visible == 1,
             ];
         }
@@ -2810,11 +2850,9 @@ function theme_boost_union_is_not_active_alert() {
         get_string('warningboostunioninactive', 'theme_boost_union', [
             'url' => $notificationurl->out(),
         ]),
-        core\output\notification::NOTIFY_WARNING
+        core\output\notification::NOTIFY_WARNING,
+        false
     );
-
-    // Do not show a close button.
-    $notification->set_show_closebutton(false);
 
     // Return the HTML for the alert.
     return $OUTPUT->render($notification);
@@ -2848,11 +2886,9 @@ function theme_boost_union_recommendations_alert() {
             'theme_boost_union',
             ['url' => $notificationurl->out()]
         ),
-        core\output\notification::NOTIFY_INFO
+        core\output\notification::NOTIFY_INFO,
+        false
     );
-
-    // Do not show a close button.
-    $notification->set_show_closebutton(false);
 
     // Return the HTML for the alert.
     return $OUTPUT->render($notification);
@@ -2987,14 +3023,71 @@ function theme_boost_union_build_fa_icon_map() {
  * Helper function to build a notification about possible setting overrides.
  *
  * @param int $mwp If 0, the notification will make clear that the setting override is relevant for Moodle LMS only.
+ *                 If 1, the notification will make clear that the setting override is relevant for MWP as well.
+ *                 If 2, the notification will make clear that the setting override is relevant for MWP only.
  * @param bool $supplement If yes, the 'supplement' version of the string is used instead of the 'override' version.
  * @return string The HTML for the notification.
  */
 function theme_boost_union_render_setting_override_notification(int $mwp = 0, bool $supplement = false): string {
     global $OUTPUT, $PAGE;
 
+    // If we are on MWP.
+    if (\theme_boost_union\local\mwp::extension_present() == true) {
+        $ismwpinstance = true;
+
+        // Otherwise.
+    } else {
+        $ismwpinstance = false;
+    }
+
+    // Early return for mode 2 on Moodle LMS.
+    if ($mwp == 2 && !$ismwpinstance) {
+        return '';
+    }
+
     // Determine language string and URL placeholders based on mwp mode.
     switch ($mwp) {
+        case 2:
+            // Pick the notification details for MWP.
+            if ($supplement) {
+                $langstring = get_string('settingsupplementmwp', 'theme_boost_union');
+            } else {
+                $langstring = get_string('settingoverridemwp', 'theme_boost_union');
+            }
+
+            // Pick the modal details for MWP.
+            $modaltitle = get_string('settingoverridenotificationtitle', 'theme_boost_union');
+            $modalbody = get_string('settingoverridemodalmwp', 'theme_boost_union');
+
+            // Flag the possible actions.
+            $flavoursaction = false;
+            $mwpaction = true;
+
+            break;
+        case 1:
+            // If we are on MWP.
+            if ($ismwpinstance) {
+                // Pick the notification details for MWP.
+                if ($supplement) {
+                    $langstring = get_string('settingsupplementlmsmwp', 'theme_boost_union');
+                } else {
+                    $langstring = get_string('settingoverridelmsmwp', 'theme_boost_union');
+                }
+
+                // Pick the modal details for MWP.
+                $modaltitle = get_string('settingoverridenotificationtitle', 'theme_boost_union');
+                $modalbody = get_string('settingoverridemodallms', 'theme_boost_union');
+                $modalbody .= '<br /><br />' . get_string('settingoverridemodalmwp', 'theme_boost_union');
+                $modalbody .= '<br /><br />' . get_string('settingoverridemodallmsmwp', 'theme_boost_union');
+
+                // Flag the possible actions.
+                $flavoursaction = true;
+                $mwpaction = true;
+
+                break;
+            }
+
+            // If we are on Moodle LMS, fall through to the next case.
         case 0:
         default:
             // Pick the notification details for Moodle LMS.
@@ -3010,6 +3103,7 @@ function theme_boost_union_render_setting_override_notification(int $mwp = 0, bo
 
             // Flag the possible actions.
             $flavoursaction = true;
+            $mwpaction = false;
 
             break;
     }
@@ -3046,6 +3140,23 @@ function theme_boost_union_render_setting_override_notification(int $mwp = 0, bo
                 'class' => 'action-flavours py-0 ml-0 mr-0 pr-0',
                 'title' => get_string('settingoverrideactionflavours', 'theme_boost_union'),
                 'aria-label' => get_string('settingoverrideactionflavours', 'theme_boost_union'),
+            ],
+        ];
+    }
+
+    // Action for MWP.
+    if ($mwpaction == true) {
+        $actions[] = [
+            'url' => new \core\url('/admin/tool/tenant/index.php'),
+            'icon' => new \core\output\pix_icon(
+                'tenants',
+                get_string('settingoverrideactionmwp', 'theme_boost_union'),
+                'theme_boost_union'
+            ),
+            'attributes' => [
+                'class' => 'action-mwp py-0 ms-0 me-0 pe-0 ps-2',
+                'title' => get_string('settingoverrideactionmwp', 'theme_boost_union'),
+                'aria-label' => get_string('settingoverrideactionmwp', 'theme_boost_union'),
             ],
         ];
     }
